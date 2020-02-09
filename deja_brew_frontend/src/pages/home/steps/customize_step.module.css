@@ -1,0 +1,9 @@
+.stepperGroup {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.buttonContainer {
+    margin: 16px 0;
+}

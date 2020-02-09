@@ -1,0 +1,11 @@
+.header {
+    width: 100%;
+    background: #333;
+    color: white;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.appLogo {
+    padding: 16px 0;
+}
