@@ -1,15 +1,17 @@
+import { createAuthDecorators } from 'auth/auth_helpers';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { FetchHttpClient } from 'services/http/fetch_http_client';
 import { HttpOrderService } from 'services/order/http_order_service';
+import { HttpUserService } from 'services/user/http_user_service';
 import { Header } from './header/header';
 import './index.css';
 import { createAuthPage } from './pages/auth/create';
 import { createHomePage } from './pages/home/create';
 import { createOrdersPage } from './pages/orders/create';
 
-const App = React.memo(({
+const Skeleton = React.memo(({
   Header,
   OrdersPage,
   AuthPage,
@@ -23,8 +25,8 @@ const App = React.memo(({
     <Router>
       <Header/>
       <Switch>
+        <Route path="/login" component={AuthPage}/>
         <Route path="/orders" component={OrdersPage}/>
-        <Route path="/auth" component={AuthPage}/>
         <Route path="/" component={HomePage}/>
       </Switch>
     </Router>
@@ -33,16 +35,24 @@ const App = React.memo(({
 function main() {
   const httpService = new FetchHttpClient();
   const orderService = new HttpOrderService(httpService);
+  const userService = new HttpUserService(httpService);
 
   const { OrdersPage } = createOrdersPage({ orderService });
   const { HomePage } = createHomePage({ orderService });
   const { AuthPage } = createAuthPage();
+
+  const { userInfoStore, withAuthRequired, withAnonOnly } = createAuthDecorators({ userService });
+
+  const HomePageImpl = withAuthRequired(HomePage);
+  const OrdersPageImpl = withAuthRequired(OrdersPage);
+  const AuthPageImpl = withAnonOnly(AuthPage);
+
   const AppImpl = () => (
-      <App
+      <Skeleton
           Header={Header}
-          OrdersPage={OrdersPage}
-          HomePage={HomePage}
-          AuthPage={AuthPage}
+          OrdersPage={OrdersPageImpl}
+          HomePage={HomePageImpl}
+          AuthPage={AuthPageImpl}
       />
   );
 

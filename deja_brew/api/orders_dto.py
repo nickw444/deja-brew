@@ -8,6 +8,7 @@ from deja_brew.repository.order import CoffeeKind, Size, Milk, Extra
 class User(CamelCaseSchema):
     id = fields.Str(required=True)
     name = fields.Str()
+    last_order = fields.Nested('Order')
 
 
 class Order(CamelCaseSchema):

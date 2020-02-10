@@ -3,6 +3,38 @@ import {
   UnreachableError
 } from 'base/preconditions'
 
+export enum Size {
+  SMALL = 'SMALL',
+  MEDIUM = 'MEDIUM',
+  LARGE = 'LARGE',
+}
+
+export const SizeUtil = {
+  deserialize(value: string): Size {
+    switch(value) {
+      case 'SMALL': return Size.SMALL;
+      case 'MEDIUM': return Size.MEDIUM;
+      case 'LARGE': return Size.LARGE;
+      default: throw new Error('Unknown value: ' + value)
+    }
+  },
+  serialize(value: Size): string {
+    switch(value) {
+      case Size.SMALL: return 'SMALL';
+      case Size.MEDIUM: return 'MEDIUM';
+      case Size.LARGE: return 'LARGE';
+      default: throw new UnreachableError(value)
+    } 
+  },
+  values(): Size[] {
+    return [
+      Size.SMALL,
+      Size.MEDIUM,
+      Size.LARGE,
+    ]
+  }
+};
+
 export enum Milk {
   REGULAR = 'REGULAR',
   SKIM = 'SKIM',
@@ -39,6 +71,46 @@ export const MilkUtil = {
       Milk.SOY,
       Milk.ALMOND,
       Milk.OAT,
+    ]
+  }
+};
+
+export enum Extra {
+  DECAF = 'DECAF',
+  EXTRA_SHOT = 'EXTRA_SHOT',
+  HONEY = 'HONEY',
+  ICED = 'ICED',
+  SUGAR = 'SUGAR',
+}
+
+export const ExtraUtil = {
+  deserialize(value: string): Extra {
+    switch(value) {
+      case 'DECAF': return Extra.DECAF;
+      case 'EXTRA_SHOT': return Extra.EXTRA_SHOT;
+      case 'HONEY': return Extra.HONEY;
+      case 'ICED': return Extra.ICED;
+      case 'SUGAR': return Extra.SUGAR;
+      default: throw new Error('Unknown value: ' + value)
+    }
+  },
+  serialize(value: Extra): string {
+    switch(value) {
+      case Extra.DECAF: return 'DECAF';
+      case Extra.EXTRA_SHOT: return 'EXTRA_SHOT';
+      case Extra.HONEY: return 'HONEY';
+      case Extra.ICED: return 'ICED';
+      case Extra.SUGAR: return 'SUGAR';
+      default: throw new UnreachableError(value)
+    } 
+  },
+  values(): Extra[] {
+    return [
+      Extra.DECAF,
+      Extra.EXTRA_SHOT,
+      Extra.HONEY,
+      Extra.ICED,
+      Extra.SUGAR,
     ]
   }
 };
@@ -95,78 +167,6 @@ export const CoffeeKindUtil = {
   }
 };
 
-export enum Size {
-  SMALL = 'SMALL',
-  MEDIUM = 'MEDIUM',
-  LARGE = 'LARGE',
-}
-
-export const SizeUtil = {
-  deserialize(value: string): Size {
-    switch(value) {
-      case 'SMALL': return Size.SMALL;
-      case 'MEDIUM': return Size.MEDIUM;
-      case 'LARGE': return Size.LARGE;
-      default: throw new Error('Unknown value: ' + value)
-    }
-  },
-  serialize(value: Size): string {
-    switch(value) {
-      case Size.SMALL: return 'SMALL';
-      case Size.MEDIUM: return 'MEDIUM';
-      case Size.LARGE: return 'LARGE';
-      default: throw new UnreachableError(value)
-    } 
-  },
-  values(): Size[] {
-    return [
-      Size.SMALL,
-      Size.MEDIUM,
-      Size.LARGE,
-    ]
-  }
-};
-
-export enum Extra {
-  DECAF = 'DECAF',
-  EXTRA_SHOT = 'EXTRA_SHOT',
-  HONEY = 'HONEY',
-  ICED = 'ICED',
-  SUGAR = 'SUGAR',
-}
-
-export const ExtraUtil = {
-  deserialize(value: string): Extra {
-    switch(value) {
-      case 'DECAF': return Extra.DECAF;
-      case 'EXTRA_SHOT': return Extra.EXTRA_SHOT;
-      case 'HONEY': return Extra.HONEY;
-      case 'ICED': return Extra.ICED;
-      case 'SUGAR': return Extra.SUGAR;
-      default: throw new Error('Unknown value: ' + value)
-    }
-  },
-  serialize(value: Extra): string {
-    switch(value) {
-      case Extra.DECAF: return 'DECAF';
-      case Extra.EXTRA_SHOT: return 'EXTRA_SHOT';
-      case Extra.HONEY: return 'HONEY';
-      case Extra.ICED: return 'ICED';
-      case Extra.SUGAR: return 'SUGAR';
-      default: throw new UnreachableError(value)
-    } 
-  },
-  values(): Extra[] {
-    return [
-      Extra.DECAF,
-      Extra.EXTRA_SHOT,
-      Extra.HONEY,
-      Extra.ICED,
-      Extra.SUGAR,
-    ]
-  }
-};
-
 export class User {
   readonly name: string | undefined;
   readonly id: string;
@@ -198,59 +198,59 @@ export class User {
 
 export class Order {
   readonly milk: Milk;
-  readonly completed: boolean;
-  readonly extras: Extra[];
-  readonly kind: CoffeeKind;
-  readonly user: User;
-  readonly size: Size;
   readonly id: string;
+  readonly size: Size;
+  readonly extras: Extra[];
+  readonly user: User;
+  readonly completed: boolean;
+  readonly kind: CoffeeKind;
   constructor({
     milk,
-    completed,
-    extras,
-    kind,
-    user,
+    id,
     size,
-    id,  
+    extras,
+    user,
+    completed,
+    kind,  
   }: {
     milk: Milk,
-    completed: boolean,
-    extras: Extra[],
-    kind: CoffeeKind,
-    user: User,
+    id: string,
     size: Size,
-    id: string,  
+    extras: Extra[],
+    user: User,
+    completed: boolean,
+    kind: CoffeeKind,  
   }) {
     this.milk = milk;
-    this.completed = completed;
-    this.extras = extras;
-    this.kind = kind;
-    this.user = user;
-    this.size = size;
     this.id = id;
+    this.size = size;
+    this.extras = extras;
+    this.user = user;
+    this.completed = completed;
+    this.kind = kind;
   }
   
   static deserialize(o: any): Order {
     return new Order({
       milk: o['milk'],
-      completed: o['completed'],
-      extras: o['extras'],
-      kind: o['kind'],
-      user: o['user'],
+      id: o['id'],
       size: o['size'],
-      id: o['id'],  
+      extras: o['extras'],
+      user: o['user'],
+      completed: o['completed'],
+      kind: o['kind'],  
     })
   }
   
   static serialize(o: Order): object {
     return {
       'milk': o.milk,
-      'completed': o.completed,
-      'extras': o.extras,
-      'kind': o.kind,
-      'user': o.user,
+      'id': o.id,
       'size': o.size,
-      'id': o.id,  
+      'extras': o.extras,
+      'user': o.user,
+      'completed': o.completed,
+      'kind': o.kind,  
     }
   }
 }
@@ -291,30 +291,30 @@ export class GetOrdersRequest {
 }
 
 export class GetOrdersResponse {
-  readonly orders: Order[];
   readonly continuation: string | undefined;
+  readonly orders: Order[];
   constructor({
-    orders,
-    continuation,  
+    continuation,
+    orders,  
   }: {
-    orders: Order[],
-    continuation?: string,  
+    continuation?: string,
+    orders: Order[],  
   }) {
-    this.orders = orders;
     this.continuation = continuation;
+    this.orders = orders;
   }
   
   static deserialize(o: any): GetOrdersResponse {
     return new GetOrdersResponse({
-      orders: o['orders'],
-      continuation: o['continuation'],  
+      continuation: o['continuation'],
+      orders: o['orders'],  
     })
   }
   
   static serialize(o: GetOrdersResponse): object {
     return {
-      'orders': o.orders,
-      'continuation': o.continuation,  
+      'continuation': o.continuation,
+      'orders': o.orders,  
     }
   }
 }
