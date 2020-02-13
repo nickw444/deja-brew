@@ -1,5 +1,5 @@
 // @formatter:off
-import {Order, User} from 'services/order/order_service_objects';
+import { User } from 'services/order/order_service_objects';
 
 export class GetUserInfoRequest {
   readonly id: string;
@@ -26,29 +26,23 @@ export class GetUserInfoRequest {
 
 export class GetUserInfoResponse {
   readonly user: User;
-  readonly lastOrder: Order | undefined;
   constructor({
-    user,
-    lastOrder,  
+    user,  
   }: {
-    user: User,
-    lastOrder?: Order,  
+    user: User,  
   }) {
     this.user = user;
-    this.lastOrder = lastOrder;
   }
   
   static deserialize(o: any): GetUserInfoResponse {
     return new GetUserInfoResponse({
-      user: o['user'],
-      lastOrder: o['lastOrder'],  
+      user: o['user'],  
     })
   }
   
   static serialize(o: GetUserInfoResponse): object {
     return {
-      'user': o.user,
-      'lastOrder': o.lastOrder,  
+      'user': o.user,  
     }
   }
 }

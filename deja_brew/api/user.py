@@ -2,7 +2,7 @@ from flask import abort
 from flask_login import current_user
 from flask_restful import Resource
 
-from deja_brew.api.users_dto import GetUserInfoResponse
+from deja_brew.api.user_dto import GetUserInfoResponse
 
 
 class UserResource(Resource):

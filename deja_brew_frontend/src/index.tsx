@@ -1,4 +1,5 @@
 import { createAuthDecorators, UserInfoStore } from 'auth/auth_helpers';
+import { Deserialization } from 'base/deserialization';
 import * as mobxReact from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -37,6 +38,8 @@ function main() {
   const httpService = new FetchHttpClient();
   const orderService = new HttpOrderService(httpService);
   const userService = new HttpUserService(httpService);
+
+  const bootstrap = Deserialization.requiredObject(PageBootstrap.deserialize, window, 'bootstrap');
 
   const { OrdersPage } = createOrdersPage({ orderService });
   const { HomePage } = createHomePage({ orderService });

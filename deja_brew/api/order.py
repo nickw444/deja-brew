@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 
-from deja_brew.api.orders_dto import GetOrdersRequest, GetOrdersResponse, CreateOrderRequest, \
+from deja_brew.api.order_dto import GetOrdersRequest, GetOrdersResponse, CreateOrderRequest, \
     CreateOrderResponse, GetOrderResponse, UpdateOrderResponse, UpdateOrderRequest
 from deja_brew.repository import Order, db
 

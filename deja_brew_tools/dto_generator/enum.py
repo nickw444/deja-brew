@@ -3,12 +3,12 @@ from typing import NamedTuple, List
 from jinja2 import Template
 
 
-class Enum(NamedTuple):
+class DtoEnum(NamedTuple):
     name: str
-    members: List['Member']
+    members: List['DtoEnumMember']
 
 
-class Member(NamedTuple):
+class DtoEnumMember(NamedTuple):
     name: str
     value: str
 
@@ -24,7 +24,7 @@ export const {{ enum.name}}Util = {
   deserialize(value: string): {{ enum.name }} {
     switch(value) {
       {%- for member in enum.members %}
-      case '{{ member.name }}': return {{ enum.name }}.{{ member.name }};
+      case '{{ member.value }}': return {{ enum.name }}.{{ member.name }};
       {%- endfor %}
       default: throw new Error('Unknown value: ' + value)
     }
@@ -32,7 +32,7 @@ export const {{ enum.name}}Util = {
   serialize(value: {{ enum.name }}): string {
     switch(value) {
       {%- for member in enum.members %}
-      case {{ enum.name }}.{{ member.name }}: return '{{ member.name }}';
+      case {{ enum.name }}.{{ member.name }}: return '{{ member.value }}';
       {%- endfor %}
       default: throw new UnreachableError(value)
     } 

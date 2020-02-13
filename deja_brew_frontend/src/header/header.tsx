@@ -14,6 +14,6 @@ export const Header = React.memo(({
             {userInfo.avatarUrl && <img src={userInfo.avatarUrl}/>}
             {userInfo.name}
           </div>
-      )
+      )}
     </header>
 ));

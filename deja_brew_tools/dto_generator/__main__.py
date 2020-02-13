@@ -5,16 +5,17 @@ from deja_brew_tools.dto_generator import DtoGenerator
 
 @click.command()
 def generate_service_objects():
-    import deja_brew.api.orders_dto as orders_dto_module
-    import deja_brew.api.users_dto as users_dto_module
+    import deja_brew.api.order_dto as orders_dto_module
+    import deja_brew.api.user_dto as users_dto_module
+    import deja_brew.frontend.bootstrap_dto as bootstrap_dto_module
 
-    generator = DtoGenerator()
-    generator.generate(
-        orders_dto_module,
-        'deja_brew_frontend/src/services/order/order_service_objects.ts')
-    generator.generate(
-        users_dto_module,
-        'deja_brew_frontend/src/services/user/user_service_objects.ts')
+    generator = DtoGenerator(
+        frontend_src_root='deja_brew_frontend/src',
+    )
+
+    generator.generate(orders_dto_module)
+    generator.generate(users_dto_module)
+    # generator.generate(bootstrap_dto_module)
 
 
 if __name__ == '__main__':

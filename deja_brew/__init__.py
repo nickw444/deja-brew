@@ -6,7 +6,6 @@ from flask.cli import with_appcontext
 from oauthlib.oauth2 import WebApplicationClient
 
 from deja_brew.api import api_bp
-from deja_brew.api.schema import CamelCaseSchema
 from deja_brew.auth import auth_bp
 from deja_brew.auth.login_manager import login_manager
 from deja_brew.config import Config, LocalConfig

@@ -3,21 +3,21 @@ from typing import NamedTuple, List
 from jinja2 import Template
 
 
-class ServiceObject(NamedTuple):
+class DtoSchema(NamedTuple):
     name: str
-    fields: List['Field']
+    fields: List['DtoSchemaField']
 
 
-class Field(NamedTuple):
+class DtoSchemaField(NamedTuple):
     name: str
-    type: str
-    required: bool
+    js_type: str
+    optional: bool
 
 
 service_object_tmpl = Template('''
 export class {{ service_object.name }} {
   {%- for field in service_object.fields %}
-  readonly {{ field.name }}: {{ field.type }}{{ ' | undefined' if not field.required else '' }};
+  readonly {{ field.name }}: {{ field.js_type }}{{ ' | undefined' if not field.optional else '' }};
   {%- endfor %}
   constructor({
     {%- for field in service_object.fields %}
@@ -25,7 +25,7 @@ export class {{ service_object.name }} {
     {%- endfor %}  
   }: {
     {%- for field in service_object.fields %}
-    {{ field.name }}{{ '?' if not field.required else '' }}: {{ field.type }},
+    {{ field.name }}{{ '?' if not field.optional else '' }}: {{ field.js_type }},
     {%- endfor %}  
   }) {
     {%- for field in service_object.fields %}
