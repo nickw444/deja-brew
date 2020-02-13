@@ -1,4 +1,5 @@
-import { createAuthDecorators } from 'auth/auth_helpers';
+import { createAuthDecorators, UserInfoStore } from 'auth/auth_helpers';
+import * as mobxReact from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -43,13 +44,14 @@ function main() {
 
   const { userInfoStore, withAuthRequired, withAnonOnly } = createAuthDecorators({ userService });
 
+  const HeaderImpl = createHeader({ userInfoStore });
   const HomePageImpl = withAuthRequired(HomePage);
   const OrdersPageImpl = withAuthRequired(OrdersPage);
   const AuthPageImpl = withAnonOnly(AuthPage);
 
   const AppImpl = () => (
       <Skeleton
-          Header={Header}
+          Header={HeaderImpl}
           OrdersPage={OrdersPageImpl}
           HomePage={HomePageImpl}
           AuthPage={AuthPageImpl}
@@ -57,6 +59,21 @@ function main() {
   );
 
   ReactDOM.render(<AppImpl/>, document.getElementById('root'));
+}
+
+function createHeader({
+  userInfoStore,
+}: {
+  userInfoStore: UserInfoStore
+}): React.ComponentType {
+  return mobxReact.observer(() => {
+    const userInfo = userInfoStore.userInfo
+        && userInfoStore.userInfo.state === 'fulfilled'
+        && userInfoStore.userInfo.value;
+    return (
+        <Header userInfo={userInfo}/>
+    );
+  });
 }
 
 main();
