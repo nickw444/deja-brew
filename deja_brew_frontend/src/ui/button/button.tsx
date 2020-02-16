@@ -64,5 +64,4 @@ const Button = React.memo(({
 
 export const PrimaryButton = (props: ButtonProps) => <Button kind="primary" {...props} />;
 export const SecondaryButton = (props: ButtonProps) => <Button kind="secondary" {...props} />;
-export const ChromelessButton = (props: ButtonProps) => <Button kind="chromeless" {...props} />;
 export const LinkButton = (props: ButtonProps) => <Button kind="link" {...props} />;

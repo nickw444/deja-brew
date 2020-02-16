@@ -2,6 +2,7 @@ import { History } from 'history';
 import { Home } from 'pages/home/home';
 import React from 'react';
 import { Routes } from 'routes/routes';
+import { anOrderWith } from 'services/order/fake/builders';
 import {
   CoffeeType,
   CupSize,
@@ -13,15 +14,7 @@ import {
 import { OrderService } from 'services/order/order_service';
 
 const FAKE_ORDERS = [
-  new Order({
-    id: 'OAAAAAA',
-    status: OrderStatus.COMPLETED,
-    cupSize: CupSize.SMALL,
-    coffeeType: CoffeeType.ESPRESSO,
-    extras: [Extra.EXTRA_SHOT, Extra.SUGAR],
-    milkType: MilkType.REGULAR,
-    userId: 'UAAAAA',
-  }),
+  anOrderWith(),
 ];
 
 export function createHomePage({
@@ -37,7 +30,7 @@ export function createHomePage({
   const HomeImpl = React.memo(() => (
       <Home
           activeOrders={FAKE_ORDERS}
-          lastOrder={FAKE_ORDERS[0]}
+          lastOrder={undefined}
           onNewOrderClick={onNewOrderClick}
           onOrderAgainClick={onOrderAgainClick}
       />

@@ -30,11 +30,11 @@ export const CustomizeStep = React.memo(({
       <Row>
         <div className={styles.stepperGroup}>
           <div>
-            <Row><TitleSmall>Milk?</TitleSmall></Row>
+            <Row><TitleSmall>Sugar</TitleSmall></Row>
             <Row><SugarStepper/></Row>
           </div>
           <div>
-            <Row><TitleSmall>Milk?</TitleSmall></Row>
+            <Row><TitleSmall>Extra Shots</TitleSmall></Row>
             <Row><ExtraShotStepper/></Row>
           </div>
         </div>

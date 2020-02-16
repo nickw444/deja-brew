@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
 import { Routes } from 'routes/routes';
 import { FetchHttpClient } from 'services/http/fetch_http_client';
+import { FakeOrderService } from 'services/order/fake/fake_order_service';
 import { HttpOrderService } from 'services/order/http_order_service';
 import { HttpUserService } from 'services/user/http_user_service';
 import { Skeleton } from 'skeleton/skeleton';
@@ -17,7 +18,7 @@ import './index.css';
 
 function main() {
   const httpService = new FetchHttpClient();
-  const orderService = new HttpOrderService(httpService);
+  const orderService = new FakeOrderService();
   const userService = new HttpUserService(httpService);
 
   const history = createBrowserHistory();

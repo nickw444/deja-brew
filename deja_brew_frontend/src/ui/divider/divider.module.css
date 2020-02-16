@@ -15,10 +15,10 @@
     background: #ccc;
 }
 
-.divider:before {
+.divider.withText:before {
     margin-right: 8px;
 }
 
-.divider:after {
+.divider.withText:after {
     margin-left: 8px;
 }

@@ -20,10 +20,11 @@ export const Home = React.memo(({
     <div>
       {activeOrders.length > 0 && (
           <>
-          <Row><TitleMedium>Your Orders</TitleMedium></Row>
+            <Row><TitleMedium>Your Orders</TitleMedium></Row>
             {activeOrders.map(order => (
                 <Row><OrderTile key={order.id} order={order}/></Row>
             ))}
+            <Row><Divider/></Row>
           </>
       )}
       {lastOrder && (

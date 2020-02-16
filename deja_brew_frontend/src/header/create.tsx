@@ -5,10 +5,6 @@ import * as mobx from 'mobx';
 import * as mobxReact from 'mobx-react';
 import React from 'react';
 
-export class HeaderConfiguration {
-  @mobx.observable.ref
-  onBackClick?: () => void;
-}
 
 export function createHeader({
   userInfoStore,
@@ -17,9 +13,13 @@ export function createHeader({
   userInfoStore: UserInfoStore,
   history: History,
 }) {
-  const onBackClick = () => history.goBack();
+  const showBackButton = mobx.observable.box(false);
+  const goBack = () => history.goBack();
+  const initialHistoryKey = history.location.key;
+  history.listen((ev) => {
+    showBackButton.set(ev.key != initialHistoryKey);
+  });
 
-  const headerConfiguration = new HeaderConfiguration();
   const HeaderImpl = mobxReact.observer(() => {
     const userInfo = userInfoStore.userInfo?.state === 'fulfilled'
         ? userInfoStore.userInfo.value
@@ -27,13 +27,12 @@ export function createHeader({
     return (
         <Header
             userInfo={userInfo}
-            onBackClick={onBackClick}
+            onBackClick={showBackButton.get() ? goBack : undefined}
         />
     );
   });
 
   return {
     Header: HeaderImpl,
-    headerConfiguration: HeaderConfiguration,
   };
 }
