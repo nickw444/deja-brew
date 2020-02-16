@@ -1,43 +1,43 @@
 import { UnreachableError } from 'base/preconditions';
-import { CoffeeKind, Extra, Milk, Order, Size } from 'services/order/order_service_objects';
+import { CoffeeType, CupSize, Extra, MilkType, Order } from 'services/order/order_dto';
 
-export function labelForMilk(milk: Milk): string {
+export function labelForMilk(milk: MilkType): string {
   switch (milk) {
-    case Milk.REGULAR:
+    case MilkType.REGULAR:
       return 'Regular';
-    case Milk.SKIM:
+    case MilkType.SKIM:
       return 'Skim';
-    case Milk.SOY:
+    case MilkType.SOY:
       return 'Soy';
-    case Milk.ALMOND:
+    case MilkType.ALMOND:
       return 'Almond';
-    case Milk.OAT:
+    case MilkType.OAT:
       return 'Oat';
     default:
       throw new UnreachableError(milk);
   }
 }
 
-export function labelForCoffeeKind(coffeeKind: CoffeeKind): string {
-  switch (coffeeKind) {
-    case CoffeeKind.LATTE:
+export function labelForCoffeeType(coffeeType: CoffeeType): string {
+  switch (coffeeType) {
+    case CoffeeType.LATTE:
       return 'Latte';
-    case CoffeeKind.CAPPUCCINO:
+    case CoffeeType.CAPPUCCINO:
       return 'Cappuccino';
-    case CoffeeKind.FLAT_WHITE:
+    case CoffeeType.FLAT_WHITE:
       return 'Flat White';
-    case CoffeeKind.LONG_BLACK:
+    case CoffeeType.LONG_BLACK:
       return 'Long Black';
-    case CoffeeKind.MOCHA:
+    case CoffeeType.MOCHA:
       return 'Mocha';
-    case CoffeeKind.HOT_CHOC:
+    case CoffeeType.HOT_CHOC:
       return 'Hot Choc';
-    case CoffeeKind.MATCHA:
+    case CoffeeType.MATCHA:
       return 'Matcha';
-    case CoffeeKind.ESPRESSO:
+    case CoffeeType.ESPRESSO:
       return 'Espresso';
     default:
-      throw new UnreachableError(coffeeKind);
+      throw new UnreachableError(coffeeType);
   }
 }
 
@@ -59,13 +59,13 @@ export function labelForExtra(extra: Extra): string {
   }
 }
 
-export function labelForSize(size: Size): string {
+export function labelForSize(size: CupSize): string {
   switch (size) {
-    case Size.SMALL:
+    case CupSize.SMALL:
       return 'Small';
-    case Size.MEDIUM:
+    case CupSize.MEDIUM:
       return 'Medium';
-    case Size.LARGE:
+    case CupSize.LARGE:
       return 'Large';
     default:
       throw new UnreachableError(size);
@@ -73,29 +73,29 @@ export function labelForSize(size: Size): string {
 }
 
 export function getOrderTypeLabel({
-  milk,
-  kind,
-  size,
+  milkType,
+  coffeeType,
+  cupSize,
   extras,
 }: {
-  kind: CoffeeKind
-  milk: Milk,
-  size: Size,
+  coffeeType: CoffeeType
+  milkType: MilkType,
+  cupSize: CupSize,
   extras: readonly Extra[]
 }) {
-  const milkType = milk === Milk.REGULAR ? '' : labelForMilk(milk);
+  const milkLabel = milkType === MilkType.REGULAR ? '' : labelForMilk(milkType);
   const decaf = extras.includes(Extra.DECAF) ? labelForExtra(Extra.DECAF) : '';
   const iced = extras.includes(Extra.ICED) ? labelForExtra(Extra.ICED) : '';
   return titleCase([
-    labelForSize(size),
+    labelForSize(cupSize),
     decaf,
     iced,
-    milkType,
-    labelForCoffeeKind(kind),
+    milkLabel,
+    labelForCoffeeType(coffeeType),
   ].join(' '));
 }
 
-export function getOrderExtrasLabel(extras: readonly Extra[]): string|undefined {
+export function getOrderExtrasLabel(extras: readonly Extra[]): string | undefined {
   const realExtras = extras
       .filter(extra => ![Extra.DECAF, Extra.ICED].includes(extra));
   if (realExtras.length) {

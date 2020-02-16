@@ -1,0 +1,44 @@
+
+.orderTile {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    display: flex;
+    overflow: hidden;
+    color: #333;
+}
+
+.imageContainer {
+    display: flex;
+    flex-shrink: 1;
+}
+
+.image {
+    object-fit: cover;
+    max-width: 100px;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 8px 16px;
+}
+
+.coffeeType {
+    font-weight: bold;
+}
+
+.extrasLabel {
+    font-size: 14px;
+    color: #666;
+}
+
+.status {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

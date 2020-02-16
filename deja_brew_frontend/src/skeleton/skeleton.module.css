@@ -1,0 +1,10 @@
+.headerContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.contentContainer {
+    margin-top: 58px;
+}

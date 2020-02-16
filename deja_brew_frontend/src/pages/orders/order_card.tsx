@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Order } from 'services/order/order_service_objects';
+import { Order } from 'services/order/order_dto';
 import { cardTitleOfOrder, extrasLabelOfOrder } from 'ui/labels/labels';
 import styles from './order_card.module.css';
 

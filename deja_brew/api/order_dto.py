@@ -3,7 +3,6 @@ from enum import Enum
 from marshmallow import fields, validate
 from marshmallow_enum import EnumField
 
-from deja_brew.api.user_dto import UserInfo
 from deja_brew.base.schema import CamelCaseSchema
 
 FRONTEND_PACKAGE = "services.order"
@@ -51,9 +50,7 @@ class OrderStatus(Enum):
 
 class Order(CamelCaseSchema):
     id = fields.Str(required=True)
-    user = fields.Nested(UserInfo, required=True)
-    user = fields.Nested(UserInfo, required=True)
-    users = fields.List(fields.Nested(UserInfo), required=True)
+    user_id = fields.Str(required=True)
 
     cup_size = EnumField(CupSize, required=True)
     coffee_type = EnumField(CoffeeType, required=True)
@@ -61,7 +58,6 @@ class Order(CamelCaseSchema):
     extras = fields.List(EnumField(Extra), required=True)
 
     status = EnumField(OrderStatus, required=True)
-
 
 
 class GetOrdersRequest(CamelCaseSchema):
@@ -80,9 +76,9 @@ class GetOrderResponse(CamelCaseSchema):
 
 
 class CreateOrderRequest(CamelCaseSchema):
-    size = EnumField(CupSize, required=True)
-    kind = EnumField(CoffeeType, required=True)
-    milk = EnumField(MilkType, required=True)
+    cup_size = EnumField(CupSize, required=True)
+    coffee_type = EnumField(CoffeeType, required=True)
+    milk_type = EnumField(MilkType, required=True)
     extras = fields.List(EnumField(Extra), required=True)
 
 

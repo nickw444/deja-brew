@@ -1,59 +1,62 @@
 // @formatter:off
+import { Serialization } from 'base/serialization';
+import { Order } from 'services/order/order_dto';
+import { Deserialization } from 'base/deserialization';
 
 export class UserInfo {
-  readonly id: string | undefined;
-  readonly lastOrder: Order;
-  readonly avatarUrl: string;
-  readonly name: string;
+  readonly avatarUrl: string | undefined;
+  readonly lastOrder: Order | undefined;
+  readonly name: string | undefined;
+  readonly id: string;
   constructor({
-    id,
-    lastOrder,
     avatarUrl,
-    name,  
+    lastOrder,
+    name,
+    id,  
   }: {
-    id?: string,
-    lastOrder: Order,
-    avatarUrl: string,
-    name: string,  
+    avatarUrl?: string,
+    lastOrder?: Order,
+    name?: string,
+    id: string,  
   }) {
-    this.id = id;
-    this.lastOrder = lastOrder;
     this.avatarUrl = avatarUrl;
+    this.lastOrder = lastOrder;
     this.name = name;
+    this.id = id;
   }
   
   static deserialize(o: any): UserInfo {
     return new UserInfo({
-      id: o['id'],
-      lastOrder: o['lastOrder'],
-      avatarUrl: o['avatarUrl'],
-      name: o['name'],  
+      avatarUrl: Deserialization.optionalString(o, 'avatarUrl'),
+      lastOrder: Deserialization.optionalObject(Order.deserialize, o, 'lastOrder'),
+      name: Deserialization.optionalString(o, 'name'),
+      id: Deserialization.requiredString(o, 'id'),  
     })
   }
   
   static serialize(o: UserInfo): object {
     return {
-      'id': o.id,
-      'lastOrder': o.lastOrder,
       'avatarUrl': o.avatarUrl,
-      'name': o.name,  
+      'lastOrder': Serialization.optionalObject(Order.serialize, o.lastOrder),
+      'name': o.name,
+      'id': o.id,  
     }
   }
 }
 
 export class GetUserInfoRequest {
-  readonly id: string | undefined;
+  readonly id: string;
   constructor({
     id,  
   }: {
-    id?: string,  
+    id: string,  
   }) {
     this.id = id;
   }
   
   static deserialize(o: any): GetUserInfoRequest {
     return new GetUserInfoRequest({
-      id: o['id'],  
+      id: Deserialization.requiredString(o, 'id'),  
     })
   }
   
@@ -65,24 +68,24 @@ export class GetUserInfoRequest {
 }
 
 export class GetUserInfoResponse {
-  readonly user: UserInfo | undefined;
+  readonly user: UserInfo;
   constructor({
     user,  
   }: {
-    user?: UserInfo,  
+    user: UserInfo,  
   }) {
     this.user = user;
   }
   
   static deserialize(o: any): GetUserInfoResponse {
     return new GetUserInfoResponse({
-      user: o['user'],  
+      user: Deserialization.requiredObject(UserInfo.deserialize, o, 'user'),  
     })
   }
   
   static serialize(o: GetUserInfoResponse): object {
     return {
-      'user': o.user,  
+      'user': Serialization.requiredObject(UserInfo.serialize, o.user),  
     }
   }
 }

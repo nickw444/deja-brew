@@ -24,7 +24,7 @@ export const {{ enum.name}}Util = {
   deserialize(value: string): {{ enum.name }} {
     switch(value) {
       {%- for member in enum.members %}
-      case '{{ member.value }}': return {{ enum.name }}.{{ member.name }};
+      case '{{ member.name }}': return {{ enum.name }}.{{ member.name }};
       {%- endfor %}
       default: throw new Error('Unknown value: ' + value)
     }
@@ -32,7 +32,7 @@ export const {{ enum.name}}Util = {
   serialize(value: {{ enum.name }}): string {
     switch(value) {
       {%- for member in enum.members %}
-      case {{ enum.name }}.{{ member.name }}: return '{{ member.value }}';
+      case {{ enum.name }}.{{ member.name }}: return '{{ member.name }}';
       {%- endfor %}
       default: throw new UnreachableError(value)
     } 

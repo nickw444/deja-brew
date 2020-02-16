@@ -15,7 +15,7 @@ def generate_service_objects():
 
     generator.generate(orders_dto_module)
     generator.generate(users_dto_module)
-    # generator.generate(bootstrap_dto_module)
+    generator.generate(bootstrap_dto_module)
 
 
 if __name__ == '__main__':

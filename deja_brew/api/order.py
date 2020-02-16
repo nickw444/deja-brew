@@ -18,8 +18,8 @@ class OrdersResource(Resource):
     def post(self):
         req = CreateOrderRequest().load(request.get_json())
         order = Order(
-            size=req['size'],
-            kind=req['kind'],
+            size=req['cupSize'],
+            kind=req['coffeeType'],
             milk=req['milk'],
             extras=req['extras']
         )

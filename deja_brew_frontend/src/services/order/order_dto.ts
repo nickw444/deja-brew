@@ -1,6 +1,7 @@
 // @formatter:off
 import { UnreachableError } from 'base/preconditions';
-import { UserInfo } from 'services/user/user_dto';
+import { Serialization } from 'base/serialization';
+import { Deserialization } from 'base/deserialization';
 
 export enum CupSize {
   SMALL = 'SMALL',
@@ -11,17 +12,17 @@ export enum CupSize {
 export const CupSizeUtil = {
   deserialize(value: string): CupSize {
     switch(value) {
-      case '1': return CupSize.SMALL;
-      case '2': return CupSize.MEDIUM;
-      case '3': return CupSize.LARGE;
+      case 'SMALL': return CupSize.SMALL;
+      case 'MEDIUM': return CupSize.MEDIUM;
+      case 'LARGE': return CupSize.LARGE;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: CupSize): string {
     switch(value) {
-      case CupSize.SMALL: return '1';
-      case CupSize.MEDIUM: return '2';
-      case CupSize.LARGE: return '3';
+      case CupSize.SMALL: return 'SMALL';
+      case CupSize.MEDIUM: return 'MEDIUM';
+      case CupSize.LARGE: return 'LARGE';
       default: throw new UnreachableError(value)
     } 
   },
@@ -48,27 +49,27 @@ export enum CoffeeType {
 export const CoffeeTypeUtil = {
   deserialize(value: string): CoffeeType {
     switch(value) {
-      case '1': return CoffeeType.LATTE;
-      case '2': return CoffeeType.CAPPUCCINO;
-      case '3': return CoffeeType.FLAT_WHITE;
-      case '4': return CoffeeType.LONG_BLACK;
-      case '5': return CoffeeType.MOCHA;
-      case '6': return CoffeeType.HOT_CHOC;
-      case '7': return CoffeeType.MATCHA;
-      case '8': return CoffeeType.ESPRESSO;
+      case 'LATTE': return CoffeeType.LATTE;
+      case 'CAPPUCCINO': return CoffeeType.CAPPUCCINO;
+      case 'FLAT_WHITE': return CoffeeType.FLAT_WHITE;
+      case 'LONG_BLACK': return CoffeeType.LONG_BLACK;
+      case 'MOCHA': return CoffeeType.MOCHA;
+      case 'HOT_CHOC': return CoffeeType.HOT_CHOC;
+      case 'MATCHA': return CoffeeType.MATCHA;
+      case 'ESPRESSO': return CoffeeType.ESPRESSO;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: CoffeeType): string {
     switch(value) {
-      case CoffeeType.LATTE: return '1';
-      case CoffeeType.CAPPUCCINO: return '2';
-      case CoffeeType.FLAT_WHITE: return '3';
-      case CoffeeType.LONG_BLACK: return '4';
-      case CoffeeType.MOCHA: return '5';
-      case CoffeeType.HOT_CHOC: return '6';
-      case CoffeeType.MATCHA: return '7';
-      case CoffeeType.ESPRESSO: return '8';
+      case CoffeeType.LATTE: return 'LATTE';
+      case CoffeeType.CAPPUCCINO: return 'CAPPUCCINO';
+      case CoffeeType.FLAT_WHITE: return 'FLAT_WHITE';
+      case CoffeeType.LONG_BLACK: return 'LONG_BLACK';
+      case CoffeeType.MOCHA: return 'MOCHA';
+      case CoffeeType.HOT_CHOC: return 'HOT_CHOC';
+      case CoffeeType.MATCHA: return 'MATCHA';
+      case CoffeeType.ESPRESSO: return 'ESPRESSO';
       default: throw new UnreachableError(value)
     } 
   },
@@ -97,21 +98,21 @@ export enum MilkType {
 export const MilkTypeUtil = {
   deserialize(value: string): MilkType {
     switch(value) {
-      case '1': return MilkType.REGULAR;
-      case '2': return MilkType.SKIM;
-      case '3': return MilkType.SOY;
-      case '4': return MilkType.ALMOND;
-      case '5': return MilkType.OAT;
+      case 'REGULAR': return MilkType.REGULAR;
+      case 'SKIM': return MilkType.SKIM;
+      case 'SOY': return MilkType.SOY;
+      case 'ALMOND': return MilkType.ALMOND;
+      case 'OAT': return MilkType.OAT;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: MilkType): string {
     switch(value) {
-      case MilkType.REGULAR: return '1';
-      case MilkType.SKIM: return '2';
-      case MilkType.SOY: return '3';
-      case MilkType.ALMOND: return '4';
-      case MilkType.OAT: return '5';
+      case MilkType.REGULAR: return 'REGULAR';
+      case MilkType.SKIM: return 'SKIM';
+      case MilkType.SOY: return 'SOY';
+      case MilkType.ALMOND: return 'ALMOND';
+      case MilkType.OAT: return 'OAT';
       default: throw new UnreachableError(value)
     } 
   },
@@ -137,21 +138,21 @@ export enum Extra {
 export const ExtraUtil = {
   deserialize(value: string): Extra {
     switch(value) {
-      case '1': return Extra.DECAF;
-      case '2': return Extra.EXTRA_SHOT;
-      case '3': return Extra.HONEY;
-      case '4': return Extra.ICED;
-      case '5': return Extra.SUGAR;
+      case 'DECAF': return Extra.DECAF;
+      case 'EXTRA_SHOT': return Extra.EXTRA_SHOT;
+      case 'HONEY': return Extra.HONEY;
+      case 'ICED': return Extra.ICED;
+      case 'SUGAR': return Extra.SUGAR;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: Extra): string {
     switch(value) {
-      case Extra.DECAF: return '1';
-      case Extra.EXTRA_SHOT: return '2';
-      case Extra.HONEY: return '3';
-      case Extra.ICED: return '4';
-      case Extra.SUGAR: return '5';
+      case Extra.DECAF: return 'DECAF';
+      case Extra.EXTRA_SHOT: return 'EXTRA_SHOT';
+      case Extra.HONEY: return 'HONEY';
+      case Extra.ICED: return 'ICED';
+      case Extra.SUGAR: return 'SUGAR';
       default: throw new UnreachableError(value)
     } 
   },
@@ -176,19 +177,19 @@ export enum OrderStatus {
 export const OrderStatusUtil = {
   deserialize(value: string): OrderStatus {
     switch(value) {
-      case '1': return OrderStatus.SUBMITTED;
-      case '2': return OrderStatus.PREPARING;
-      case '3': return OrderStatus.COMPLETED;
-      case '4': return OrderStatus.CANCELLED;
+      case 'SUBMITTED': return OrderStatus.SUBMITTED;
+      case 'PREPARING': return OrderStatus.PREPARING;
+      case 'COMPLETED': return OrderStatus.COMPLETED;
+      case 'CANCELLED': return OrderStatus.CANCELLED;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: OrderStatus): string {
     switch(value) {
-      case OrderStatus.SUBMITTED: return '1';
-      case OrderStatus.PREPARING: return '2';
-      case OrderStatus.COMPLETED: return '3';
-      case OrderStatus.CANCELLED: return '4';
+      case OrderStatus.SUBMITTED: return 'SUBMITTED';
+      case OrderStatus.PREPARING: return 'PREPARING';
+      case OrderStatus.COMPLETED: return 'COMPLETED';
+      case OrderStatus.CANCELLED: return 'CANCELLED';
       default: throw new UnreachableError(value)
     } 
   },
@@ -203,114 +204,108 @@ export const OrderStatusUtil = {
 };
 
 export class Order {
-  readonly id: string | undefined;
-  readonly cupSize: CupSize | undefined;
-  readonly status: OrderStatus | undefined;
-  readonly coffeeType: CoffeeType | undefined;
-  readonly users: UserInfo[] | undefined;
-  readonly extras: Extra[] | undefined;
-  readonly user: UserInfo | undefined;
-  readonly milkType: MilkType | undefined;
+  readonly userId: string;
+  readonly cupSize: CupSize;
+  readonly id: string;
+  readonly status: OrderStatus;
+  readonly milkType: MilkType;
+  readonly extras: Extra[];
+  readonly coffeeType: CoffeeType;
   constructor({
-    id,
+    userId,
     cupSize,
+    id,
     status,
-    coffeeType,
-    users,
+    milkType,
     extras,
-    user,
-    milkType,  
+    coffeeType,  
   }: {
-    id?: string,
-    cupSize?: CupSize,
-    status?: OrderStatus,
-    coffeeType?: CoffeeType,
-    users?: UserInfo[],
-    extras?: Extra[],
-    user?: UserInfo,
-    milkType?: MilkType,  
+    userId: string,
+    cupSize: CupSize,
+    id: string,
+    status: OrderStatus,
+    milkType: MilkType,
+    extras: Extra[],
+    coffeeType: CoffeeType,  
   }) {
-    this.id = id;
+    this.userId = userId;
     this.cupSize = cupSize;
+    this.id = id;
     this.status = status;
-    this.coffeeType = coffeeType;
-    this.users = users;
-    this.extras = extras;
-    this.user = user;
     this.milkType = milkType;
+    this.extras = extras;
+    this.coffeeType = coffeeType;
   }
   
   static deserialize(o: any): Order {
     return new Order({
-      id: o['id'],
-      cupSize: o['cupSize'],
-      status: o['status'],
-      coffeeType: o['coffeeType'],
-      users: o['users'],
-      extras: o['extras'],
-      user: o['user'],
-      milkType: o['milkType'],  
+      userId: Deserialization.requiredString(o, 'userId'),
+      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),
+      id: Deserialization.requiredString(o, 'id'),
+      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
+      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),
+      extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
+      coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),  
     })
   }
   
   static serialize(o: Order): object {
     return {
+      'userId': o.userId,
+      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),
       'id': o.id,
-      'cupSize': o.cupSize,
-      'status': o.status,
-      'coffeeType': o.coffeeType,
-      'users': o.users,
-      'extras': o.extras,
-      'user': o.user,
-      'milkType': o.milkType,  
+      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
+      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),
+      'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
+      'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),  
     }
   }
 }
 
 export class GetOrdersRequest {
-  readonly limit: number;
-  readonly continuation: string;
-  readonly activeOnly: boolean;
+  readonly activeOnly: boolean | undefined;
+  readonly limit: number | undefined;
+  readonly continuation: string | undefined;
   constructor({
+    activeOnly,
     limit,
-    continuation,
-    activeOnly,  
+    continuation,  
   }: {
-    limit: number,
-    continuation: string,
-    activeOnly: boolean,  
+    activeOnly?: boolean,
+    limit?: number,
+    continuation?: string,  
   }) {
+    this.activeOnly = activeOnly;
     this.limit = limit;
     this.continuation = continuation;
-    this.activeOnly = activeOnly;
   }
   
   static deserialize(o: any): GetOrdersRequest {
     return new GetOrdersRequest({
-      limit: o['limit'],
-      continuation: o['continuation'],
-      activeOnly: o['activeOnly'],  
+      activeOnly: Deserialization.optionalBoolean(o, 'activeOnly'),
+      limit: Deserialization.optionalNumber(o, 'limit'),
+      continuation: Deserialization.optionalString(o, 'continuation'),  
     })
   }
   
   static serialize(o: GetOrdersRequest): object {
     return {
+      'activeOnly': o.activeOnly,
       'limit': o.limit,
-      'continuation': o.continuation,
-      'activeOnly': o.activeOnly,  
+      'continuation': o.continuation,  
     }
   }
 }
 
 export class GetOrdersResponse {
-  readonly continuation: string;
-  readonly orders: Order[] | undefined;
+  readonly continuation: string | undefined;
+  readonly orders: Order[];
   constructor({
     continuation,
     orders,  
   }: {
-    continuation: string,
-    orders?: Order[],  
+    continuation?: string,
+    orders: Order[],  
   }) {
     this.continuation = continuation;
     this.orders = orders;
@@ -318,119 +313,119 @@ export class GetOrdersResponse {
   
   static deserialize(o: any): GetOrdersResponse {
     return new GetOrdersResponse({
-      continuation: o['continuation'],
-      orders: o['orders'],  
+      continuation: Deserialization.optionalString(o, 'continuation'),
+      orders: Deserialization.repeatedObject(Order.deserialize, o, 'orders'),  
     })
   }
   
   static serialize(o: GetOrdersResponse): object {
     return {
       'continuation': o.continuation,
-      'orders': o.orders,  
+      'orders': Serialization.repeatedObject(Order.serialize, o.orders),  
     }
   }
 }
 
 export class GetOrderResponse {
-  readonly order: Order | undefined;
+  readonly order: Order;
   constructor({
     order,  
   }: {
-    order?: Order,  
+    order: Order,  
   }) {
     this.order = order;
   }
   
   static deserialize(o: any): GetOrderResponse {
     return new GetOrderResponse({
-      order: o['order'],  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
     })
   }
   
   static serialize(o: GetOrderResponse): object {
     return {
-      'order': o.order,  
+      'order': Serialization.requiredObject(Order.serialize, o.order),  
     }
   }
 }
 
 export class CreateOrderRequest {
-  readonly milk: MilkType | undefined;
-  readonly size: CupSize | undefined;
-  readonly extras: Extra[] | undefined;
-  readonly kind: CoffeeType | undefined;
+  readonly cupSize: CupSize;
+  readonly extras: Extra[];
+  readonly coffeeType: CoffeeType;
+  readonly milkType: MilkType;
   constructor({
-    milk,
-    size,
+    cupSize,
     extras,
-    kind,  
+    coffeeType,
+    milkType,  
   }: {
-    milk?: MilkType,
-    size?: CupSize,
-    extras?: Extra[],
-    kind?: CoffeeType,  
+    cupSize: CupSize,
+    extras: Extra[],
+    coffeeType: CoffeeType,
+    milkType: MilkType,  
   }) {
-    this.milk = milk;
-    this.size = size;
+    this.cupSize = cupSize;
     this.extras = extras;
-    this.kind = kind;
+    this.coffeeType = coffeeType;
+    this.milkType = milkType;
   }
   
   static deserialize(o: any): CreateOrderRequest {
     return new CreateOrderRequest({
-      milk: o['milk'],
-      size: o['size'],
-      extras: o['extras'],
-      kind: o['kind'],  
+      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),
+      extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
+      coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),
+      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),  
     })
   }
   
   static serialize(o: CreateOrderRequest): object {
     return {
-      'milk': o.milk,
-      'size': o.size,
-      'extras': o.extras,
-      'kind': o.kind,  
+      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),
+      'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
+      'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),
+      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),  
     }
   }
 }
 
 export class CreateOrderResponse {
-  readonly order: Order | undefined;
+  readonly order: Order;
   constructor({
     order,  
   }: {
-    order?: Order,  
+    order: Order,  
   }) {
     this.order = order;
   }
   
   static deserialize(o: any): CreateOrderResponse {
     return new CreateOrderResponse({
-      order: o['order'],  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
     })
   }
   
   static serialize(o: CreateOrderResponse): object {
     return {
-      'order': o.order,  
+      'order': Serialization.requiredObject(Order.serialize, o.order),  
     }
   }
 }
 
 export class UpdateOrderRequest {
-  readonly completed: boolean | undefined;
+  readonly completed: boolean;
   constructor({
     completed,  
   }: {
-    completed?: boolean,  
+    completed: boolean,  
   }) {
     this.completed = completed;
   }
   
   static deserialize(o: any): UpdateOrderRequest {
     return new UpdateOrderRequest({
-      completed: o['completed'],  
+      completed: Deserialization.requiredBoolean(o, 'completed'),  
     })
   }
   
@@ -442,24 +437,24 @@ export class UpdateOrderRequest {
 }
 
 export class UpdateOrderResponse {
-  readonly order: Order | undefined;
+  readonly order: Order;
   constructor({
     order,  
   }: {
-    order?: Order,  
+    order: Order,  
   }) {
     this.order = order;
   }
   
   static deserialize(o: any): UpdateOrderResponse {
     return new UpdateOrderResponse({
-      order: o['order'],  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
     })
   }
   
   static serialize(o: UpdateOrderResponse): object {
     return {
-      'order': o.order,  
+      'order': Serialization.requiredObject(Order.serialize, o.order),  
     }
   }
 }

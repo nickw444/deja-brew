@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Order } from 'services/order/order_service_objects';
+import { Order } from 'services/order/order_dto';
 import { OrderCard } from './order_card';
 import styles from './orders.module.css';
 

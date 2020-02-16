@@ -3,13 +3,12 @@ import * as mobxReact from 'mobx-react';
 import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { User } from 'services/order/order_service_objects';
+import { GetUserInfoRequest, UserInfo } from 'services/user/user_dto';
 import { UserService } from 'services/user/user_service';
-import { GetUserInfoRequest } from 'services/user/user_service_objects';
 
 export class UserInfoStore {
   @mobx.observable.ref
-  userInfo: IPromiseBasedObservable<User> | undefined;
+  userInfo: IPromiseBasedObservable<UserInfo> | undefined;
 }
 
 export class UserInfoPresenter {
@@ -20,6 +19,10 @@ export class UserInfoPresenter {
 
   @mobx.action
   fetchUserInfo(store: UserInfoStore) {
+    if (store.userInfo != null) {
+      return;
+    }
+
     const p = this.userService.getUserInfo(new GetUserInfoRequest({ id: 'me' }))
         .then(resp => resp.user);
     store.userInfo = fromPromise(p);

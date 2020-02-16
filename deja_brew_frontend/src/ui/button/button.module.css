@@ -10,21 +10,25 @@
     font-weight: 400;
     color: #333;
     cursor: pointer;
+}
+
+.button.stretch {
     width: 100%;
 }
 
 .iconContainer {
     position: absolute;
-    left: 8px;
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.iconContainer img {
-    display: block;
-    width: 24px;
-    height: 24px;
+.iconContainer.left {
+    left: 8px;
+}
+
+.iconContainer.right {
+    right: 8px;
 }
 
 .button:disabled {
@@ -94,4 +98,8 @@
 
 .button.link .buttonLabel {
     padding: 8px 0;
+}
+
+.button.chromeless {
+    background: transparent;
 }

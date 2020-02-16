@@ -1,4 +1,4 @@
-import { GetUserInfoRequest, GetUserInfoResponse } from 'services/user/user_service_objects';
+import { GetUserInfoRequest, GetUserInfoResponse } from './user_dto';
 
 export interface UserService {
   getUserInfo(req: GetUserInfoRequest): Promise<GetUserInfoResponse>;

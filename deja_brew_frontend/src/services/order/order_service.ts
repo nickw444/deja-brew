@@ -1,9 +1,11 @@
 import {
-  CreateOrderRequest, CreateOrderResponse,
+  CreateOrderRequest,
+  CreateOrderResponse,
   GetOrdersRequest,
   GetOrdersResponse,
-  UpdateOrderRequest, UpdateOrderResponse,
-} from './order_service_objects';
+  UpdateOrderRequest,
+  UpdateOrderResponse,
+} from './order_dto';
 
 export interface OrderService {
   getOrders(req: GetOrdersRequest): Promise<GetOrdersResponse>;

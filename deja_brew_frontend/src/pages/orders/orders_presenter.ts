@@ -1,7 +1,7 @@
 import * as mobx from 'mobx';
 import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import { OrderService } from 'services/order/order_service';
-import { GetOrdersRequest, Order } from 'services/order/order_service_objects';
+import { GetOrdersRequest, Order } from 'services/order/order_dto';
 
 export class OrdersStore {
   @mobx.observable.ref

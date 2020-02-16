@@ -1,5 +1,4 @@
 import { HttpService } from '../http/http_service';
-import { OrderService } from './order_service';
 import {
   CreateOrderRequest,
   CreateOrderResponse,
@@ -7,7 +6,8 @@ import {
   GetOrdersResponse,
   UpdateOrderRequest,
   UpdateOrderResponse,
-} from './order_service_objects';
+} from './order_dto';
+import { OrderService } from './order_service';
 
 export class HttpOrderService implements OrderService {
   constructor(
