@@ -1,8 +1,8 @@
-import { UnreachableError } from 'base/preconditions';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Order, OrderStatus } from 'services/order/order_dto';
+import { Order } from 'services/order/order_dto';
 import { cardTitleOfOrder, extrasLabelOfOrder } from 'ui/labels/labels';
+import { OrderStatusLabel } from 'ui/order_status_label/order_status_label';
 import styles from './orders.module.css';
 
 export const OrdersPage = React.memo(({
@@ -113,21 +113,3 @@ const OrderCard = React.memo(({
   );
 });
 
-const OrderStatusLabel = ({ status }: { status: OrderStatus }) => {
-  switch (status) {
-    case OrderStatus.PENDING:
-      return <><Bullet color="orange"/> Pending</>;
-    case OrderStatus.ACCEPTED:
-      return <><Bullet color="#66C136"/> Accepted</>;
-    case OrderStatus.READY:
-      return <><Checkmark color="#66C136"/> Ready</>;
-    case OrderStatus.CANCELLED:
-      return <><Cross color="red"/> Cancelled</>;
-    default:
-      throw new UnreachableError(status);
-  }
-};
-
-const Bullet = ({ color }: { color: string }) => (<span style={{ color }}>◉</span>);
-const Checkmark = ({ color }: { color: string }) => (<span style={{ color }}>✓</span>);
-const Cross = ({ color }: { color: string }) => (<span style={{ color }}>✖</span>);

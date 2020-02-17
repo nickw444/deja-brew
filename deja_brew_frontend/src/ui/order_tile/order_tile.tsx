@@ -1,6 +1,7 @@
 import React from 'react';
-import { Order, OrderStatus } from 'services/order/order_dto';
+import { Order } from 'services/order/order_dto';
 import { getOrderExtrasLabel, getOrderTypeLabel } from 'ui/labels/labels';
+import { OrderStatusLabel } from 'ui/order_status_label/order_status_label';
 import cappuccino from './assets/cappuccino.jpg';
 import styles from './order_tile.module.css';
 
@@ -22,22 +23,12 @@ export const OrderTile = ({
         <div className={styles.infoContainer}>
           <div className={styles.coffeeType}>{getOrderTypeLabel(order)}</div>
           {extrasLabel && (<div className={styles.extrasLabel}>{extrasLabel}</div>)}
-          {order.status && <StatusLabel status={order.status}/>}
+          {order.status != null && (
+              <div className={styles.status}>
+                <OrderStatusLabel status={order.status}/>
+              </div>
+          )}
         </div>
       </div>
   );
 };
-
-
-const labelForStatus: Record<OrderStatus, React.ReactNode> = {
-  [OrderStatus.PENDING]: 'Submitted',
-  [OrderStatus.ACCEPTED]: 'Preparing',
-  [OrderStatus.READY]: 'Ready for pickup',
-  [OrderStatus.CANCELLED]: 'Cancelled',
-};
-
-
-const StatusLabel = React.memo(({ status }: { status: OrderStatus }) => {
-  const label = labelForStatus[status];
-  return <div className={styles.status}>{label}</div>;
-});
