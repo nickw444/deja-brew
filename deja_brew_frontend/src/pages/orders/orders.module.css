@@ -1,5 +1,76 @@
+.ordersPage {
+    margin: 16px;
+}
+
 .ordersGrid {
     display: grid;
     align-items: center;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 16px;
+}
+
+.orderCardButton {
+    display: flex;
+    background: white;
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+    color: #333;
+    transition: 0.2s ease-in-out border, 0.2s ease-in-out background-color;
+    line-height: 1.6;
+    overflow: hidden;
+}
+
+.orderCardButton:hover {
+    border-color: #666;
+}
+
+.orderCardButton:active {
+    border-color: #333;
+    background-color: #eee;
+}
+
+.orderDetails {
+    padding: 16px;
+    flex-grow: 1;
+}
+
+.coffeeTypeLabel {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.extrasLabel {
+    margin: 2px 0;
+}
+
+.orderStatusLabel {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.userDetails {
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.userAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+
+.userName {
+    font-size: 16px;
 }

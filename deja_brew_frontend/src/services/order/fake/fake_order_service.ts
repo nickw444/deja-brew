@@ -11,8 +11,6 @@ import {
 import { OrderService } from '../order_service';
 import { anOrderWith } from './builders';
 
-const idGenerator = (initial: number) => () => (initial++).toString();
-const orderIdGenerator = idGenerator(1);
 
 export class FakeOrderService implements OrderService {
   private readonly orders: Order[] = [
@@ -23,10 +21,8 @@ export class FakeOrderService implements OrderService {
   ];
 
   async createOrder(req: CreateOrderRequest): Promise<CreateOrderResponse> {
-    const order = new Order({
-      id: orderIdGenerator(),
-      userId: 'UAAAAAAAA',
-      status: OrderStatus.SUBMITTED,
+    const order = anOrderWith({
+      status: OrderStatus.PENDING,
       ...req,
     });
     this.orders.push(order);
@@ -37,8 +33,17 @@ export class FakeOrderService implements OrderService {
     return new GetOrdersResponse({ orders: this.orders });
   }
 
-  updateOrder(req: UpdateOrderRequest): Promise<UpdateOrderResponse> {
-    throw new Error('Not Implemented');
+  async updateOrder(req: UpdateOrderRequest): Promise<UpdateOrderResponse> {
+    const orderIdx = this.orders.findIndex(order => order.id === req.orderId);
+    const updatedOrder = new Order({
+      ...this.orders[orderIdx],
+      status: req.status,
+    });
+    this.orders.splice(orderIdx, 1, updatedOrder);
+
+    return new UpdateOrderResponse({
+      order: updatedOrder,
+    });
   }
 
 }

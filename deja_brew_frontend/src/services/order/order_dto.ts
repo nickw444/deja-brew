@@ -1,12 +1,12 @@
 // @formatter:off
-import { UnreachableError } from 'base/preconditions';
 import { Serialization } from 'base/serialization';
+import { UnreachableError } from 'base/preconditions';
 import { Deserialization } from 'base/deserialization';
 
 export enum CupSize {
-  SMALL = 'SMALL',
-  MEDIUM = 'MEDIUM',
-  LARGE = 'LARGE',
+  SMALL,
+  MEDIUM,
+  LARGE,
 }
 
 export const CupSizeUtil = {
@@ -36,14 +36,14 @@ export const CupSizeUtil = {
 };
 
 export enum CoffeeType {
-  LATTE = 'LATTE',
-  CAPPUCCINO = 'CAPPUCCINO',
-  FLAT_WHITE = 'FLAT_WHITE',
-  LONG_BLACK = 'LONG_BLACK',
-  MOCHA = 'MOCHA',
-  HOT_CHOC = 'HOT_CHOC',
-  MATCHA = 'MATCHA',
-  ESPRESSO = 'ESPRESSO',
+  LATTE,
+  CAPPUCCINO,
+  FLAT_WHITE,
+  LONG_BLACK,
+  MOCHA,
+  HOT_CHOC,
+  MATCHA,
+  ESPRESSO,
 }
 
 export const CoffeeTypeUtil = {
@@ -88,11 +88,11 @@ export const CoffeeTypeUtil = {
 };
 
 export enum MilkType {
-  REGULAR = 'REGULAR',
-  SKIM = 'SKIM',
-  SOY = 'SOY',
-  ALMOND = 'ALMOND',
-  OAT = 'OAT',
+  REGULAR,
+  SKIM,
+  SOY,
+  ALMOND,
+  OAT,
 }
 
 export const MilkTypeUtil = {
@@ -128,11 +128,11 @@ export const MilkTypeUtil = {
 };
 
 export enum Extra {
-  DECAF = 'DECAF',
-  EXTRA_SHOT = 'EXTRA_SHOT',
-  HONEY = 'HONEY',
-  ICED = 'ICED',
-  SUGAR = 'SUGAR',
+  DECAF,
+  EXTRA_SHOT,
+  HONEY,
+  ICED,
+  SUGAR,
 }
 
 export const ExtraUtil = {
@@ -168,96 +168,102 @@ export const ExtraUtil = {
 };
 
 export enum OrderStatus {
-  SUBMITTED = 'SUBMITTED',
-  PREPARING = 'PREPARING',
-  COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED',
+  PENDING,
+  ACCEPTED,
+  READY,
+  CANCELLED,
 }
 
 export const OrderStatusUtil = {
   deserialize(value: string): OrderStatus {
     switch(value) {
-      case 'SUBMITTED': return OrderStatus.SUBMITTED;
-      case 'PREPARING': return OrderStatus.PREPARING;
-      case 'COMPLETED': return OrderStatus.COMPLETED;
+      case 'PENDING': return OrderStatus.PENDING;
+      case 'ACCEPTED': return OrderStatus.ACCEPTED;
+      case 'READY': return OrderStatus.READY;
       case 'CANCELLED': return OrderStatus.CANCELLED;
       default: throw new Error('Unknown value: ' + value)
     }
   },
   serialize(value: OrderStatus): string {
     switch(value) {
-      case OrderStatus.SUBMITTED: return 'SUBMITTED';
-      case OrderStatus.PREPARING: return 'PREPARING';
-      case OrderStatus.COMPLETED: return 'COMPLETED';
+      case OrderStatus.PENDING: return 'PENDING';
+      case OrderStatus.ACCEPTED: return 'ACCEPTED';
+      case OrderStatus.READY: return 'READY';
       case OrderStatus.CANCELLED: return 'CANCELLED';
       default: throw new UnreachableError(value)
     } 
   },
   values(): OrderStatus[] {
     return [
-      OrderStatus.SUBMITTED,
-      OrderStatus.PREPARING,
-      OrderStatus.COMPLETED,
+      OrderStatus.PENDING,
+      OrderStatus.ACCEPTED,
+      OrderStatus.READY,
       OrderStatus.CANCELLED,
     ]
   }
 };
 
 export class Order {
-  readonly userId: string;
-  readonly cupSize: CupSize;
-  readonly id: string;
-  readonly status: OrderStatus;
   readonly milkType: MilkType;
-  readonly extras: Extra[];
+  readonly id: string;
+  readonly createdAt: number;
+  readonly status: OrderStatus;
+  readonly userId: string;
   readonly coffeeType: CoffeeType;
+  readonly extras: Extra[];
+  readonly cupSize: CupSize;
   constructor({
-    userId,
-    cupSize,
-    id,
-    status,
     milkType,
+    id,
+    createdAt,
+    status,
+    userId,
+    coffeeType,
     extras,
-    coffeeType,  
+    cupSize,  
   }: {
-    userId: string,
-    cupSize: CupSize,
-    id: string,
-    status: OrderStatus,
     milkType: MilkType,
+    id: string,
+    createdAt: number,
+    status: OrderStatus,
+    userId: string,
+    coffeeType: CoffeeType,
     extras: Extra[],
-    coffeeType: CoffeeType,  
+    cupSize: CupSize,  
   }) {
-    this.userId = userId;
-    this.cupSize = cupSize;
-    this.id = id;
-    this.status = status;
     this.milkType = milkType;
-    this.extras = extras;
+    this.id = id;
+    this.createdAt = createdAt;
+    this.status = status;
+    this.userId = userId;
     this.coffeeType = coffeeType;
+    this.extras = extras;
+    this.cupSize = cupSize;
   }
   
   static deserialize(o: any): Order {
     return new Order({
-      userId: Deserialization.requiredString(o, 'userId'),
-      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),
-      id: Deserialization.requiredString(o, 'id'),
-      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
       milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),
+      id: Deserialization.requiredString(o, 'id'),
+      createdAt: Deserialization.requiredNumber(o, 'createdAt'),
+      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
+      userId: Deserialization.requiredString(o, 'userId'),
+      coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),
       extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
-      coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),  
+      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),  
     })
   }
   
   static serialize(o: Order): object {
     return {
-      'userId': o.userId,
-      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),
-      'id': o.id,
-      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
       'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),
+      'id': o.id,
+      'createdAt': o.createdAt,
+      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
+      'userId': o.userId,
+      'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),
       'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
-      'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),  
+      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),  
     }
   }
 }
@@ -298,30 +304,30 @@ export class GetOrdersRequest {
 }
 
 export class GetOrdersResponse {
-  readonly continuation: string | undefined;
   readonly orders: Order[];
+  readonly continuation: string | undefined;
   constructor({
-    continuation,
-    orders,  
+    orders,
+    continuation,  
   }: {
-    continuation?: string,
-    orders: Order[],  
+    orders: Order[],
+    continuation?: string,  
   }) {
-    this.continuation = continuation;
     this.orders = orders;
+    this.continuation = continuation;
   }
   
   static deserialize(o: any): GetOrdersResponse {
     return new GetOrdersResponse({
-      continuation: Deserialization.optionalString(o, 'continuation'),
-      orders: Deserialization.repeatedObject(Order.deserialize, o, 'orders'),  
+      orders: Deserialization.repeatedObject(Order.deserialize, o, 'orders'),
+      continuation: Deserialization.optionalString(o, 'continuation'),  
     })
   }
   
   static serialize(o: GetOrdersResponse): object {
     return {
-      'continuation': o.continuation,
-      'orders': Serialization.repeatedObject(Order.serialize, o.orders),  
+      'orders': Serialization.repeatedObject(Order.serialize, o.orders),
+      'continuation': o.continuation,  
     }
   }
 }
@@ -350,42 +356,42 @@ export class GetOrderResponse {
 }
 
 export class CreateOrderRequest {
-  readonly cupSize: CupSize;
-  readonly extras: Extra[];
   readonly coffeeType: CoffeeType;
   readonly milkType: MilkType;
+  readonly extras: Extra[];
+  readonly cupSize: CupSize;
   constructor({
-    cupSize,
-    extras,
     coffeeType,
-    milkType,  
+    milkType,
+    extras,
+    cupSize,  
   }: {
-    cupSize: CupSize,
-    extras: Extra[],
     coffeeType: CoffeeType,
-    milkType: MilkType,  
+    milkType: MilkType,
+    extras: Extra[],
+    cupSize: CupSize,  
   }) {
-    this.cupSize = cupSize;
-    this.extras = extras;
     this.coffeeType = coffeeType;
     this.milkType = milkType;
+    this.extras = extras;
+    this.cupSize = cupSize;
   }
   
   static deserialize(o: any): CreateOrderRequest {
     return new CreateOrderRequest({
-      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),
-      extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
       coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),
-      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),  
+      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),
+      extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
+      cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),  
     })
   }
   
   static serialize(o: CreateOrderRequest): object {
     return {
-      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),
-      'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
       'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),
-      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),  
+      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),
+      'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
+      'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),  
     }
   }
 }
@@ -414,24 +420,30 @@ export class CreateOrderResponse {
 }
 
 export class UpdateOrderRequest {
-  readonly completed: boolean;
+  readonly status: OrderStatus;
+  readonly orderId: string;
   constructor({
-    completed,  
+    status,
+    orderId,  
   }: {
-    completed: boolean,  
+    status: OrderStatus,
+    orderId: string,  
   }) {
-    this.completed = completed;
+    this.status = status;
+    this.orderId = orderId;
   }
   
   static deserialize(o: any): UpdateOrderRequest {
     return new UpdateOrderRequest({
-      completed: Deserialization.requiredBoolean(o, 'completed'),  
+      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
+      orderId: Deserialization.requiredString(o, 'orderId'),  
     })
   }
   
   static serialize(o: UpdateOrderRequest): object {
     return {
-      'completed': o.completed,  
+      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
+      'orderId': o.orderId,  
     }
   }
 }

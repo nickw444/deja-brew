@@ -3,7 +3,7 @@ import * as mobxReact from 'mobx-react';
 import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { GetUserInfoRequest, UserInfo } from 'services/user/user_dto';
+import { GetUserInfoRequest, Role, UserInfo } from 'services/user/user_dto';
 import { UserService } from 'services/user/user_service';
 
 export class UserInfoStore {
@@ -35,7 +35,7 @@ export const createAuthRequiredHoc = ({
 }: {
   store: UserInfoStore,
   onMount(): void,
-}) => (Inner: React.ComponentType) => mobxReact.observer(() => {
+}) => (Inner: React.ComponentType, permittedRole?: Role) => mobxReact.observer(() => {
   React.useEffect(onMount, []);
 
   if (store.userInfo == null || store.userInfo.state === 'pending') {
@@ -44,7 +44,10 @@ export const createAuthRequiredHoc = ({
 
   switch (store.userInfo.state) {
     case 'fulfilled':
-      return <Inner/>;
+      if (permittedRole == null || store.userInfo.value.roles.includes(permittedRole)) {
+        return <Inner/>;
+      }
+      return <div>You don't have permission to view this page</div>;
     case 'rejected':
       return <Redirect to='/login'/>;
   }

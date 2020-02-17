@@ -12,12 +12,14 @@ import { OrderService } from 'services/order/order_service';
 export function createOrderFormFlow({
   history,
   orderService,
+  refreshOrders,
 }: {
   history: History
   orderService: OrderService,
+  refreshOrders(): Promise<void>,
 }) {
   const store = new OrderFlowStore();
-  const presenter = new OrderFlowPresenter(orderService, history);
+  const presenter = new OrderFlowPresenter(orderService, history, refreshOrders);
 
   const SelectCoffeeStep = createSelectTypeStep({ store, presenter, history });
   const SelectSizeStep = createSelectSizeStep({ store, presenter });
@@ -38,9 +40,10 @@ export function createOrderFormFlow({
       </Switch>
   ));
 
-  return withNewOrderOnUnmount(RoutedOrderFormFlow);
+  return {
+    OrderFormFlow: withNewOrderOnUnmount(RoutedOrderFormFlow),
+  };
 }
-
 
 
 const withValidState = (

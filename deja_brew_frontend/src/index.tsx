@@ -11,9 +11,9 @@ import { Route, Switch } from 'react-router-dom';
 import { Routes } from 'routes/routes';
 import { FetchHttpClient } from 'services/http/fetch_http_client';
 import { FakeOrderService } from 'services/order/fake/fake_order_service';
-import { HttpOrderService } from 'services/order/http_order_service';
 import { HttpUserService } from 'services/user/http_user_service';
 import { Skeleton } from 'skeleton/skeleton';
+import { withContainer } from 'ui/container/container';
 import './index.css';
 
 function main() {
@@ -24,22 +24,23 @@ function main() {
   const history = createBrowserHistory();
 
   const { OrdersPage } = createOrdersPage({ orderService });
-  const { HomePage } = createHomePage({ orderService, history });
+  const { HomePage, refreshOrders } = createHomePage({ orderService, history });
   const { AuthPage } = createAuthPage();
+  const { OrderFormFlow } = createOrderFormFlow({ history, orderService, refreshOrders });
 
   const { userInfoStore, withAuthRequired, withAnonOnly } = createAuthDecorators({ userService });
 
   const { Header } = createHeader({ userInfoStore, history });
-  const HomePageImpl = withAuthRequired(HomePage);
-  const OrdersPageImpl = withAuthRequired(OrdersPage);
-  const AuthPageImpl = withAnonOnly(AuthPage);
-  const NewOrderPage = withAuthRequired(createOrderFormFlow({ history, orderService }));
+  const HomePageImpl = withContainer(withAuthRequired(HomePage));
+  const OrdersPageImpl = withAuthRequired(OrdersPage/*, Role.CAFE_STAFF */);
+  const AuthPageImpl = withContainer(withAnonOnly(AuthPage));
+  const OrderFormFlowImpl = withContainer(withAuthRequired(OrderFormFlow));
 
   const AppContent = () => (
       <Switch>
         <Route path={Routes.login()} component={AuthPageImpl}/>
         <Route path={Routes.orders()} component={OrdersPageImpl}/>
-        <Route path={Routes.newOrder()} component={NewOrderPage}/>
+        <Route path={Routes.newOrder()} component={OrderFormFlowImpl}/>
         <Route path={Routes.home()} component={HomePageImpl}/>
       </Switch>
   );
@@ -55,6 +56,5 @@ function main() {
 
   ReactDOM.render(<AppImpl/>, document.getElementById('root'));
 }
-
 
 main();

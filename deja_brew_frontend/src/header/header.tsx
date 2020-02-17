@@ -33,7 +33,7 @@ export const Header = React.memo(({
                     <img
                         className={styles.avatarImg}
                         src={userInfo.avatarUrl}
-                        alt="User profile image"/>
+                        alt="User profile"/>
                 )}
               </div>
           )}

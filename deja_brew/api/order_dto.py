@@ -42,9 +42,9 @@ class Extra(Enum):
 
 
 class OrderStatus(Enum):
-    SUBMITTED = 1
-    PREPARING = 2
-    COMPLETED = 3
+    PENDING = 1
+    ACCEPTED = 2
+    READY = 3
     CANCELLED = 4
 
 
@@ -56,6 +56,7 @@ class Order(CamelCaseSchema):
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
     extras = fields.List(EnumField(Extra), required=True)
+    created_at = fields.Integer(required=True)
 
     status = EnumField(OrderStatus, required=True)
 
@@ -87,7 +88,8 @@ class CreateOrderResponse(CamelCaseSchema):
 
 
 class UpdateOrderRequest(CamelCaseSchema):
-    completed = fields.Boolean(required=True)
+    order_id = fields.Str(required=True)
+    status = EnumField(OrderStatus, required=True)
 
 
 class UpdateOrderResponse(CamelCaseSchema):

@@ -25,7 +25,11 @@ export class HttpOrderService implements OrderService {
     return CreateOrderResponse.deserialize(resp);
   }
 
-  updateOrder(req: UpdateOrderRequest): Promise<UpdateOrderResponse> {
-    throw new Error('Not Implemented');
+  async updateOrder(req: UpdateOrderRequest): Promise<UpdateOrderResponse> {
+    const resp = await this.httpService.post(
+        `/orders/${req.orderId}`,
+        UpdateOrderRequest.serialize(req),
+    );
+    return UpdateOrderResponse.deserialize(resp);
   }
 }

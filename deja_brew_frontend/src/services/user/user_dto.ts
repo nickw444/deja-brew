@@ -1,45 +1,80 @@
 // @formatter:off
-import { Serialization } from 'base/serialization';
 import { Order } from 'services/order/order_dto';
+import { UnreachableError } from 'base/preconditions';
+import { Serialization } from 'base/serialization';
 import { Deserialization } from 'base/deserialization';
+
+export enum Role {
+  ADMIN,
+  CAFE_STAFF,
+}
+
+export const RoleUtil = {
+  deserialize(value: string): Role {
+    switch(value) {
+      case 'ADMIN': return Role.ADMIN;
+      case 'CAFE_STAFF': return Role.CAFE_STAFF;
+      default: throw new Error('Unknown value: ' + value)
+    }
+  },
+  serialize(value: Role): string {
+    switch(value) {
+      case Role.ADMIN: return 'ADMIN';
+      case Role.CAFE_STAFF: return 'CAFE_STAFF';
+      default: throw new UnreachableError(value)
+    } 
+  },
+  values(): Role[] {
+    return [
+      Role.ADMIN,
+      Role.CAFE_STAFF,
+    ]
+  }
+};
 
 export class UserInfo {
   readonly avatarUrl: string | undefined;
-  readonly lastOrder: Order | undefined;
+  readonly roles: Role[];
   readonly name: string | undefined;
   readonly id: string;
+  readonly lastOrder: Order | undefined;
   constructor({
     avatarUrl,
-    lastOrder,
+    roles,
     name,
-    id,  
+    id,
+    lastOrder,  
   }: {
     avatarUrl?: string,
-    lastOrder?: Order,
+    roles: Role[],
     name?: string,
-    id: string,  
+    id: string,
+    lastOrder?: Order,  
   }) {
     this.avatarUrl = avatarUrl;
-    this.lastOrder = lastOrder;
+    this.roles = roles;
     this.name = name;
     this.id = id;
+    this.lastOrder = lastOrder;
   }
   
   static deserialize(o: any): UserInfo {
     return new UserInfo({
       avatarUrl: Deserialization.optionalString(o, 'avatarUrl'),
-      lastOrder: Deserialization.optionalObject(Order.deserialize, o, 'lastOrder'),
+      roles: Deserialization.repeatedEnum(RoleUtil.deserialize, o, 'roles'),
       name: Deserialization.optionalString(o, 'name'),
-      id: Deserialization.requiredString(o, 'id'),  
+      id: Deserialization.requiredString(o, 'id'),
+      lastOrder: Deserialization.optionalObject(Order.deserialize, o, 'lastOrder'),  
     })
   }
   
   static serialize(o: UserInfo): object {
     return {
       'avatarUrl': o.avatarUrl,
-      'lastOrder': Serialization.optionalObject(Order.serialize, o.lastOrder),
+      'roles': Serialization.repeatedEnum(RoleUtil.serialize, o.roles),
       'name': o.name,
-      'id': o.id,  
+      'id': o.id,
+      'lastOrder': Serialization.optionalObject(Order.serialize, o.lastOrder),  
     }
   }
 }

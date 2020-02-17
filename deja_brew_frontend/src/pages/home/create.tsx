@@ -1,16 +1,9 @@
+import { delay } from 'base/delay';
 import { History } from 'history';
 import { Home } from 'pages/home/home';
 import React from 'react';
 import { Routes } from 'routes/routes';
 import { anOrderWith } from 'services/order/fake/builders';
-import {
-  CoffeeType,
-  CupSize,
-  Extra,
-  MilkType,
-  Order,
-  OrderStatus,
-} from 'services/order/order_dto';
 import { OrderService } from 'services/order/order_service';
 
 const FAKE_ORDERS = [
@@ -36,6 +29,9 @@ export function createHomePage({
       />
   ));
 
-  return { HomePage: HomeImpl };
+  return {
+    HomePage: HomeImpl,
+    refreshOrders: () => delay(500),
+  };
 }
 

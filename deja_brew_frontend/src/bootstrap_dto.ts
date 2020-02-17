@@ -1,6 +1,6 @@
 // @formatter:off
-import { Serialization } from 'base/serialization';
 import { UserInfo } from 'services/user/user_dto';
+import { Serialization } from 'base/serialization';
 import { Deserialization } from 'base/deserialization';
 
 export class Bootstrap {

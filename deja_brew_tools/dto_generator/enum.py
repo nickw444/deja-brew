@@ -16,7 +16,7 @@ class DtoEnumMember(NamedTuple):
 enum_tmpl = Template('''
 export enum {{ enum.name }} {
   {%- for member in enum.members %}
-  {{ member.name }} = '{{ member.name }}',
+  {{ member.name }},
   {%- endfor %}
 }
 

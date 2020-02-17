@@ -17,7 +17,7 @@ export function createHeader({
   const goBack = () => history.goBack();
   const initialHistoryKey = history.location.key;
   history.listen((ev) => {
-    showBackButton.set(ev.key != initialHistoryKey);
+    showBackButton.set(ev.key !== initialHistoryKey);
   });
 
   const HeaderImpl = mobxReact.observer(() => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Order, OrderStatus } from 'services/order/order_dto';
-import { cardTitleOfOrder, getOrderExtrasLabel, getOrderTypeLabel } from 'ui/labels/labels';
+import { getOrderExtrasLabel, getOrderTypeLabel } from 'ui/labels/labels';
 import cappuccino from './assets/cappuccino.jpg';
 import styles from './order_tile.module.css';
 
@@ -17,7 +17,7 @@ export const OrderTile = ({
   return (
       <div className={styles.orderTile}>
         <div className={styles.imageContainer}>
-          <img className={styles.image} src={cappuccino}/>
+          <img className={styles.image} src={cappuccino} alt=""/>
         </div>
         <div className={styles.infoContainer}>
           <div className={styles.coffeeType}>{getOrderTypeLabel(order)}</div>
@@ -30,9 +30,9 @@ export const OrderTile = ({
 
 
 const labelForStatus: Record<OrderStatus, React.ReactNode> = {
-  [OrderStatus.SUBMITTED]: 'Submitted',
-  [OrderStatus.PREPARING]: 'Preparing',
-  [OrderStatus.COMPLETED]: 'Ready for pickup',
+  [OrderStatus.PENDING]: 'Submitted',
+  [OrderStatus.ACCEPTED]: 'Preparing',
+  [OrderStatus.READY]: 'Ready for pickup',
   [OrderStatus.CANCELLED]: 'Cancelled',
 };
 

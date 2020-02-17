@@ -44,6 +44,7 @@ export class OrderFlowPresenter {
   constructor(
       private readonly orderService: OrderService,
       private readonly history: History,
+      private readonly refreshOrders: () => Promise<void>,
   ) {
   }
 
@@ -114,13 +115,14 @@ export class OrderFlowPresenter {
 
   @mobx.action
   async submitOrder(store: OrderFlowStore) {
-    const resp = await this.orderService.createOrder(new CreateOrderRequest({
+    await this.orderService.createOrder(new CreateOrderRequest({
       cupSize: Preconditions.checkExists(store.cupSize),
       extras: this.getOrderExtras(store),
       coffeeType: Preconditions.checkExists(store.coffeeType),
       milkType: store.milkType,
     }));
-    console.log(resp);
+    await this.refreshOrders();
+    this.history.push(Routes.home());
   }
 
   @mobx.action
