@@ -22,7 +22,9 @@ export const Home = React.memo(({
           <>
             <Row><TitleMedium>Your Orders</TitleMedium></Row>
             {activeOrders.map(order => (
-                <Row><OrderTile key={order.id} order={order}/></Row>
+                <React.Fragment key={order.id}>
+                  <Row><OrderTile order={order}/></Row>
+                </React.Fragment>
             ))}
             <Row><Divider/></Row>
           </>
