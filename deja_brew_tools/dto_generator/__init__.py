@@ -75,7 +75,7 @@ class DtoGenerator():
     def _render_schema(self, curr_module, Cls: Schema) -> [str, List[JsDependency]]:
         fields = []
         deps = []
-        for field_name, field_impl in Cls().fields.items():
+        for field_name, field_impl in sorted(Cls().fields.items(), key=lambda x: x[0]):
             field = fieldOf(field_impl)
             fields.append(field)
             if isinstance(field, (EnumField, ObjectField)):
