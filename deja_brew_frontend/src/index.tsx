@@ -27,7 +27,9 @@ function main() {
   const { AuthPage } = createAuthPage();
   const { OrderFormFlow } = createOrderFormFlow({ history, orderService, refreshOrders });
 
-  const { userInfoStore, withAuthRequired, withAnonOnly } = createAuthDecorators({ userService });
+  const { userInfoStore, withAuthRequired, withAnonOnly } = createAuthDecorators({
+    userService,
+  });
 
   const { Header } = createHeader({ userInfoStore, history });
   const HomePageImpl = withContainer(withAuthRequired(HomePage));
