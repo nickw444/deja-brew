@@ -1,10 +1,12 @@
 import { delay } from 'base/delay';
 import { History } from 'history';
 import { Home } from 'pages/home/home';
+import { HomePresenter, HomeStore } from 'pages/home/home_presenter';
 import React from 'react';
 import { Routes } from 'routes/routes';
 import { anOrderWith } from 'services/order/fake/builders';
 import { OrderService } from 'services/order/order_service';
+import * as mobxReact from 'mobx-react';
 
 const FAKE_ORDERS = [
   anOrderWith(),
@@ -20,10 +22,18 @@ export function createHomePage({
   const onNewOrderClick = () => history.push(Routes.newOrder());
   const onOrderAgainClick = () => void 0;
 
-  const HomeImpl = React.memo(() => (
+  const store = new HomeStore();
+  const presenter = new HomePresenter(orderService);
+
+  const onMount = () => {
+    presenter.loadOrderDetails(store);
+  };
+
+  const HomeImpl = mobxReact.observer(() => (
       <Home
-          activeOrders={FAKE_ORDERS}
-          lastOrder={undefined}
+          onMount={onMount}
+          activeOrders={store.activeOrders}
+          previousOrder={store.previousOrder}
           onNewOrderClick={onNewOrderClick}
           onOrderAgainClick={onOrderAgainClick}
       />

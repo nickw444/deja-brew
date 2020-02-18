@@ -1,7 +1,7 @@
 // @formatter:off
-import { UserInfo } from 'services/user/user_dto';
 import { Serialization } from 'base/serialization';
 import { Deserialization } from 'base/deserialization';
+import { UserInfo } from 'services/user/user_dto';
 
 export class Bootstrap {
   readonly user: UserInfo | undefined;

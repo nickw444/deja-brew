@@ -1,8 +1,7 @@
 // @formatter:off
-import { Order } from 'services/order/order_dto';
 import { UnreachableError } from 'base/preconditions';
-import { Serialization } from 'base/serialization';
 import { Deserialization } from 'base/deserialization';
+import { Serialization } from 'base/serialization';
 
 export enum Role {
   ADMIN,
@@ -34,47 +33,41 @@ export const RoleUtil = {
 
 export class UserInfo {
   readonly avatarUrl: string | undefined;
-  readonly roles: Role[];
-  readonly name: string | undefined;
   readonly id: string;
-  readonly lastOrder: Order | undefined;
+  readonly name: string | undefined;
+  readonly roles: Role[];
   constructor({
     avatarUrl,
-    roles,
-    name,
     id,
-    lastOrder,  
+    name,
+    roles,  
   }: {
     avatarUrl?: string,
-    roles: Role[],
-    name?: string,
     id: string,
-    lastOrder?: Order,  
+    name?: string,
+    roles: Role[],  
   }) {
     this.avatarUrl = avatarUrl;
-    this.roles = roles;
-    this.name = name;
     this.id = id;
-    this.lastOrder = lastOrder;
+    this.name = name;
+    this.roles = roles;
   }
   
   static deserialize(o: any): UserInfo {
     return new UserInfo({
       avatarUrl: Deserialization.optionalString(o, 'avatarUrl'),
-      roles: Deserialization.repeatedEnum(RoleUtil.deserialize, o, 'roles'),
-      name: Deserialization.optionalString(o, 'name'),
       id: Deserialization.requiredString(o, 'id'),
-      lastOrder: Deserialization.optionalObject(Order.deserialize, o, 'lastOrder'),  
+      name: Deserialization.optionalString(o, 'name'),
+      roles: Deserialization.repeatedEnum(RoleUtil.deserialize, o, 'roles'),  
     })
   }
   
   static serialize(o: UserInfo): object {
     return {
       'avatarUrl': o.avatarUrl,
-      'roles': Serialization.repeatedEnum(RoleUtil.serialize, o.roles),
-      'name': o.name,
       'id': o.id,
-      'lastOrder': Serialization.optionalObject(Order.serialize, o.lastOrder),  
+      'name': o.name,
+      'roles': Serialization.repeatedEnum(RoleUtil.serialize, o.roles),  
     }
   }
 }

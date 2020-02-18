@@ -1,6 +1,13 @@
 import { idGenerator } from 'base/id_generator';
-import { CoffeeType, CupSize, Extra, MilkType, Order, OrderStatus } from 'services/order/order_dto';
-
+import {
+  CoffeeType,
+  CupSize,
+  Extra,
+  MilkType,
+  Order,
+  OrderStatus,
+  OrderUserInfo,
+} from 'services/order/order_dto';
 
 export const orderIdGenerator = idGenerator('OAAAAA', 1);
 
@@ -12,7 +19,11 @@ export function anOrderWith(opts: Partial<Order> = {}): Order {
     cupSize: CupSize.SMALL,
     extras: [Extra.EXTRA_SHOT],
     milkType: MilkType.REGULAR,
-    userId: 'UAAAAA',
+    user: new OrderUserInfo({
+      id: 'UAAAAAAA',
+      name: 'Nick Whyte',
+      avatarUrl: 'https://i.pravatar.cc/96',
+    }),
     createdAt: Date.now() / 1000,
     ...opts,
   });

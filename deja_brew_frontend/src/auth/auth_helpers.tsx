@@ -5,6 +5,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { GetUserInfoRequest, Role, UserInfo } from 'services/user/user_dto';
 import { UserService } from 'services/user/user_service';
+import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
 
 export class UserInfoStore {
   @mobx.observable.ref
@@ -39,7 +40,9 @@ export const createAuthRequiredHoc = ({
   React.useEffect(onMount, []);
 
   if (store.userInfo == null || store.userInfo.state === 'pending') {
-    return <div>Loading...</div>;
+    return (
+        <LoadingIndicator stretch={true}/>
+    );
   }
 
   switch (store.userInfo.state) {

@@ -48,9 +48,15 @@ class OrderStatus(Enum):
     CANCELLED = 4
 
 
+class OrderUserInfo(CamelCaseSchema):
+    id = fields.Str(required=True)
+    name = fields.Str()
+    avatar_url = fields.Str()
+
+
 class Order(CamelCaseSchema):
     id = fields.Str(required=True)
-    user_id = fields.Str(required=True)
+    user = fields.Nested(OrderUserInfo, required=True)
 
     cup_size = EnumField(CupSize, required=True)
     coffee_type = EnumField(CoffeeType, required=True)
@@ -62,8 +68,13 @@ class Order(CamelCaseSchema):
 
 
 class GetOrdersRequest(CamelCaseSchema):
-    active_only = fields.Boolean(missing=True)
-    continuation = fields.String(missing=None)
+    # Filter by the user who created the order
+    created_by = fields.String(missing=None)
+    # Filter by their status
+    statuses = fields.List(EnumField(OrderStatus))
+    # Filter by creation time
+    created_after = fields.Integer()
+    # Limit the number of results
     limit = fields.Integer(missing=50, validate=validate.Range(max=100))
 
 

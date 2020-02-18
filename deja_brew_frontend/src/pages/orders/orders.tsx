@@ -1,16 +1,21 @@
+import classNames from 'classnames';
+import { formatDistance } from 'date-fns';
+import * as mobxReact from 'mobx-react';
+import { OrderCardStore } from 'pages/orders/orders_presenter';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Order } from 'services/order/order_dto';
 import { cardTitleOfOrder, extrasLabelOfOrder } from 'ui/labels/labels';
+import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
 import { OrderStatusLabel } from 'ui/order_status_label/order_status_label';
 import styles from './orders.module.css';
+
 
 export const OrdersPage = React.memo(({
   OrdersGrid,
   onMount,
 }: {
   OrdersGrid: React.ComponentType,
-  onMount(): void
+  onMount(): () => void
 }) => {
   useEffect(() => onMount());
   return (
@@ -21,21 +26,21 @@ export const OrdersPage = React.memo(({
 });
 
 export const OrdersGrid = React.memo(({
-  orders,
-  onOrderClick,
-  onOrderLongPress,
+  cards,
+  onOrderCardClick,
+  onOrderCardLongPress,
 }: {
-  orders: Order[],
-  onOrderClick(order: Order): void,
-  onOrderLongPress(order: Order): void,
+  cards: OrderCardStore[],
+  onOrderCardClick(order: OrderCardStore): void,
+  onOrderCardLongPress(order: OrderCardStore): void,
 }) => (
     <div className={styles.ordersGrid}>
-      {orders.map((order) => (
+      {cards.map((card) => (
           <OrderCard
-              key={order.id}
-              order={order}
-              onClick={onOrderClick}
-              onLongPress={onOrderLongPress}
+              key={card.order.id}
+              store={card}
+              onClick={onOrderCardClick}
+              onLongPress={onOrderCardLongPress}
           />
       ))}
     </div>
@@ -76,38 +81,50 @@ const useLongPress = (callback: () => void, ms = 300) => {
   };
 };
 
-const OrderCard = React.memo(({
-  order,
+const OrderCard = mobxReact.observer(({
+  store,
   onClick,
   onLongPress,
 }: {
-  order: Order,
-  onClick(order: Order): void,
-  onLongPress(order: Order): void,
+  store: OrderCardStore,
+  onClick(order: OrderCardStore): void,
+  onLongPress(order: OrderCardStore): void,
 }) => {
+  const { order, isLoading } = store;
   const extrasLabel = extrasLabelOfOrder(order);
-  const onClickImpl = React.useCallback(() => onClick(order), [onClick, order]);
+  const onClickImpl = React.useCallback(() => onClick(store), [onClick, store]);
   // TODO(NW): Need to stop click when long press occurs
-  const onLongPressImpl = React.useCallback(() => onLongPress(order), [onLongPress, order]);
+  const onLongPressImpl = React.useCallback(() => onLongPress(store), [onLongPress, store]);
   const pressHandlers = useLongPress(onLongPressImpl, 300);
   return (
       <button
-          className={styles.orderCardButton}
+          className={classNames(styles.orderCardButton, {
+            [styles.loading]: isLoading,
+          })}
+          disabled={isLoading}
           {...pressHandlers}
           onClick={onClickImpl}
       >
         <div className={styles.orderDetails}>
+
           <div className={styles.coffeeTypeLabel}>
             {cardTitleOfOrder(order)}
           </div>
           {extrasLabel && (<div className={styles.extrasLabel}>{extrasLabel}</div>)}
           <div className={styles.orderStatusLabel}>
-            <OrderStatusLabel status={order.status}/> &nbsp;|&nbsp; 22 minutes ago
+            {isLoading
+                ? <LoadingIndicator size="small"/>
+                : <><OrderStatusLabel status={order.status}/> &nbsp;|&nbsp; {formatDistance(
+                    order.createdAt * 1000,
+                    new Date(),
+                    {addSuffix: true}
+                )}</>
+            }
           </div>
         </div>
         <div className={styles.userDetails}>
-          <img className={styles.userAvatar} src="https://i.pravatar.cc/96" alt="User avatar"/>
-          <div className={styles.userName}>Nick Whyte</div>
+          <img className={styles.userAvatar} src={order.user.avatarUrl} alt=""/>
+          <div className={styles.userName}>{order.user.name}</div>
         </div>
       </button>
   );

@@ -1,11 +1,20 @@
 import * as mobx from 'mobx';
-import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import { GetOrdersRequest, Order, OrderStatus, UpdateOrderRequest } from 'services/order/order_dto';
 import { OrderService } from 'services/order/order_service';
 
+export type OrderCardStore = {
+  isLoading: boolean,
+  order: Order,
+}
+
 export class OrdersStore {
+  @mobx.observable.deep
+  cards: OrderCardStore[] | undefined;
+
   @mobx.observable.ref
-  orders: IPromiseBasedObservable<Order[]> | undefined;
+  isLoading: boolean = false;
+
+  timerId: number | undefined;
 }
 
 const ACTIVE_STATUSES = [OrderStatus.PENDING, OrderStatus.ACCEPTED];
@@ -16,30 +25,46 @@ export class OrdersPresenter {
   ) {
   }
 
+  subscribeToUpdates(store: OrdersStore) {
+    const timer = window.setInterval(() => this.refreshOrders(store), 1000);
+    return () => window.clearInterval(timer);
+  }
+
   @mobx.action
-  fetchOrders(store: OrdersStore) {
-    store.orders = fromPromise(
-        this.orderService.getOrders(new GetOrdersRequest({}))
-            .then(resp => resp.orders));
+  async refreshOrders(store: OrdersStore) {
+    store.isLoading = true;
+    const resp = await this.orderService.getOrders(new GetOrdersRequest({
+      statuses: ACTIVE_STATUSES,
+    }));
+    mobx.runInAction(() => {
+      store.isLoading = false;
+      store.cards = resp.orders.map(order => ({ order, isLoading: false }));
+    });
   }
 
   getActiveOrders(store: OrdersStore) {
-    return store.orders && store.orders.state === 'fulfilled'
-        ? store.orders.value.filter(order => ACTIVE_STATUSES.includes(order.status))
+    return store.cards
+        ? store.cards.filter(card => ACTIVE_STATUSES.includes(card.order.status))
         : [];
   }
 
   @mobx.action
-  async handleOrderClick(store: OrdersStore, order: Order) {
-    await this.orderService.updateOrder(new UpdateOrderRequest({
-      orderId: order.id,
-      status: getNextStatus(order.status),
+  async handleOrderCardClick(store: OrdersStore, orderCard: OrderCardStore) {
+    orderCard.isLoading = true;
+
+    const resp = await this.orderService.updateOrder(new UpdateOrderRequest({
+      orderId: orderCard.order.id,
+      status: getNextStatus(orderCard.order.status),
     }));
-    this.fetchOrders(store);
+
+    mobx.runInAction(() => {
+      orderCard.isLoading = false;
+      orderCard.order = resp.order;
+    });
   }
 
   @mobx.action
-  async handleOrderLongPress(store: OrdersStore, order: Order) {
+  async handleOrderCardLongPress(store: OrdersStore, orderCard: OrderCardStore) {
 
   }
 

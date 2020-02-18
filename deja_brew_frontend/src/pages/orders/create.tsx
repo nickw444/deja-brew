@@ -1,7 +1,6 @@
 import * as mobxReact from 'mobx-react';
-import { OrdersPresenter, OrdersStore } from 'pages/orders/orders_presenter';
+import { OrderCardStore, OrdersPresenter, OrdersStore } from 'pages/orders/orders_presenter';
 import React from 'react';
-import { Order } from 'services/order/order_dto';
 import { OrderService } from 'services/order/order_service';
 import { OrdersGrid, OrdersPage } from './orders';
 
@@ -12,16 +11,21 @@ export function createOrdersPage({
 }) {
   const store = new OrdersStore();
   const presenter = new OrdersPresenter(orderService);
-  const onMount = () => presenter.fetchOrders(store);
+  const onMount = () => {
+    presenter.refreshOrders(store);
+    return presenter.subscribeToUpdates(store);
+  };
 
-  const onOrderClick = (order: Order) => presenter.handleOrderClick(store, order);
-  const onOrderLongPress = (order: Order) => presenter.handleOrderLongPress(store, order);
+  const onOrderClick = (card: OrderCardStore) =>
+      presenter.handleOrderCardClick(store, card);
+  const onOrderLongPress = (card: OrderCardStore) =>
+      presenter.handleOrderCardLongPress(store, card);
 
   const OrdersGridImpl = mobxReact.observer(() => (
       <OrdersGrid
-          onOrderClick={onOrderClick}
-          onOrderLongPress={onOrderLongPress}
-          orders={presenter.getActiveOrders(store)}/>
+          onOrderCardClick={onOrderClick}
+          onOrderCardLongPress={onOrderLongPress}
+          cards={presenter.getActiveOrders(store)}/>
   ));
   const OrdersPageImpl = () => (
       <OrdersPage

@@ -36,6 +36,23 @@
     background-color: #eee;
 }
 
+.orderCardButton:disabled {
+    cursor: not-allowed;
+}
+
+.orderCardButton:disabled:hover {
+    border-color: #ccc;
+}
+
+.orderCardButton.loading {
+    background: #f4f4f4;
+}
+
+.loadingIndicator {
+    display: inline-block;
+    margin-left: 8px;
+}
+
 .orderDetails {
     padding: 16px;
     flex-grow: 1;

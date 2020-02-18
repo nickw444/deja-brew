@@ -17,7 +17,7 @@ import './index.css';
 function main() {
   const { userService, orderService } = installServices({
     type: 'fake',
-    delay: 300,
+    delay: 100,
   });
 
   const history = createBrowserHistory();
