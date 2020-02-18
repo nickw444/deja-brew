@@ -1,6 +1,7 @@
+import { idGenerator } from 'base/id_generator';
 import { CoffeeType, CupSize, Extra, MilkType, Order, OrderStatus } from 'services/order/order_dto';
 
-const idGenerator = (prefix: string, initial: number) => () => prefix + (initial++).toString();
+
 export const orderIdGenerator = idGenerator('OAAAAA', 1);
 
 export function anOrderWith(opts: Partial<Order> = {}): Order {

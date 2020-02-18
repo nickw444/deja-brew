@@ -1,3 +1,4 @@
+import { delay } from 'base/delay';
 import {
   CreateOrderRequest,
   CreateOrderResponse,
@@ -13,6 +14,9 @@ import { anOrderWith } from './builders';
 
 
 export class FakeOrderService implements OrderService {
+  constructor(private readonly delay: number) {
+  }
+
   private readonly orders: Order[] = [
     anOrderWith(),
     anOrderWith(),
@@ -21,6 +25,7 @@ export class FakeOrderService implements OrderService {
   ];
 
   async createOrder(req: CreateOrderRequest): Promise<CreateOrderResponse> {
+    await delay(this.delay);
     const order = anOrderWith({
       status: OrderStatus.PENDING,
       ...req,
@@ -30,10 +35,12 @@ export class FakeOrderService implements OrderService {
   }
 
   async getOrders(req: GetOrdersRequest): Promise<GetOrdersResponse> {
+    await delay(this.delay);
     return new GetOrdersResponse({ orders: this.orders });
   }
 
   async updateOrder(req: UpdateOrderRequest): Promise<UpdateOrderResponse> {
+    await delay(this.delay);
     const orderIdx = this.orders.findIndex(order => order.id === req.orderId);
     const updatedOrder = new Order({
       ...this.orders[orderIdx],
