@@ -32,7 +32,7 @@ export const Home = React.memo(({
               ))}
             </>
         )}
-        {previousOrder && (
+        {previousOrder && !activeOrders && (
             <>
               <Row><TitleMedium>Your last order</TitleMedium></Row>
               <Row><OrderTile order={previousOrder}/></Row>
