@@ -8,23 +8,12 @@ import styles from './header.module.css';
 
 export const Header = React.memo(({
   userInfo,
-  onBackClick,
 }: {
   userInfo: UserInfo | undefined
-  onBackClick?(): void,
 }) => {
   return (
       <header className={styles.header}>
-        <div className={styles.holder}>
-          {onBackClick && (
-              <button
-                  className={styles.backButton}
-                  onClick={() => void 0}
-                  title="Back">
-                <ChevronLeftIcon size="medium"/>
-              </button>
-          )}
-        </div>
+        <div className={styles.holder}></div>
         <Link to={Routes.home()} className={styles.appLogo}>Déjà Brew</Link>
         <div className={styles.holder}>
           {userInfo && (

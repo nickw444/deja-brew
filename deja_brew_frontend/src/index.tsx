@@ -31,7 +31,7 @@ function main() {
     userService,
   });
 
-  const { Header } = createHeader({ userInfoStore, history });
+  const { Header } = createHeader({ userInfoStore });
   const HomePageImpl = withContainer(withAuthRequired(HomePage));
   const OrdersPageImpl = withAuthRequired(OrdersPage/*, Role.CAFE_STAFF */);
   const AuthPageImpl = withContainer(withAnonOnly(AuthPage));
