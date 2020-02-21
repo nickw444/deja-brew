@@ -1,16 +1,11 @@
 import { delay } from 'base/delay';
 import { History } from 'history';
+import * as mobxReact from 'mobx-react';
 import { Home } from 'pages/home/home';
 import { HomePresenter, HomeStore } from 'pages/home/home_presenter';
 import React from 'react';
 import { Routes } from 'routes/routes';
-import { anOrderWith } from 'services/order/fake/builders';
 import { OrderService } from 'services/order/order_service';
-import * as mobxReact from 'mobx-react';
-
-const FAKE_ORDERS = [
-  anOrderWith(),
-];
 
 export function createHomePage({
   orderService,
