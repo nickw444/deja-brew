@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Routes } from 'routes/routes';
 import { UserInfo } from 'services/user/user_dto';
-import { ChevronLeftIcon } from 'ui/icons/icons';
 import styles from './header.module.css';
 
 
