@@ -1,7 +1,7 @@
 // @formatter:off
 import { UnreachableError } from 'base/preconditions';
-import { Deserialization } from 'base/deserialization';
 import { Serialization } from 'base/serialization';
+import { Deserialization } from 'base/deserialization';
 
 export enum Role {
   ADMIN,

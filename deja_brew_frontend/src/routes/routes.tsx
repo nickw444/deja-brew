@@ -9,6 +9,6 @@ export const Routes = {
     return '/orders';
   },
   home(): string {
-    return '/';
+    return '/home';
   },
 };

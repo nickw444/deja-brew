@@ -22,11 +22,14 @@ export function createHomePage({
 
   const onMount = () => {
     presenter.loadOrderDetails(store);
+    presenter.startRefreshTimer(store);
   };
+  const onWillUnmount = () => presenter.stopRefreshTimer(store);
 
   const HomeImpl = mobxReact.observer(() => (
       <Home
           onMount={onMount}
+          onWillUnmount={onWillUnmount}
           activeOrders={store.activeOrders}
           previousOrder={store.previousOrder}
           onNewOrderClick={onNewOrderClick}

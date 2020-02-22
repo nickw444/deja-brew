@@ -1,10 +1,12 @@
 import { Preconditions } from 'base/preconditions';
 import { History } from 'history';
 import * as mobx from 'mobx';
+import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import { Routes } from 'routes/routes';
 import {
   CoffeeType,
   CreateOrderRequest,
+  CreateOrderResponse,
   CupSize,
   Extra,
   MilkType,
@@ -38,6 +40,9 @@ export class OrderFlowStore {
 
   @mobx.observable.ref
   cupSize: CupSize | undefined;
+
+  @mobx.observable.ref
+  createOrderReq: IPromiseBasedObservable<CreateOrderResponse> | undefined;
 }
 
 export class OrderFlowPresenter {
@@ -93,7 +98,8 @@ export class OrderFlowPresenter {
   }
 
   canSubmitOrder(store: OrderFlowStore) {
-    return store.cupSize != null && store.coffeeType != null;
+    return store.cupSize != null && store.coffeeType != null
+        && !this.isSubmitting(store);
   }
 
   maybeGetOrderInfo(store: OrderFlowStore): OrderInfo | undefined {
@@ -115,14 +121,23 @@ export class OrderFlowPresenter {
 
   @mobx.action
   async submitOrder(store: OrderFlowStore) {
-    await this.orderService.createOrder(new CreateOrderRequest({
+    store.createOrderReq = fromPromise(this.orderService.createOrder(new CreateOrderRequest({
       cupSize: Preconditions.checkExists(store.cupSize),
       extras: this.getOrderExtras(store),
       coffeeType: Preconditions.checkExists(store.coffeeType),
       milkType: store.milkType,
-    }));
-    await this.refreshOrders();
+    })));
+    await store.createOrderReq;
     this.history.push(Routes.home());
+    await this.refreshOrders();
+  }
+
+  isSubmitting(store: OrderFlowStore) {
+    return store.createOrderReq?.state === 'pending';
+  }
+
+  getErrorMessage(store: OrderFlowStore) {
+    return store.createOrderReq?.state === 'rejected' && store.createOrderReq.value.toString();
   }
 
   @mobx.action

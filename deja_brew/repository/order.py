@@ -1,3 +1,4 @@
+import datetime
 from enum import Enum
 
 import sqlalchemy as sa
@@ -8,13 +9,13 @@ from .enum_list import EnumList
 from .id_generator import IdGenerator
 
 
-class Size(Enum):
+class CupSize(Enum):
     SMALL = 1
     MEDIUM = 2
     LARGE = 3
 
 
-class CoffeeKind(Enum):
+class CoffeeType(Enum):
     LATTE = 1
     CAPPUCCINO = 2
     FLAT_WHITE = 3
@@ -25,7 +26,7 @@ class CoffeeKind(Enum):
     ESPRESSO = 8
 
 
-class Milk(Enum):
+class MilkType(Enum):
     REGULAR = 1
     SKIM = 2
     SOY = 3
@@ -41,18 +42,26 @@ class Extra(Enum):
     SUGAR = 5
 
 
+class OrderStatus(Enum):
+    PENDING = 1
+    ACCEPTED = 2
+    READY = 3
+    CANCELLED = 4
+
+
 class Order(Base):
     __tablename__ = 'orders'
 
     _id = sa.Column(sa.Integer(), primary_key=True)
     id = sa.Column(sa.String(), unique=True, default=IdGenerator('O'))
+    created_at = sa.Column(sa.DateTime(), default=datetime.datetime.now)
 
     user_id = sa.Column(sa.Integer(), ForeignKey('users._id'))
     user = sa.orm.relationship('User')
 
-    size = sa.Column(sa.Enum(Size), nullable=False)
-    kind = sa.Column(sa.Enum(CoffeeKind), nullable=False)
-    milk = sa.Column(sa.Enum(Milk), nullable=False)
+    cup_size = sa.Column(sa.Enum(CupSize), nullable=False)
+    coffee_type = sa.Column(sa.Enum(CoffeeType), nullable=False)
+    milk_type = sa.Column(sa.Enum(MilkType), nullable=False)
     extras = sa.Column(EnumList(Extra), nullable=False)
 
-    completed = sa.Column(sa.Boolean(), default=False)
+    status = sa.Column(sa.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDING)

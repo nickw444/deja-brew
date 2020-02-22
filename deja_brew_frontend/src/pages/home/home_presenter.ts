@@ -12,6 +12,9 @@ export class HomeStore {
 
   @mobx.observable.ref
   isLoading: boolean = false;
+
+  /** The interval id of the timer used for refreshing */
+  refreshTimer: number | undefined;
 }
 
 export class HomePresenter {
@@ -31,12 +34,12 @@ export class HomePresenter {
       createdBy: 'me',
       statuses: [OrderStatus.READY, OrderStatus.PENDING, OrderStatus.ACCEPTED],
       // Orders created within the 30 mins
-      createdAfter: (Date.now() / 1000) - 30 * 60,
+      createdAfter: Math.round((Date.now() / 1000) - 30 * 60),
     }));
   }
 
   @mobx.action
-  async loadOrderDetails(store: HomeStore) {
+  async loadOrderDetails(store: HomeStore): Promise<void> {
     store.isLoading = true;
 
     const [previousOrderResp, activeOrdersResp] = await Promise.all([
@@ -49,5 +52,15 @@ export class HomePresenter {
       store.previousOrder = previousOrderResp.orders[0];
       store.activeOrders = activeOrdersResp.orders;
     });
+  }
+
+  startRefreshTimer(store: HomeStore) {
+    store.refreshTimer = window.setInterval(() => {
+      this.loadOrderDetails(store)
+    }, 5000);
+  }
+
+  stopRefreshTimer(store: HomeStore) {
+    window.clearInterval(store.refreshTimer);
   }
 }

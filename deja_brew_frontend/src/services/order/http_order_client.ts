@@ -1,22 +1,32 @@
+import { UrlBuilder } from 'base/url_builder';
 import { HttpService } from '../http/http_service';
 import {
   CreateOrderRequest,
   CreateOrderResponse,
   GetOrdersRequest,
   GetOrdersResponse,
+  OrderStatusUtil,
   UpdateOrderRequest,
   UpdateOrderResponse,
 } from './order_dto';
 import { OrderService } from './order_service';
 
-export class HttpOrderService implements OrderService {
+export class HttpOrderClient implements OrderService {
   constructor(
       private readonly httpService: HttpService,
   ) {
   }
 
   async getOrders(req: GetOrdersRequest): Promise<GetOrdersResponse> {
-    const data = await this.httpService.get('/orders');
+    const data = await this.httpService.get(
+        UrlBuilder.forPath('/orders', {
+              createdAfter: req.createdAfter,
+              createdBy: req.createdBy,
+              limit: req.limit,
+              statuses: req.statuses.map(OrderStatusUtil.serialize),
+            })
+            .build(),
+    );
     return GetOrdersResponse.deserialize(data);
   }
 

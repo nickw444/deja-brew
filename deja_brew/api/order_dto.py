@@ -3,7 +3,7 @@ from enum import Enum
 from marshmallow import fields, validate
 from marshmallow_enum import EnumField
 
-from deja_brew.base.schema import CamelCaseSchema
+from deja_brew.base.schema import CamelCaseSchema, List, Timestamp
 
 FRONTEND_PACKAGE = "services.order"
 
@@ -61,25 +61,25 @@ class Order(CamelCaseSchema):
     cup_size = EnumField(CupSize, required=True)
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
-    extras = fields.List(EnumField(Extra), required=True)
-    created_at = fields.Integer(required=True)
+    extras = List(EnumField(Extra), required=True)
+    created_at = Timestamp(required=True, )
 
     status = EnumField(OrderStatus, required=True)
 
 
 class GetOrdersRequest(CamelCaseSchema):
     # Filter by the user who created the order
-    created_by = fields.String(missing=None)
+    created_by = fields.String(missing=None, validate=validate.OneOf(['me']))
     # Filter by their status
-    statuses = fields.List(EnumField(OrderStatus))
+    statuses = List(EnumField(OrderStatus))
     # Filter by creation time
-    created_after = fields.Integer()
+    created_after = Timestamp()
     # Limit the number of results
     limit = fields.Integer(missing=50, validate=validate.Range(max=100))
 
 
 class GetOrdersResponse(CamelCaseSchema):
-    orders = fields.List(fields.Nested(Order), required=True)
+    orders = List(fields.Nested(Order), required=True)
     continuation = fields.String()
 
 
@@ -91,7 +91,7 @@ class CreateOrderRequest(CamelCaseSchema):
     cup_size = EnumField(CupSize, required=True)
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
-    extras = fields.List(EnumField(Extra), required=True)
+    extras = List(EnumField(Extra), required=True)
 
 
 class CreateOrderResponse(CamelCaseSchema):

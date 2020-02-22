@@ -37,6 +37,7 @@ export function createSelectSizeStep({
           onSubmitClick={onSubmitClick}
           onCustomizeClick={onCustomizeClick}
           canSubmitOrder={presenter.canSubmitOrder(store)}
+          isSubmitting={presenter.isSubmitting(store)}
           orderInfo={presenter.maybeGetOrderInfo(store)}
       />
   ));

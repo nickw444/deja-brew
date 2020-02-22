@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrimaryButton } from 'ui/button/button';
+import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
 import { OrderInfo, OrderTile } from 'ui/order_tile/order_tile';
 import { Row } from 'ui/row/row';
 import { TitleMedium, TitleSmall } from 'ui/typography/typography';
@@ -12,6 +13,7 @@ export const CustomizeStep = React.memo(({
   ExtrasSelect,
   onSubmitClick,
   canSubmitOrder,
+  isSubmitting,
   orderInfo,
 }: {
   ExtraShotStepper: React.ComponentType,
@@ -19,7 +21,8 @@ export const CustomizeStep = React.memo(({
   MilkSelect: React.ComponentType,
   ExtrasSelect: React.ComponentType,
   onSubmitClick(): void,
-  canSubmitOrder?: boolean,
+  canSubmitOrder: boolean,
+  isSubmitting: boolean,
   orderInfo: OrderInfo | undefined,
 }) => (
     <div>
@@ -54,7 +57,9 @@ export const CustomizeStep = React.memo(({
             onClick={onSubmitClick}
             disabled={!canSubmitOrder}
         >
-          Submit Order
+          {isSubmitting
+              ? <LoadingIndicator size="small"/>
+              : 'Submit Order'}
         </PrimaryButton>
       </div>
     </div>

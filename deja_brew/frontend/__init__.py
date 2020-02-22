@@ -12,7 +12,6 @@ frontend_bp = Blueprint(
     __name__,
     template_folder='templates',
     static_folder='static',
-    static_url_path='/s/'
 )
 
 manifest_supplier = AssetManifestSupplier(
@@ -22,7 +21,10 @@ manifest_supplier = AssetManifestSupplier(
 @frontend_bp.route('/')
 @frontend_bp.route('/login')
 @frontend_bp.route('/orders')
-def frontend(path=None):
+@frontend_bp.route('/home')
+@frontend_bp.route('/new-order')
+@frontend_bp.route('/new-order/<path:_>')
+def frontend(_: str = None):
     manifest = manifest_supplier.get()
     bootstrap = Bootstrap().dump(dict(
         mode=Mode.REAL,

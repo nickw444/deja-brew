@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrimaryButton, SecondaryButton } from 'ui/button/button';
+import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
 import { OrderInfo, OrderTile } from 'ui/order_tile/order_tile';
 import { Row } from 'ui/row/row';
 import { Paragraph, TitleMedium } from 'ui/typography/typography';
@@ -9,12 +10,14 @@ export const SelectSizeStep = React.memo(({
   onSubmitClick,
   onCustomizeClick,
   canSubmitOrder,
+  isSubmitting,
   orderInfo,
 }: {
   SizeSelect: React.ComponentType,
   onSubmitClick(): void,
   onCustomizeClick(): void,
   canSubmitOrder: boolean,
+  isSubmitting: boolean,
   orderInfo: OrderInfo | undefined
 }) => (
     <div>
@@ -34,7 +37,9 @@ export const SelectSizeStep = React.memo(({
             disabled={!canSubmitOrder}
             onClick={onSubmitClick}
         >
-          Done
+          {isSubmitting
+              ? <LoadingIndicator size="small"/>
+              : 'Done'}
         </PrimaryButton>
       </Row>
       <Row>

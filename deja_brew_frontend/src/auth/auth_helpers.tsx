@@ -1,84 +1,53 @@
-import * as mobx from 'mobx';
 import * as mobxReact from 'mobx-react';
-import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { GetUserInfoRequest, Role, UserInfo } from 'services/user/user_dto';
-import { UserService } from 'services/user/user_service';
-import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
+import { Routes } from 'routes/routes';
+import { Role, UserInfo } from 'services/user/user_dto';
 
-export class UserInfoStore {
-  @mobx.observable.ref
-  userInfo: IPromiseBasedObservable<UserInfo> | undefined;
-}
-
-export class UserInfoPresenter {
-  constructor(
-      private readonly userService: UserService,
-  ) {
-  }
-
-  @mobx.action
-  fetchUserInfo(store: UserInfoStore) {
-    if (store.userInfo != null) {
-      return;
-    }
-
-    const p = this.userService.getUserInfo(new GetUserInfoRequest({ id: 'me' }))
-        .then(resp => resp.user);
-    store.userInfo = fromPromise(p);
-  }
-}
 
 export const createAuthRequiredHoc = ({
-  store,
-  onMount,
+  user,
 }: {
-  store: UserInfoStore,
-  onMount(): void,
+  user: UserInfo | undefined
 }) => (Inner: React.ComponentType, permittedRole?: Role) => mobxReact.observer(() => {
-  React.useEffect(onMount, []);
-
-  if (store.userInfo == null || store.userInfo.state === 'pending') {
-    return (
-        <LoadingIndicator stretch={true}/>
-    );
+  if (user == null) {
+    return <Redirect to={getInitialRoute(user)}/>;
   }
 
-  switch (store.userInfo.state) {
-    case 'fulfilled':
-      if (permittedRole == null || store.userInfo.value.roles.includes(permittedRole)) {
-        return <Inner/>;
-      }
-      return <div>You don't have permission to view this page</div>;
-    case 'rejected':
-      return <Redirect to='/login'/>;
+  if (permittedRole == null || user.roles.includes(permittedRole)) {
+    return <Inner/>;
   }
+  return <div>You don't have permission to view this page</div>;
 });
 
 export const createAnonOnlyHoc = ({
-  store,
+  user,
 }: {
-  store: UserInfoStore
+  user: UserInfo | undefined
 }) => (Inner: React.ComponentType) => mobxReact.observer(() => (
-    store.userInfo == null || store.userInfo.state !== 'fulfilled'
+    user == null
         ? <Inner/>
-        : <Redirect to="/"/>
+        : <Redirect to={getInitialRoute(user)}/>
 ));
 
 export function createAuthDecorators({
-  userService,
+  user,
 }: {
-  userService: UserService
+  user: UserInfo | undefined
 }) {
-  const userInfoStore = new UserInfoStore();
-  const userInfoPresenter = new UserInfoPresenter(userService);
+  const withAnonOnly = createAnonOnlyHoc({ user });
+  const withAuthRequired = createAuthRequiredHoc({ user });
+  return { withAnonOnly, withAuthRequired };
+}
 
-  const withAnonOnly = createAnonOnlyHoc({ store: userInfoStore });
-  const withAuthRequired = createAuthRequiredHoc({
-    store: userInfoStore,
-    onMount: () => userInfoPresenter.fetchUserInfo(userInfoStore),
-  });
+export function getInitialRoute(user: UserInfo | undefined) {
+  if (!user) {
+    return Routes.login();
+  }
 
-  return { withAnonOnly, withAuthRequired, userInfoStore };
+  if (user.roles.includes(Role.CAFE_STAFF)) {
+    return Routes.orders();
+  }
+
+  return Routes.home();
 }

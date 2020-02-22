@@ -1,6 +1,7 @@
 from typing import NamedTuple
 
 import click
+import marshmallow
 from flask import Flask
 from flask.cli import with_appcontext
 from oauthlib.oauth2 import WebApplicationClient

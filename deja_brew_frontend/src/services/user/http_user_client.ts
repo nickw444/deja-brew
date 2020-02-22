@@ -2,7 +2,7 @@ import { HttpService } from 'services/http/http_service';
 import { UserService } from 'services/user/user_service';
 import { GetUserInfoRequest, GetUserInfoResponse } from './user_dto';
 
-export class HttpUserService implements UserService {
+export class HttpUserClient implements UserService {
   constructor(
       private readonly httpService: HttpService,
   ) {

@@ -57,6 +57,7 @@ export function createCustomizeStep({
           ExtrasSelect={ExtrasSelect}
           onSubmitClick={onSubmitClick}
           canSubmitOrder={presenter.canSubmitOrder(store)}
+          isSubmitting={presenter.isSubmitting(store)}
           orderInfo={presenter.maybeGetOrderInfo(store)}
       />
   ));

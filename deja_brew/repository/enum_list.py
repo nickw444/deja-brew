@@ -15,6 +15,8 @@ class EnumList(sa.TypeDecorator):
         if value:
             return ','.join([x.name for x in value])
 
+        return ""
+
     def process_result_value(self, value, dialect):
         if value:
             return [self._enumtype[x] for x in value.split(',')]
