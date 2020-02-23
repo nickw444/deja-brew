@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Iterable
 
 import sqlalchemy as sa
 from flask_login import UserMixin
@@ -26,13 +27,9 @@ class User(Base, UserMixin):
     password = sa.Column(sa.String(255))
     roles = sa.Column(EnumList(Role))
 
-    # @property
-    # def roles(self) -> List[Role]:
-    #     if self._roles:
-    #         return [Role(x) for x in self._roles.split(',')]
-    #
-    #     return []
-    #
-    # @roles.setter
-    # def roles(self, new_roles: List[Role]):
-    #     self._roles = ','.join([x.value for x in new_roles])
+    def has_any_role(self, *roles: Iterable[Role]) -> bool:
+        for role in roles:
+            if role in self.roles:
+                return True
+
+        return False

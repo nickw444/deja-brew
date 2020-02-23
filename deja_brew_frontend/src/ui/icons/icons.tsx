@@ -2,7 +2,9 @@ import classNames from 'classnames';
 import React from 'react';
 import { ReactComponent as CheckIconSvg } from './assets/check.svg';
 import { ReactComponent as ChevronLeftIconSvg } from './assets/chevron_left.svg';
+import { ReactComponent as CoffeeIconSvg } from './assets/coffee.svg';
 import { ReactComponent as GoogleIconSvg } from './assets/google.svg';
+import { ReactComponent as MenuIconSvg } from './assets/menu.svg';
 import { ReactComponent as SpinnerIconSvg } from './assets/spinner.svg';
 import styles from './icons.module.css';
 
@@ -33,6 +35,8 @@ function createIcon(IconSvg: React.ComponentType) {
 
 
 export const CheckIcon = createIcon(CheckIconSvg);
-export const GoogleIcon = createIcon(GoogleIconSvg);
 export const ChevronLeftIcon = createIcon(ChevronLeftIconSvg);
+export const CoffeeIcon = createIcon(CoffeeIconSvg);
+export const GoogleIcon = createIcon(GoogleIconSvg);
+export const MenuIcon = createIcon(MenuIconSvg);
 export const SpinnerIcon = createIcon(SpinnerIconSvg);

@@ -6,7 +6,7 @@ import { createSelectSizeStep } from 'pages/order_form/select_size/create';
 import { createSelectTypeStep } from 'pages/order_form/select_type/create';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Routes } from 'routes/routes';
+import { CustomerRoutes } from 'routes/customer_routes';
 import { OrderService } from 'services/order/order_service';
 
 export function createOrderFormFlow({
@@ -33,10 +33,10 @@ export function createOrderFormFlow({
 
   const RoutedOrderFormFlow = React.memo(() => (
       <Switch>
-        <Route path={Routes.newOrder('select-type')} component={SelectCoffeeStep}/>
-        <Route path={Routes.newOrder('select-size')} component={SelectSizeStepImpl}/>
-        <Route path={Routes.newOrder('customize')} component={CustomizeStepImpl}/>
-        <Redirect from={Routes.newOrder()} to={Routes.newOrder('select-type')}/>
+        <Route path={CustomerRoutes.newOrder('select-type')} component={SelectCoffeeStep}/>
+        <Route path={CustomerRoutes.newOrder('select-size')} component={SelectSizeStepImpl}/>
+        <Route path={CustomerRoutes.newOrder('customize')} component={CustomizeStepImpl}/>
+        <Redirect from={CustomerRoutes.newOrder()} to={CustomerRoutes.newOrder('select-type')}/>
       </Switch>
   ));
 

@@ -11,8 +11,10 @@ export type OrderInfo = Pick<Order, RequiredFields> & Partial<Pick<Order, Option
 
 export const OrderTile = ({
   order,
+  showStatus = true,
 }: {
   order: OrderInfo,
+  showStatus?: boolean,
 }) => {
   const extrasLabel = getOrderExtrasLabel(order.extras);
   return (
@@ -23,7 +25,7 @@ export const OrderTile = ({
         <div className={styles.infoContainer}>
           <div className={styles.coffeeType}>{getOrderTypeLabel(order)}</div>
           {extrasLabel && (<div className={styles.extrasLabel}>{extrasLabel}</div>)}
-          {order.status != null && (
+          {showStatus && order.status != null && (
               <div className={styles.status}>
                 <OrderStatusLabel status={order.status}/>
               </div>

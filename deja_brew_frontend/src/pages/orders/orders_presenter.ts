@@ -1,5 +1,11 @@
 import * as mobx from 'mobx';
-import { GetOrdersRequest, Order, OrderStatus, UpdateOrderRequest } from 'services/order/order_dto';
+import {
+  GetOrdersRequest,
+  Order,
+  OrderStatus,
+  UpdateOrderRequest,
+  UpdateOrderResponse,
+} from 'services/order/order_dto';
 import { OrderService } from 'services/order/order_service';
 
 export type OrderCardStore = {
@@ -11,10 +17,7 @@ export class OrdersStore {
   @mobx.observable.deep
   cards: OrderCardStore[] | undefined;
 
-  @mobx.observable.ref
-  isLoading: boolean = false;
-
-  timerId: number | undefined;
+  refreshTimer: number | undefined;
 }
 
 const ACTIVE_STATUSES = [OrderStatus.PENDING, OrderStatus.ACCEPTED];
@@ -25,41 +28,48 @@ export class OrdersPresenter {
   ) {
   }
 
-  subscribeToUpdates(store: OrdersStore) {
-    const timer = window.setInterval(() => this.refreshOrders(store), 1000);
-    return () => window.clearInterval(timer);
+  startRefreshing(store: OrdersStore) {
+    store.refreshTimer = window.setInterval(() =>
+        this.refreshOrders(store), 10000);
+  }
+
+  stopRefreshing(store: OrdersStore) {
+    window.clearInterval(store.refreshTimer);
   }
 
   @mobx.action
   async refreshOrders(store: OrdersStore) {
-    store.isLoading = true;
-    const resp = await this.orderService.getOrders(new GetOrdersRequest({
-      statuses: ACTIVE_STATUSES,
-    }));
+    const orderCards = await this.fetchOrders();
     mobx.runInAction(() => {
-      store.isLoading = false;
-      store.cards = resp.orders.map(order => ({ order, isLoading: false }));
+      store.cards = orderCards;
     });
   }
 
   getActiveOrders(store: OrdersStore) {
-    return store.cards
-        ? store.cards.filter(card => ACTIVE_STATUSES.includes(card.order.status))
-        : [];
+    return store.cards && store.cards.filter(card => ACTIVE_STATUSES.includes(card.order.status));
   }
 
   @mobx.action
   async handleOrderCardClick(store: OrdersStore, orderCard: OrderCardStore) {
+    this.stopRefreshing(store);
     orderCard.isLoading = true;
 
-    const resp = await this.orderService.updateOrder(new UpdateOrderRequest({
-      orderId: orderCard.order.id,
-      status: getNextStatus(orderCard.order.status),
-    }));
+    let resp: UpdateOrderResponse | undefined;
+    try {
+      resp = await this.orderService.updateOrder(new UpdateOrderRequest({
+        orderId: orderCard.order.id,
+        status: getNextStatus(orderCard.order.status),
+      }));
+    } catch (e) {
+      // Ignore error
+    }
 
+    this.startRefreshing(store);
     mobx.runInAction(() => {
       orderCard.isLoading = false;
-      orderCard.order = resp.order;
+      if (resp) {
+        orderCard.order = resp.order;
+      }
     });
   }
 
@@ -68,6 +78,13 @@ export class OrdersPresenter {
 
   }
 
+  private async fetchOrders(): Promise<OrderCardStore[]> {
+    const resp = await this.orderService.getOrders(new GetOrdersRequest({
+      statuses: ACTIVE_STATUSES,
+    }));
+
+    return resp.orders.map(order => ({ order, isLoading: false }));
+  }
 }
 
 function getNextStatus(status: OrderStatus): OrderStatus {

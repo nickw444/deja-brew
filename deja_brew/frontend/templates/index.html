@@ -6,6 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="apple-touch-icon" href="/logo192.png"/>
   <link rel="manifest" href="{{ url_for('.static', filename='manifest.json') }}"/>
+  {%- for url in manifest.entrypoints %}
+  {%- if url.endswith('.css') %}
+  <link rel="stylesheet" type="text/css" href="{{ url }}">
+  {%- endif %}
+  {%- endfor %}
   <title>Déjà Brew</title>
 </head>
 <body>

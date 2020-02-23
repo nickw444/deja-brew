@@ -4,7 +4,7 @@ import * as mobxReact from 'mobx-react';
 import { Home } from 'pages/home/home';
 import { HomePresenter, HomeStore } from 'pages/home/home_presenter';
 import React from 'react';
-import { Routes } from 'routes/routes';
+import { CustomerRoutes } from 'routes/customer_routes';
 import { OrderService } from 'services/order/order_service';
 
 export function createHomePage({
@@ -14,8 +14,8 @@ export function createHomePage({
   orderService: OrderService,
   history: History
 }) {
-  const onNewOrderClick = () => history.push(Routes.newOrder());
-  const onOrderAgainClick = () => void 0;
+  const onNewOrderClick = () => history.push(CustomerRoutes.newOrder());
+  const onOrderAgainClick = () => presenter.handleOrderAgain(store);
 
   const store = new HomeStore();
   const presenter = new HomePresenter(orderService);
@@ -28,9 +28,10 @@ export function createHomePage({
 
   const HomeImpl = mobxReact.observer(() => (
       <Home
+          isLoading={store.activeOrders == null}
           onMount={onMount}
           onWillUnmount={onWillUnmount}
-          activeOrders={store.activeOrders}
+          activeOrders={store.activeOrders || []}
           previousOrder={store.previousOrder}
           onNewOrderClick={onNewOrderClick}
           onOrderAgainClick={onOrderAgainClick}

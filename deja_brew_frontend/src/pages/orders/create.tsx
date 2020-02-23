@@ -13,7 +13,10 @@ export function createOrdersPage({
   const presenter = new OrdersPresenter(orderService);
   const onMount = () => {
     presenter.refreshOrders(store);
-    return presenter.subscribeToUpdates(store);
+    presenter.startRefreshing(store);
+  };
+  const onWillUnmount = () => {
+    presenter.stopRefreshing(store);
   };
 
   const onOrderClick = (card: OrderCardStore) =>
@@ -25,13 +28,16 @@ export function createOrdersPage({
       <OrdersGrid
           onOrderCardClick={onOrderClick}
           onOrderCardLongPress={onOrderLongPress}
-          cards={presenter.getActiveOrders(store)}/>
+          cards={presenter.getActiveOrders(store) || []}/>
   ));
-  const OrdersPageImpl = () => (
+  const OrdersPageImpl = mobxReact.observer(() => (
       <OrdersPage
           OrdersGrid={OrdersGridImpl}
           onMount={onMount}
+          onWillUnmount={onWillUnmount}
+          isLoading={presenter.getActiveOrders(store) == null}
+          isEmpty={(presenter.getActiveOrders(store) || []).length == 0}
       />
-  );
+  ));
   return { OrdersPage: OrdersPageImpl };
 }

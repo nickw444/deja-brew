@@ -1,4 +1,5 @@
 import { delay } from 'base/delay';
+import { aUserInfoWith } from 'services/user/fake/builders';
 import {
   CreateOrderRequest,
   CreateOrderResponse,
@@ -12,16 +13,25 @@ import {
 import { OrderService } from '../order_service';
 import { anOrderWith } from './builders';
 
+const FAKE_USER = aUserInfoWith();
 
 export class FakeOrderService implements OrderService {
   constructor(private readonly delay: number) {
   }
 
   private readonly orders: Order[] = [
-    anOrderWith(),
-    anOrderWith(),
-    anOrderWith(),
-    anOrderWith(),
+    anOrderWith({
+      user: FAKE_USER,
+    }),
+    anOrderWith({
+      user: FAKE_USER,
+    }),
+    anOrderWith({
+      user: FAKE_USER,
+    }),
+    anOrderWith({
+      user: FAKE_USER,
+    }),
   ];
 
   async createOrder(req: CreateOrderRequest): Promise<CreateOrderResponse> {

@@ -1,7 +1,6 @@
 from typing import NamedTuple
 
 import click
-import marshmallow
 from flask import Flask
 from flask.cli import with_appcontext
 from oauthlib.oauth2 import WebApplicationClient
@@ -19,7 +18,7 @@ def create_app(config: Config = None):
     if config is None:
         config = LocalConfig()
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='/_static')
     app.config.from_object(config)
     app.register_blueprint(healthz_bp)
     app.register_blueprint(api_bp, url_prefix='/_api')

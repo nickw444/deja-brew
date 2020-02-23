@@ -15,7 +15,8 @@
 
 .image {
     object-fit: cover;
-    max-width: 100px;
+    width: 100px;
+    min-height: 100px;
 }
 
 .infoContainer {

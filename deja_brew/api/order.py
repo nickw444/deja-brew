@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
 
@@ -7,13 +7,18 @@ from deja_brew.api.order_dto import (
     UpdateOrderResponse, UpdateOrderRequest)
 from deja_brew.repository import db, Order, OrderStatus as OrderStatus_, CupSize as CupSize_, \
     Extra as Extra_, CoffeeType as CoffeeType_, MilkType as MilkType_
+from deja_brew.repository.user import Role
 
-# TODO(NW): Implement security so only order owners and ADMIN/CAFE_STAFF can view orders.
 
 class OrdersView(MethodView):
+    @login_required
     def get(self):
         req = GetOrdersRequest().load(request.args)
         filters = []
+
+        if req['created_by'] != 'me' and not current_user.has_any_role(Role.CAFE_STAFF, Role.ADMIN):
+            abort(403)
+
         if req['created_by'] == 'me':
             filters.append(Order.user == current_user)
 
@@ -24,7 +29,9 @@ class OrdersView(MethodView):
         if req['created_after']:
             filters.append(Order.created_at > req['created_after'])
 
-        orders = db.session.query(Order).filter(*filters).limit(req['limit'])
+        orders = db.session.query(Order).filter(*filters).order_by(
+            Order.created_at.desc()
+        ).limit(req['limit'])
         return GetOrdersResponse().dump({
             'orders': orders,
         })
@@ -55,16 +62,27 @@ class OrdersView(MethodView):
 
 
 class OrderView(MethodView):
+    def has_permission(self, order: Order):
+        return order.user == current_user or current_user.has_any_role(Role.CAFE_STAFF, Role.ADMIN)
+
+    @login_required
     def get(self, order_id: str):
         order = db.session.query(Order).filter_by(id=order_id).first_or_404()
+
+        if not self.has_permission(order):
+            abort(403)
 
         return GetOrderResponse().dump(dict(
             order=order,
         ))
 
+    @login_required
     def post(self, order_id: str):
         req = UpdateOrderRequest().load(request.get_json())
         order = db.session.query(Order).filter_by(id=order_id).first_or_404()
+
+        if not self.has_permission(order):
+            abort(403)
 
         # TODO(NW): Ensure order can only go _forwards_
         order.status = OrderStatus_[req['status'].name]
