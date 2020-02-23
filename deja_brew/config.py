@@ -22,3 +22,4 @@ class ProductionConfig(Config):
         super(ProductionConfig, self).__init__()
 
         self.SECRET_KEY = os.environ['SECRET_KEY']
+        self.SQLALCHEMY_DATABASE_URI = os.environ['SQLALCHEMY_DATABASE_URI']
