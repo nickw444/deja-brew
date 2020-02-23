@@ -30,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "cp -r build/static/ ../deja_brew/frontend/static/ && cp build/asset-manifest.json ../deja_brew/frontend/"
   },
   "eslintConfig": {
     "extends": "react-app"
