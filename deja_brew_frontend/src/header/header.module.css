@@ -46,14 +46,23 @@
 
 .sideMenu {
     position: fixed;
-    left:0;
-    right:0;
-    top:0;
+    left: 0;
+    right: 0;
+    top: 0;
     bottom: 0;
 }
 
-.sideMenu.open {
-    display: block;
+.sideMenuBg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    transition: 0.2s ease-in-out opacity;
+}
+
+.sideMenu.enter .sideMenuBg,
+.sideMenu.exitActive .sideMenuBg{
+    opacity: 0;
 }
 
 .drawer {
@@ -68,6 +77,13 @@
     color: #333;
     box-sizing: border-box;
     padding: 16px 0;
+    transition: 0.2s ease-in-out transform;
+    transform: translateX(0);
+}
+
+.sideMenu.enter .drawer,
+.sideMenu.exitActive .drawer {
+    transform: translateX(100%);
 }
 
 .userInfo {
@@ -82,34 +98,6 @@
     width: auto;
     border-radius: 100%;
     margin-right: 8px;
-}
-
-.list {
-
-}
-
-.listItem {
-    list-style: none;
-}
-
-.listItemLink {
-    padding: 8px 32px;
-    display: block;
-    list-style: none;
-    color: #333;
-    text-decoration: none;
-    transition: 0.2s ease-in-out background-color;
-}
-
-.listItemLink:hover {
-    background-color: #eee;
-}
-
-.sideMenuBg {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: rgba(0,0,0,0.2);
 }
 
 .drawerMenu {

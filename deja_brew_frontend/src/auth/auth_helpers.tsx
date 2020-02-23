@@ -1,8 +1,7 @@
 import * as mobxReact from 'mobx-react';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { CustomerRoutes } from 'routes/customer_routes';
-import { LoginRoutes } from 'routes/login_routes';
+import { Routes } from 'routes/routes';
 import { Role, UserInfo } from 'services/user/user_dto';
 
 
@@ -43,8 +42,16 @@ export function createAuthDecorators({
 
 export function getInitialRoute(user: UserInfo | undefined) {
   if (!user) {
-    return LoginRoutes.index();
+    return Routes.login();
   }
 
-  return CustomerRoutes.index();
+  if (isUserCafeStaff(user)) {
+    return Routes.orders();
+  }
+
+  return Routes.home();
+}
+
+export function isUserCafeStaff(user: UserInfo | undefined) {
+  return user?.roles.includes(Role.CAFE_STAFF);
 }

@@ -83,7 +83,9 @@ export class OrdersPresenter {
       statuses: ACTIVE_STATUSES,
     }));
 
-    return resp.orders.map(order => ({ order, isLoading: false }));
+    return resp.orders
+        .sort((a, b) => a.createdAt - b.createdAt)
+        .map(order => ({ order, isLoading: false }));
   }
 }
 

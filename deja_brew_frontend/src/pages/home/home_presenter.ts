@@ -30,14 +30,15 @@ export class HomePresenter {
 
     mobx.runInAction(() => {
       store.previousOrder = previousOrderResp.orders[0];
-      store.activeOrders = activeOrdersResp.orders;
+      store.activeOrders = activeOrdersResp.orders
+          .sort((a, b) => a.createdAt - b.createdAt);
     });
   }
 
   startRefreshTimer(store: HomeStore) {
     store.refreshTimer = window.setInterval(() => {
       this.loadOrderDetails(store);
-    }, 5000);
+    }, 10000);
   }
 
   stopRefreshTimer(store: HomeStore) {
@@ -63,7 +64,7 @@ export class HomePresenter {
     return this.orderService.getOrders(new GetOrdersRequest({
       createdBy: 'me',
       statuses: [OrderStatus.READY, OrderStatus.PENDING, OrderStatus.ACCEPTED],
-      // Orders created within the 30 mins
+      // Orders created within the last 30 mins
       createdAfter: Math.round((Date.now() / 1000) - 30 * 60),
     }));
   }

@@ -4,7 +4,7 @@ import * as mobxReact from 'mobx-react';
 import { Home } from 'pages/home/home';
 import { HomePresenter, HomeStore } from 'pages/home/home_presenter';
 import React from 'react';
-import { CustomerRoutes } from 'routes/customer_routes';
+import { Routes } from 'routes/routes';
 import { OrderService } from 'services/order/order_service';
 
 export function createHomePage({
@@ -14,7 +14,7 @@ export function createHomePage({
   orderService: OrderService,
   history: History
 }) {
-  const onNewOrderClick = () => history.push(CustomerRoutes.newOrder());
+  const onNewOrderClick = () => history.push(Routes.newOrder());
   const onOrderAgainClick = () => presenter.handleOrderAgain(store);
 
   const store = new HomeStore();

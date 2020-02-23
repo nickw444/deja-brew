@@ -2,7 +2,7 @@ import { Preconditions } from 'base/preconditions';
 import { History } from 'history';
 import * as mobx from 'mobx';
 import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
-import { CustomerRoutes } from 'routes/customer_routes';
+import { Routes } from 'routes/routes';
 import {
   CoffeeType,
   CreateOrderRequest,
@@ -128,7 +128,7 @@ export class OrderFlowPresenter {
       milkType: store.milkType,
     })));
     await store.createOrderReq;
-    this.history.push(CustomerRoutes.index());
+    this.history.push(Routes.home());
     await this.refreshOrders();
   }
 
@@ -142,7 +142,7 @@ export class OrderFlowPresenter {
 
   @mobx.action
   customizeOrder(store: OrderFlowStore) {
-    this.history.push(CustomerRoutes.newOrder('customize'));
+    this.history.push(Routes.newOrder('customize'));
   }
 
   getOrderExtras(store: OrderFlowStore) {
