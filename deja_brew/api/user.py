@@ -1,11 +1,11 @@
 from flask import abort
+from flask.views import MethodView
 from flask_login import current_user
-from flask_restful import Resource
 
 from deja_brew.api.user_dto import GetUserInfoResponse
 
 
-class UserResource(Resource):
+class UserView(MethodView):
     def get(self, user_id: str):
         if user_id != "me":
             abort(403)
