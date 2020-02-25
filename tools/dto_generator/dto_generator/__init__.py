@@ -7,9 +7,8 @@ from typing import List, Set, Union
 
 from marshmallow import Schema
 
-from deja_brew_tools.dto_generator.enum import DtoEnumMember, enum_tmpl, DtoEnum
-from deja_brew_tools.dto_generator.service_object import service_object_tmpl, \
-    DtoSchema, fieldOf, ObjectField, EnumField, Field
+from .enum import DtoEnumMember, enum_tmpl, DtoEnum
+from .service_object import service_object_tmpl, DtoSchema, fieldOf, ObjectField, EnumField, Field
 
 
 @dataclass(frozen=True)

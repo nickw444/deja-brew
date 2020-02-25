@@ -1,8 +1,8 @@
 // @formatter:off
-import { UnreachableError } from 'base/preconditions';
-import { Serialization } from 'base/serialization';
-import { UserInfo } from 'services/user/user_dto';
 import { Deserialization } from 'base/deserialization';
+import { Serialization } from 'base/serialization';
+import { UnreachableError } from 'base/preconditions';
+import { UserInfo } from 'services/user/user_dto';
 
 export enum Mode {
   FAKE,

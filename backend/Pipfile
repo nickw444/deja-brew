@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+dto-generator = {editable = true,path = "./../tools/dto_generator"}
 
 [packages]
 flask = "*"

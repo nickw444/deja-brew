@@ -1,6 +1,6 @@
 import click
 
-from deja_brew_tools.dto_generator import DtoGenerator
+from dto_generator import DtoGenerator
 
 
 @click.command()
@@ -10,7 +10,7 @@ def generate_service_objects():
     import deja_brew.frontend.bootstrap_dto as bootstrap_dto_module
 
     generator = DtoGenerator(
-        frontend_src_root='deja_brew_frontend/src',
+        frontend_src_root='../frontend/src',
     )
 
     generator.generate(orders_dto_module)

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { SecondaryButton } from 'ui/button/button';
 import { Container } from 'ui/container/container';
 import { GoogleIcon } from 'ui/icons/icons';
@@ -13,7 +14,7 @@ export const AuthPage = React.memo(() => {
       <Container>
         <div className={styles.authPage}>
           <Row>
-            <TitleMedium>Welcome to Deja-Brew!</TitleMedium>
+            <TitleMedium>Welcome to Déjà Brew!</TitleMedium>
           </Row>
           <Row>
             <Paragraph>
