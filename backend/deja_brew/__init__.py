@@ -18,12 +18,11 @@ def create_app(config: Config = None):
     if config is None:
         config = LocalConfig()
 
-    app = Flask(__name__, static_url_path='/_static')
+    app = Flask(__name__)
     app.config.from_object(config)
-    app.register_blueprint(healthz_bp)
+    app.register_blueprint(healthz_bp, url_prefix='/_healthz')
     app.register_blueprint(api_bp, url_prefix='/_api')
-    app.register_blueprint(frontend_bp)
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     db.init_app(app)
     login_manager.init_app(app)
