@@ -2,7 +2,7 @@
 set -eu
 
 REPO_DIR=$(git rev-parse --show-toplevel)
-VERSION=$(git describe --tags)
+VERSION=$(git describe --tags --always)
 
 cd "${REPO_DIR}";
 docker run \
