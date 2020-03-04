@@ -2,6 +2,7 @@
 set -eu
 
 REPO_DIR=$(git rev-parse --show-toplevel)
+VERSION=$(git describe --tags)
 
 cd "${REPO_DIR}";
 docker run \
@@ -11,3 +12,4 @@ docker run \
 
 mkdir -p "backend/deja_brew/frontend/build";
 cp -r frontend/build/{asset-manifest.json,static} "backend/deja_brew/frontend/build"
+echo "${VERSION}" > "backend/deja_brew/healthcheck/version.txt"

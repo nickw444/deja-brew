@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
 from deja_brew.repository import db
+from .version import get_version
 
 healthz_bp = Blueprint('healthz', __name__)
 
@@ -14,7 +15,7 @@ def is_db_healthy():
 
 
 @healthz_bp.route('/')
-def get_healthz():
+def index():
     components = dict(
         app=True,
         db=is_db_healthy(),
@@ -25,3 +26,10 @@ def get_healthz():
         healthy=is_healthy,
         components=components
     ), 200 if is_healthy else 500
+
+
+@healthz_bp.route('/version')
+def version():
+    return jsonify(
+        version=get_version(),
+    )
