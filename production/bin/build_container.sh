@@ -3,7 +3,7 @@ set -eu
 
 REPO_DIR=$(git rev-parse --show-toplevel)
 
-DOCKER_TAG="nickw444/deja_brew"
+DOCKER_TAG="nickw444/deja-brew"
 COMMIT_SHA="$(git describe --dirty --always)"
 
 build_and_copy_frontend() {

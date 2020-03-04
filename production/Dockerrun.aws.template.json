@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "nickw444/deja_brew:<<version>>",
+    "Name": "nickw444/deja-brew:<<version>>",
     "Update": "true"
   },
   "Ports": [

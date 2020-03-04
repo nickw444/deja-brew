@@ -55,8 +55,8 @@ This script will:
 
 * Build the frontend
 * Deploy production static assets to the backend
-* Build the backend "nickw444/deja_brew" container, tagged with the current commit SHA
-* Push the newly built container to the [Docker Hub](https://hub.docker.com/r/nickw444/deja_brew)
+* Build the backend "nickw444/deja-brew" container, tagged with the current commit SHA
+* Push the newly built container to the [Docker Hub](https://hub.docker.com/r/nickw444/deja-brew)
 
 ```
 ./production/bin/build_container.sh
