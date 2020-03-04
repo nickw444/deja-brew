@@ -36,7 +36,7 @@ export function createOrdersPage({
           onMount={onMount}
           onWillUnmount={onWillUnmount}
           isLoading={presenter.getActiveOrders(store) == null}
-          isEmpty={(presenter.getActiveOrders(store) || []).length == 0}
+          isEmpty={(presenter.getActiveOrders(store) || []).length === 0}
       />
   ));
   return { OrdersPage: OrdersPageImpl };

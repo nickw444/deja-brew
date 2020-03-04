@@ -1,5 +1,5 @@
 import React from 'react';
-import { CoffeeIcon, Icon } from 'ui/icons/icons';
+import { CoffeeIcon, Icon as TIcon } from 'ui/icons/icons';
 import styles from './status_panel.module.css';
 
 export const StatusPanel = React.memo(({
@@ -7,7 +7,7 @@ export const StatusPanel = React.memo(({
   children,
 }: {
   children: React.ReactNode,
-  Icon?: Icon,
+  Icon?: TIcon,
 }) => (
     <div className={styles.statusPanel}>
       <Icon size="large"/>

@@ -1,4 +1,4 @@
-import { createAuthDecorators, getInitialRoute } from 'auth/auth_helpers';
+import { createAuthDecorators } from 'auth/auth_helpers';
 import { Deserialization } from 'base/deserialization';
 import { Bootstrap } from 'bootstrap_dto';
 import { createHeader } from 'header/create';
