@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-REPO_DIR=$(git rev-parse --show-toplevel)
-VERSION=$(git describe --tags --always)
+REPO_DIR="$(git rev-parse --show-toplevel)"
+VERSION="$(git rev-parse --short HEAD)"
 
 cd "${REPO_DIR}";
 docker run \

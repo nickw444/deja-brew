@@ -1,10 +1,10 @@
 #!/bin/bash
 set -eu
 
-REPO_DIR=$(git rev-parse --show-toplevel)
+REPO_DIR="$(git rev-parse --show-toplevel)"
 
 DOCKER_TAG="nickw444/deja-brew"
-COMMIT_SHA="$(git describe --dirty --always)"
+VERSION="$(git rev-parse --short HEAD)"
 
 build_and_copy_frontend() {
   # Run webpack build to produce production-ready assets for the frontend
@@ -19,11 +19,11 @@ build_and_copy_frontend() {
 }
 
 build_backend_container() {
-  docker build -t "$DOCKER_TAG:$COMMIT_SHA" backend
+  docker build -t "$DOCKER_TAG:$VERSION" backend
 }
 
 push_backend_container() {
-  docker push "$DOCKER_TAG:$COMMIT_SHA"
+  docker push "$DOCKER_TAG:$VERSION"
 }
 
 main() {
