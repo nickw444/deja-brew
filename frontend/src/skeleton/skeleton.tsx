@@ -14,6 +14,7 @@ export const Skeleton = React.memo(({
   AppTabs: React.ComponentType,
   history: History,
 }) => (
+    <div className={styles.skeleton}>
     <Router history={history}>
       <div className={styles.headerContainer}>
         <Header/>
@@ -23,4 +24,5 @@ export const Skeleton = React.memo(({
       </main>
       <AppTabs/>
     </Router>
+    </div>
 ));
