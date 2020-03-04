@@ -39,8 +39,8 @@ def frontend(_: str = None):
 @frontend_bp.route('/manifest.json')
 def web_app_manifest():
     return jsonify({
-        'short_name': 'Deja Brew',
-        'name': 'Deja Brew',
+        'short_name': 'Déjà Brew',
+        'name': 'Déjà Brew',
         'icons': [
             {
                 "src": url_for(".icons_static", filename="avicon.ico"),

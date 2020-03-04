@@ -4,6 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport"
         content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <title>Déjà Brew</title>
 
@@ -14,6 +15,38 @@
         href="{{ url_for('.icons_static', filename="favicon-16x16.png") }}">
   <link rel="apple-touch-icon" sizes="180x180"
         href="{{ url_for('.icons_static', filename="apple-touch-icon.png") }}">
+
+  <link href="{{ url_for('.icons_static', filename="iphone5_splash.png") }}"
+        media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="iphone6_splash.png") }}"
+        media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="iphoneplus_splash.png") }}"
+        media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="iphonex_splash.png") }}"
+        media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="iphonexr_splash.png") }}"
+        media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="iphonexsmax_splash.png") }}"
+        media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="ipad_splash.png") }}"
+        media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="ipadpro1_splash.png") }}"
+        media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="ipadpro3_splash.png") }}"
+        media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+  <link href="{{ url_for('.icons_static', filename="ipadpro2_splash.png") }}"
+        media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+        rel="apple-touch-startup-image"/>
+
   <link rel="manifest" href="{{ url_for('.web_app_manifest') }}">
   <meta name="theme-color" content="#ffffff">
 
