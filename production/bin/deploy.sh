@@ -2,9 +2,6 @@
 set -eu
 
 REPO_DIR="$(git rev-parse --show-toplevel)"
-
-
-DOCKER_TAG="nickw444/deja-brew"
 VERSION="$(git rev-parse --short HEAD)"
 
 main() {
