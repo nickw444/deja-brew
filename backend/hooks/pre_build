@@ -1,0 +1,13 @@
+#!/bin/bash
+set -eu
+
+REPO_DIR=$(git rev-parse --show-toplevel)
+
+cd "${REPO_DIR}";
+docker run \
+    -v "$(pwd)/frontend:/src" -w "/src" \
+    node:12 \
+    npm run build;
+
+mkdir -p "backend/deja_brew/frontend/build";
+cp -r frontend/build/{asset-manifest.json,static} "backend/deja_brew/frontend/build"
