@@ -74,10 +74,3 @@ for the docker container tagged with the current commit SHA
 ### Misc
 
 * Installing python mysqlclient library on OSX: [https://ruddra.com/posts/install-mysqlclient-macos/](https://ruddra.com/posts/install-mysqlclient-macos/)
-
-### To-do
-
-- [ ] Better solution for configuration. `config.py` is way to verbose.
-- [ ] Secrets management instead of environment variables. 
-- [ ] Lint code and format with black
-- [ ] Lint and format frontend code with prettier
