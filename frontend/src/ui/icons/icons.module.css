@@ -1,0 +1,24 @@
+.icon {
+    display: inline-flex;
+}
+
+.icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.small {
+    width: 16px;
+    height: 16px;
+}
+
+.medium {
+    width: 24px;
+    height: 24px;
+}
+
+.large {
+    width: 32px;
+    height: 32px;
+}

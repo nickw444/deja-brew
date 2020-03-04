@@ -1,0 +1,10 @@
+
+.statusPanel {
+    text-align: center;
+    max-width: 250px;
+    margin: 24px auto;
+    padding: 24px;
+    background: #eee;
+    color: #333;
+    border-radius: 4px;
+}

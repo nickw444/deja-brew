@@ -1,0 +1,11 @@
+.headerContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.contentContainer {
+    padding-top: 58px;
+}
