@@ -50,7 +50,7 @@ main() {
   done
 
   echo "Do you wish to deploy version: "
-  read -p "Continue with deployment of: ${VERSION} [y/N]" -n 1 -r
+  read -p "Continue with deployment of: ${version} [y/N]" -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       echo "Exiting!"
@@ -60,7 +60,7 @@ main() {
   local tmp_dest;
   tmp_dest=$(mktemp)
 
-  sed "s/<<version>>/${VERSION}/g" "Dockerrun.aws.template.json" > "Dockerrun.aws.json"
+  sed "s/<<version>>/${version}/g" "Dockerrun.aws.template.json" > "Dockerrun.aws.json"
   echo "Deploying:"
   cat "Dockerrun.aws.json"
   eb deploy deja-brew-prod -r ap-southeast-2
