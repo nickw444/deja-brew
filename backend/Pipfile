@@ -9,15 +9,16 @@ dto-generator = {editable = true,path = "./../tools/dto_generator"}
 
 [packages]
 flask = "*"
-sqlalchemy = "*"
+flask-login = "*"
 flask-sqlalchemy = "*"
+gunicorn = "*"
 marshmallow = "*"
 marshmallow-enum = "*"
-flask-login = "*"
+mysqlclient = "*"
 oauthlib = "*"
-requests = "*"
 pyopenssl = "*"
-gunicorn = "*"
+requests = "*"
+sqlalchemy = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"

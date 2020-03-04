@@ -1,7 +1,7 @@
 import json
 from os import path
 
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, current_app
 from flask_login import current_user
 
 from deja_brew.frontend.asset_manifest_supplier import AssetManifestSupplier
@@ -11,13 +11,9 @@ frontend_bp = Blueprint(
     'frontend',
     __name__,
     template_folder='templates',
-    static_folder='static',
+    static_folder='build/static',
     static_url_path='/static/'
 )
-
-manifest_supplier = AssetManifestSupplier(
-    path.join(path.dirname(__file__), 'asset-manifest.json'))
-
 
 @frontend_bp.route('/')
 @frontend_bp.route('/login')
@@ -26,7 +22,7 @@ manifest_supplier = AssetManifestSupplier(
 @frontend_bp.route('/new-order')
 @frontend_bp.route('/new-order/<path:_>')
 def frontend(_: str = None):
-    manifest = manifest_supplier.get()
+    manifest = current_app.manifest_supplier.get()
     bootstrap = Bootstrap().dump(dict(
         mode=Mode.REAL,
         user=current_user if current_user.is_authenticated else None,

@@ -2,7 +2,6 @@ import os
 
 
 class Config:
-    DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     def __init__(self):
@@ -13,11 +12,15 @@ class Config:
 
 class LocalConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite3'
+    SQLALCHEMY_DATABASE_URI = 'mysql://dejabrew:dejabrew@127.0.0.1:3306/dejabrew'
     SECRET_KEY = 'development-only'
+    ASSET_MANIFEST_SUPPLIER_IMPL = 'local'
 
 
 class ProductionConfig(Config):
+    DEBUG = False
+    ASSET_MANIFEST_SUPPLIER_IMPL = 'build'
+
     def __init__(self):
         super(ProductionConfig, self).__init__()
 

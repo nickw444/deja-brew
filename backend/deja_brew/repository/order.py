@@ -53,7 +53,7 @@ class Order(Base):
     __tablename__ = 'orders'
 
     _id = sa.Column(sa.Integer(), primary_key=True)
-    id = sa.Column(sa.String(), unique=True, default=IdGenerator('O'))
+    id = sa.Column(sa.String(63), unique=True, default=IdGenerator('O'))
     created_at = sa.Column(sa.DateTime(), default=datetime.datetime.now)
 
     user_id = sa.Column(sa.Integer(), ForeignKey('users._id'))
