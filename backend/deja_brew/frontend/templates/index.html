@@ -2,27 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <link rel="icon" href="/favicon.ico"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="apple-touch-icon" href="/logo192.png"/>
-  <link rel="manifest" href="{{ url_for('.static', filename='manifest.json') }}"/>
-  {%- for url in manifest.entrypoints %}
-  {%- if url.endswith('.css') %}
-  <link rel="stylesheet" type="text/css" href="{{ url }}">
-  {%- endif %}
-  {%- endfor %}
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+
   <title>Déjà Brew</title>
+
+  <link rel="icon" href="{{ url_for('.icons_static', filename="favicon.ico") }}"/>
+  <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ url_for('.icons_static', filename="favicon-32x32.png") }}">
+  <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ url_for('.icons_static', filename="favicon-16x16.png") }}">
+  <link rel="apple-touch-icon" sizes="180x180"
+        href="{{ url_for('.icons_static', filename="apple-touch-icon.png") }}">
+  <link rel="manifest" href="{{ url_for('.web_app_manifest') }}">
+  <meta name="theme-color" content="#ffffff">
+
+  {%- for url in manifest.entrypoints %}
+    {%- if url.endswith('.css') %}
+      <link rel="stylesheet" type="text/css" href="{{ url }}">
+    {%- endif %}
+  {%- endfor %}
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <div id="root"></div>
 <script>
-  window['bootstrap'] = {{ json_bootstrap | safe }}
+  window['bootstrap'] =
+  {{ json_bootstrap | safe }}
 </script>
 {%- for url in manifest.entrypoints %}
-{%- if url.endswith('.js') %}
-<script src="{{ url }}"></script>
-{%- endif %}
+  {%- if url.endswith('.js') %}
+    <script src="{{ url }}"></script>
+  {%- endif %}
 {%- endfor %}
 </body>
 </html>
