@@ -10,7 +10,7 @@ usage() {
   cat <<EOF
 Usage: ${prog} [ OPTIONS... ]
 
-  Runs the main 100-warm-tunas pipeline
+  Deploy the application to Amazon Elastic Beanstalk
 
   Options:
     --version "${VERSION}"           Version of the container to deploy. Default to the
