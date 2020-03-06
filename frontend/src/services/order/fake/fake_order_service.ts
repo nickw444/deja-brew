@@ -1,6 +1,7 @@
 import { delay } from 'base/delay';
 import { aUserInfoWith } from 'services/user/fake/builders';
 import {
+  CoffeeType,
   CreateOrderRequest,
   CreateOrderResponse,
   GetOrdersRequest,
@@ -22,15 +23,20 @@ export class FakeOrderService implements OrderService {
   private readonly orders: Order[] = [
     anOrderWith({
       user: FAKE_USER,
+      coffeeType: CoffeeType.FLAT_WHITE,
     }),
     anOrderWith({
       user: FAKE_USER,
+      coffeeType: CoffeeType.LONG_BLACK,
     }),
     anOrderWith({
       user: FAKE_USER,
+      coffeeType: CoffeeType.MATCHA,
+      status: OrderStatus.ACCEPTED,
     }),
     anOrderWith({
       user: FAKE_USER,
+      status: OrderStatus.READY,
     }),
   ];
 
