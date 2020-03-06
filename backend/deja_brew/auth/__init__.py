@@ -2,12 +2,12 @@ import uuid
 
 import requests
 from flask import Blueprint, request, redirect, current_app, session, abort
-# https://accounts.google.com/.well-known/openid-configuration
 from flask_login import login_user, logout_user
 from oauthlib.oauth2 import WebApplicationClient
 
 from deja_brew.repository import db, User
 
+# https://accounts.google.com/.well-known/openid-configuration
 GOOGLE_AUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 GOOGLE_USER_INFO_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
