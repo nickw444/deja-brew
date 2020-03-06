@@ -8,6 +8,8 @@ import { UserInfo } from 'services/user/user_dto';
 import { MenuIcon } from 'ui/icons/icons';
 import { LinkItem, List, RouterLinkItem } from 'ui/list/list';
 import styles from './header.module.css';
+import brandTextImg from './img/brand_text.png';
+import brandTextImg2x from './img/brand_text@2x.png';
 
 
 export const Header = React.memo(({
@@ -21,7 +23,10 @@ export const Header = React.memo(({
   return (
       <header className={styles.header}>
         <div className={styles.holder}></div>
-        <Link to={Routes.home()} className={styles.appLogo}>Déjà Brew</Link>
+        <Link to={Routes.home()} className={styles.appLogoLink}>
+          <img className={styles.appLogo} src={brandTextImg} srcSet={`${brandTextImg}, ${brandTextImg2x} 2x`}
+               alt="Déjà Brew"/>
+        </Link>
         <div className={styles.holder}>
           {userInfo && (
               <>
