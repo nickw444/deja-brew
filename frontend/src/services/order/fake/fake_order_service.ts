@@ -4,6 +4,7 @@ import {
   CoffeeType,
   CreateOrderRequest,
   CreateOrderResponse,
+  Extra,
   GetOrdersRequest,
   GetOrdersResponse,
   Order,
@@ -28,6 +29,7 @@ export class FakeOrderService implements OrderService {
     anOrderWith({
       user: FAKE_USER,
       coffeeType: CoffeeType.LONG_BLACK,
+      extras: [Extra.DECAF],
     }),
     anOrderWith({
       user: FAKE_USER,
@@ -37,6 +39,7 @@ export class FakeOrderService implements OrderService {
     anOrderWith({
       user: FAKE_USER,
       status: OrderStatus.READY,
+      extras: [],
     }),
   ];
 
