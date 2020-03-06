@@ -50,17 +50,8 @@ Alternatively the backend will reference assets from the webpack server by defau
 
 ## Deployment (production)
 
-### Build container
-This script will:
-
-* Build the frontend
-* Deploy production static assets to the backend
-* Build the backend "nickw444/deja-brew" container, tagged with the current commit SHA
-* Push the newly built container to the [Docker Hub](https://hub.docker.com/r/nickw444/deja-brew)
-
-```
-./production/bin/build_container.sh
-```
+When a new build is pushed to `master` an automated build will be triggered via 
+[Docker Hub](https://hub.docker.com/r/nickw444/deja-brew).
 
 ### Deploy container
 
