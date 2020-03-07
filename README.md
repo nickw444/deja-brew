@@ -38,6 +38,40 @@ FLASK_APP=deja_brew flask run --reload --debugger --cert adhoc
 
 Access site at [https://localhost:5000](https://localhost:5000)
 
+#### Initialize the database
+
+Alembic is used to manage database migration and to generate SQL code to apply to production 
+instances.
+
+To provision a new database simply run the following:
+
+```sh
+alembic upgrade head
+```
+
+To provision a remote database where you may only have an SQL console, an SQL dump can be obtained
+by using the `--sql` flag:
+
+```sh
+alembic upgrade head --sql
+```
+
+#### Generating a migration
+
+With the local database instance running the latest version of the schema, Alembic can be used 
+to perform a diff of the existing schema with the new one and generate a migration for you:
+
+```sh
+alembic revision --autogenerate -m "Add cafe table"
+```
+
+Ensure that the generated schema looks sane. Once you are happy it can be applied with the 
+`upgrade` command:
+
+```sh
+alembic upgrade head
+```
+
 ### React frontend
 
 ```

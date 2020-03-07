@@ -1,6 +1,4 @@
-import click
 from flask import Flask
-from flask.cli import with_appcontext
 from oauthlib.oauth2 import WebApplicationClient
 
 from deja_brew.api import api_bp
@@ -29,16 +27,8 @@ def create_app(config: Config = None):
     db.init_app(app)
     login_manager.init_app(app)
 
-    app.cli.add_command(init_db)
-
     app.oauth_client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
     app.manifest_supplier = create_asset_manifest_supplier(
         app.config['ASSET_MANIFEST_SUPPLIER_IMPL'])
 
     return app
-
-
-@click.command()
-@with_appcontext
-def init_db():
-    Base.metadata.create_all(bind=db.engine)
