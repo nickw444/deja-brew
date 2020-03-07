@@ -37,6 +37,30 @@ def login():
     session['OAUTH_STATE'] = state
     return redirect(request_uri)
 
+@auth_bp.route('/login/dev-only')
+def login_dev_only():
+    """
+    Passwordless development mode only login endpoint.
+
+    Allows development without needing jump through Google's hoops of having a
+    HTTPS server running locally.
+    """
+
+    if not current_app.config['ENABLE_DEV_LOGIN']:
+        abort(404)
+
+    user = db.session.query(User).filter_by(email=request.args['email']).first()
+    if user is None:
+        user = User(
+            name=request.args['name'],
+            email=request.args['email'],
+        )
+        db.session.add(user)
+        db.session.commit()
+
+    login_user(user)
+    return redirect('/')
+
 
 @auth_bp.route('/login/google/callback')
 def login_callback():
