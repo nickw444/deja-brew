@@ -1,5 +1,3 @@
-import datetime
-
 from flask import Flask
 from oauthlib.oauth2 import WebApplicationClient
 
@@ -12,6 +10,7 @@ from deja_brew.frontend.asset_manifest_supplier import create_asset_manifest_sup
 from deja_brew.healthcheck import healthz_bp
 from deja_brew.healthcheck.rps_counter import RpsCounter
 from deja_brew.repository import db, Base
+
 
 def create_app(config: Config = None):
     if config is None:
