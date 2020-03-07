@@ -12,6 +12,7 @@ class Config:
 
 class LocalConfig(Config):
     DEBUG = True
+    ENABLE_DEV_LOGIN = True
     SQLALCHEMY_DATABASE_URI = 'mysql://dejabrew:dejabrew@127.0.0.1:3306/dejabrew'
     SECRET_KEY = 'development-only'
     ASSET_MANIFEST_SUPPLIER_IMPL = 'local'
@@ -19,6 +20,7 @@ class LocalConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    ENABLE_DEV_LOGIN = False
     ASSET_MANIFEST_SUPPLIER_IMPL = 'build'
 
     def __init__(self):
