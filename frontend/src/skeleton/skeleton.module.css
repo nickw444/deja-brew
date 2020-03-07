@@ -12,5 +12,8 @@
 }
 
 .contentContainer {
-    padding-top: 58px;
+    padding-top: calc(56px + env(safe-area-inset-top));
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
 }

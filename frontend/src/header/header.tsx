@@ -24,13 +24,13 @@ export const Header = React.memo(({
 
   return (
       <header className={styles.header}>
-        <div className={styles.holder}/>
+        <div className={classNames(styles.holder, styles.left)}/>
         <Link to={Routes.home()} className={styles.appLogoLink}>
           <img className={styles.appLogo} src={brandTextImg}
                srcSet={`${brandTextImg}, ${brandTextImg2x} 2x`}
                alt="Déjà Brew"/>
         </Link>
-        <div className={styles.holder}>
+        <div className={classNames(styles.holder, styles.right)}>
           {userInfo && (
               <>
                 <button className={styles.button} onClick={toggleMenu}>

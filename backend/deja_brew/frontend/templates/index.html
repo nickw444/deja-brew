@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport"
-        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <title>Déjà Brew</title>
 
@@ -60,7 +61,7 @@
         media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
   <link rel="manifest" href="{{ url_for('.web_app_manifest') }}">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#333333">
 
   {%- for url in manifest.entrypoints %}
     {%- if url.endswith('.css') %}
