@@ -12,7 +12,6 @@ class RpsCounter:
         self._curr_ptr = now.minute
         if old_ptr is not None and self._curr_ptr != old_ptr:
             for x in range(old_ptr + 1, self._curr_ptr + 1):
-                print(x)
                 self._req_counts[x] = self._req_counts[x - 1]
 
         self._req_counts[self._curr_ptr] += 1
