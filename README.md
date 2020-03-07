@@ -1,7 +1,10 @@
-# <img src="doc/img/masked_icon.png" alt="App Icon" width="64px" /> deja-brew
+# deja-brew
+
+<img src="doc/img/masked_icon.png" alt="App Icon" width="96px" />
+
 Déjà Brew - A web based coffee ordering system
 
-![Screenshot: My Orders page](doc/img/my_orders.png
+![Screenshot: My Orders page](doc/img/my_orders.png)
 
 ## Development (local)
 
