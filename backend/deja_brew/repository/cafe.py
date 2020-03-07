@@ -8,6 +8,9 @@ class Cafe(Base):
     """
     Represents a Cafe within the system.
 
+    For the time being, it is expected that there will only ever be a single row in this
+    table.
+
     In the future we could extend support to make the deployment multi-tenanted to support
     many different, independent cafes.
     """
