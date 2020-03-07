@@ -3,25 +3,30 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 48px;
     background: #f4f4f4;
     border-top: 1px solid #ddd;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
     color: #333;
+    padding-right: calc(env(safe-area-inset-right) + 16px);
+    padding-left: calc(env(safe-area-inset-left) + 16px);
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
+}
+
+.orderCount,
+.storeStatus {
+    height: 48px;
+    display: flex;
+    align-items: center;
 }
 
 .storeStatus {
-    display: flex;
-    align-items: center;
-
     border: none;
     background: none;
     font-size: 1rem;
     color: inherit;
-    height: 100%;
     cursor: pointer;
 }
 
