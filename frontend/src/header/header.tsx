@@ -14,17 +14,20 @@ import brandTextImg2x from './img/brand_text@2x.png';
 
 export const Header = React.memo(({
   userInfo,
+  showNewOrderLink,
 }: {
   userInfo: UserInfo | undefined,
+  showNewOrderLink: boolean,
 }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const toggleMenu = React.useCallback(() => setMenuOpen(!menuOpen), [menuOpen]);
 
   return (
       <header className={styles.header}>
-        <div className={styles.holder}></div>
+        <div className={styles.holder}/>
         <Link to={Routes.home()} className={styles.appLogoLink}>
-          <img className={styles.appLogo} src={brandTextImg} srcSet={`${brandTextImg}, ${brandTextImg2x} 2x`}
+          <img className={styles.appLogo} src={brandTextImg}
+               srcSet={`${brandTextImg}, ${brandTextImg2x} 2x`}
                alt="Déjà Brew"/>
         </Link>
         <div className={styles.holder}>
@@ -33,7 +36,12 @@ export const Header = React.memo(({
                 <button className={styles.button} onClick={toggleMenu}>
                   <MenuIcon size="medium"/>
                 </button>
-                <SideMenu userInfo={userInfo} open={menuOpen} onClose={toggleMenu}/>
+                <SideMenu
+                    userInfo={userInfo}
+                    open={menuOpen}
+                    onClose={toggleMenu}
+                    showNewOrderLink={showNewOrderLink}
+                />
               </>
           )}
         </div>
@@ -45,10 +53,12 @@ const SideMenu = React.memo(({
   userInfo,
   open,
   onClose,
+  showNewOrderLink,
 }: {
   userInfo: UserInfo | undefined,
   open: boolean,
   onClose(): void,
+  showNewOrderLink: boolean,
 }) => (
     <CSSTransition
         mountOnEnter={true}
@@ -82,8 +92,11 @@ const SideMenu = React.memo(({
             <List>
               <RouterLinkItem to={Routes.home()} onClick={onClose}>My
                 Orders</RouterLinkItem>
-              <RouterLinkItem to={Routes.newOrder()} onClick={onClose}>New
-                Order</RouterLinkItem>
+              {showNewOrderLink && (
+                  <RouterLinkItem to={Routes.newOrder()} onClick={onClose}>
+                    New Order
+                  </RouterLinkItem>
+              )}
             </List>
           </div>
           <List>
