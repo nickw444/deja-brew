@@ -22,7 +22,7 @@ def logout():
 
 
 @auth_bp.route('/login/google')
-def login():
+def login_google():
     client: WebApplicationClient = current_app.oauth_client
     state = uuid.uuid4().hex
 
@@ -39,7 +39,7 @@ def login():
 
 
 @auth_bp.route('/login/google/callback')
-def login_callback():
+def login_google_callback():
     client: WebApplicationClient = current_app.oauth_client
     state = session['OAUTH_STATE']
 
@@ -84,5 +84,5 @@ def login_callback():
         db.session.add(user)
         db.session.commit()
 
-    login_user(user)
+    login_user(user, remember=True)
     return redirect('/')

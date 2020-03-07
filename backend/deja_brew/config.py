@@ -4,6 +4,9 @@ import os
 class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Flask-login cookies
+    REMEMBER_COOKIE_HTTPONLY = True
+
     def __init__(self):
         self.GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
         self.GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
