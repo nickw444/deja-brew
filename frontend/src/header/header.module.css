@@ -74,7 +74,7 @@
 }
 
 .sideMenu.enter .sideMenuBg,
-.sideMenu.exitActive .sideMenuBg{
+.sideMenu.exitActive .sideMenuBg {
     opacity: 0;
 }
 
@@ -89,10 +89,11 @@
     max-width: 320px;
     color: #333;
     box-sizing: border-box;
-    padding: 16px 0;
     transition: 0.2s ease-in-out transform;
     transform: translateX(0);
-    padding-right: env(safe-area-inset-right)
+    padding-right: env(safe-area-inset-right);
+    padding-top: calc(env(safe-area-inset-top) + 16px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
 }
 
 .sideMenu.enter .drawer,
