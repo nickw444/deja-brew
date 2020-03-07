@@ -1,4 +1,4 @@
-[[source]]
+ [[source]]
 name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 dto-generator = {editable = true,path = "./../tools/dto_generator"}
+alembic = "*"
 
 [packages]
 flask = "*"
