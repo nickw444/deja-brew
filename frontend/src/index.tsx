@@ -83,8 +83,10 @@ function main() {
       />
   );
 
-  cafeStatusPresenter.refreshStatus(cafeStatusStore);
-  cafeStatusPresenter.startRefreshing(cafeStatusStore);
+  if (user != null) {
+    cafeStatusPresenter.refreshStatus(cafeStatusStore);
+    cafeStatusPresenter.startRefreshing(cafeStatusStore);
+  }
   ReactDOM.render(<AppImpl/>, document.getElementById('root'));
 }
 
