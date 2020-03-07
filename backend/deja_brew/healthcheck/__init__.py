@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 
 from deja_brew.repository import db
 from .version import get_version
@@ -32,4 +32,14 @@ def index():
 def version():
     return jsonify(
         version=get_version(),
+    )
+
+
+@healthz_bp.route('/rps')
+def rps():
+    (avg_1, avg_5, avg_60) = current_app.rps_counter.get_stats()
+    return jsonify(
+        avg1=avg_1,
+        avg5=avg_5,
+        avg60=avg_60,
     )

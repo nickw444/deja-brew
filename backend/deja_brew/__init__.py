@@ -8,6 +8,7 @@ from deja_brew.config import Config, LocalConfig
 from deja_brew.frontend import frontend_bp
 from deja_brew.frontend.asset_manifest_supplier import create_asset_manifest_supplier
 from deja_brew.healthcheck import healthz_bp
+from deja_brew.healthcheck.rps_counter import RpsCounter
 from deja_brew.repository import db, Base
 
 
@@ -30,5 +31,8 @@ def create_app(config: Config = None):
     app.oauth_client = WebApplicationClient(app.config['GOOGLE_CLIENT_ID'])
     app.manifest_supplier = create_asset_manifest_supplier(
         app.config['ASSET_MANIFEST_SUPPLIER_IMPL'])
+
+    app.rps_counter = RpsCounter()
+    app.before_request(app.rps_counter.track_request)
 
     return app
