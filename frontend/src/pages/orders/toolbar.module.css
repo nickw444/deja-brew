@@ -1,0 +1,59 @@
+.toolbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: #f4f4f4;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    color: #333;
+}
+
+.storeStatus {
+    display: flex;
+    align-items: center;
+
+    border: none;
+    background: none;
+    font-size: 1rem;
+    color: inherit;
+    height: 100%;
+    cursor: pointer;
+}
+
+.storeStatus:disabled {
+    cursor: not-allowed;
+}
+
+.statusIndicator {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border-radius: 100%;
+}
+
+.statusIndicator.red {
+    background-color: red;
+}
+
+.statusIndicator.green {
+    background-color: #66C136;
+}
+
+.statusIndicator.pending {
+    background-color: grey;
+    animation: pulse 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.7);
+    }
+}

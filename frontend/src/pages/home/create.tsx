@@ -6,13 +6,16 @@ import { HomePresenter, HomeStore } from 'pages/home/home_presenter';
 import React from 'react';
 import { Routes } from 'routes/routes';
 import { OrderService } from 'services/order/order_service';
+import { CafeStatusStore } from 'ui/cafe_status/cafe_status_presenter';
 
 export function createHomePage({
   orderService,
+  cafeStatusStore,
   history,
 }: {
   orderService: OrderService,
-  history: History
+  cafeStatusStore: CafeStatusStore,
+  history: History,
 }) {
   const onNewOrderClick = () => history.push(Routes.newOrder());
   const onOrderAgainClick = () => presenter.handleOrderAgain(store);
@@ -35,6 +38,7 @@ export function createHomePage({
           previousOrder={store.previousOrder}
           onNewOrderClick={onNewOrderClick}
           onOrderAgainClick={onOrderAgainClick}
+          acceptingOrders={cafeStatusStore.acceptingOrders !== false}
       />
   ));
 

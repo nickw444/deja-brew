@@ -13,13 +13,16 @@ import { LoadingIndicator } from 'ui/loading_indicator/loading_indicator';
 import { StatusPanel } from 'ui/status_panel/status_panel';
 import styles from './orders.module.css';
 
-export class OrdersPage extends React.PureComponent<{
+type Props = {
   OrdersGrid: React.ComponentType,
+  Toolbar: React.ComponentType,
   isLoading: boolean,
   isEmpty: boolean,
   onMount(): void
   onWillUnmount(): void
-}> {
+}
+
+export class OrdersPage extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.onMount();
   }
@@ -31,6 +34,7 @@ export class OrdersPage extends React.PureComponent<{
   render() {
     const {
       OrdersGrid,
+      Toolbar,
       isLoading,
       isEmpty,
     } = this.props;
@@ -47,6 +51,7 @@ export class OrdersPage extends React.PureComponent<{
               </StatusPanel>
           )}
           {!isEmpty && !isLoading && <OrdersGrid/>}
+          <Toolbar/>
         </div>
     );
   }
@@ -67,7 +72,7 @@ export const OrdersGrid = React.memo(({
   onOrderCardClick(order: OrderCardStore): void,
   onOrderCardLongPress(order: OrderCardStore): void,
 }) => (
-    <TransitionGroup className={styles.ordersGrid} >
+    <TransitionGroup className={styles.ordersGrid}>
       {cards.map((card) => (
           <CSSTransition
               key={card.order.id}

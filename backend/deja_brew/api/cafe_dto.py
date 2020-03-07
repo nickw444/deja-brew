@@ -2,6 +2,7 @@ from marshmallow import fields
 
 from deja_brew.base.schema import CamelCaseSchema
 
+FRONTEND_PACKAGE = "services.cafe"
 
 class Cafe(CamelCaseSchema):
     id = fields.Str(required=True)
@@ -9,7 +10,7 @@ class Cafe(CamelCaseSchema):
 
 
 class GetCafeResponse(CamelCaseSchema):
-    cafe = fields.Nested(Cafe)
+    cafe = fields.Nested(Cafe, required=True)
 
 
 class UpdateCafeRequest(CamelCaseSchema):
@@ -17,4 +18,4 @@ class UpdateCafeRequest(CamelCaseSchema):
 
 
 class UpdateCafeResponse(CamelCaseSchema):
-    cafe = fields.Nested(Cafe)
+    cafe = fields.Nested(Cafe, required=True)
