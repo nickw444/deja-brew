@@ -13,6 +13,7 @@ import ReactDOM from 'react-dom';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Routes } from 'routes/routes';
 import { installServices } from 'services/install';
+import { Role } from 'services/user/user_dto';
 import { Skeleton } from 'skeleton/skeleton';
 import { CafeStatusPresenter, CafeStatusStore } from 'ui/cafe_status/cafe_status_presenter';
 import { withContainer } from 'ui/container/container';
@@ -46,6 +47,7 @@ function main() {
     history,
     orderService,
     refreshOrders,
+    cafeStatusStore,
   });
 
   const { withAuthRequired, withAnonOnly } = createAuthDecorators({
@@ -54,23 +56,23 @@ function main() {
 
   const { Header } = createHeader({
     userInfo: user,
-    cafeStatusStore,
   });
   const HomePageImpl = withContainer(withAuthRequired(HomePage));
   const OrdersPageImpl = withAuthRequired(OrdersPage/*, Role.CAFE_STAFF */);
   const AuthPageImpl = withContainer(withAnonOnly(AuthPage));
   const OrderFormFlowImpl = withContainer(withAuthRequired(OrderFormFlow));
 
+  const isKioskUser = user?.roles.includes(Role.KIOSK);
+
   const AppContent = observer(() => (
       <Switch>
         <Route path={Routes.login()} component={AuthPageImpl}/>
         <Route path={Routes.orders()} component={OrdersPageImpl}/>
-        {cafeStatusStore.acceptingOrders !== false
-            ? <Route path={Routes.newOrder()} component={OrderFormFlowImpl}/>
-            : <Redirect path={Routes.newOrder()} to={Routes.home()}/>
-        }
-        <Route path={Routes.home()} component={HomePageImpl}/>
-        <Redirect to={Routes.home()}/>
+        <Route path={Routes.newOrder()} component={OrderFormFlowImpl}/>
+        {!isKioskUser && <Route path={Routes.home()} component={HomePageImpl}/>}
+        {isKioskUser
+            ? <Redirect to={Routes.newOrder()}/>
+            : <Redirect to={Routes.home()}/>}
       </Switch>
   ));
 

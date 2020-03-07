@@ -6,6 +6,7 @@ import { UnreachableError } from 'base/preconditions';
 export enum Role {
   ADMIN,
   CAFE_STAFF,
+  KIOSK,
 }
 
 export const RoleUtil = {
@@ -13,6 +14,7 @@ export const RoleUtil = {
     switch(value) {
       case 'ADMIN': return Role.ADMIN;
       case 'CAFE_STAFF': return Role.CAFE_STAFF;
+      case 'KIOSK': return Role.KIOSK;
       default: throw new Error('Unknown value: ' + value)
     }
   },
@@ -20,6 +22,7 @@ export const RoleUtil = {
     switch(value) {
       case Role.ADMIN: return 'ADMIN';
       case Role.CAFE_STAFF: return 'CAFE_STAFF';
+      case Role.KIOSK: return 'KIOSK';
       default: throw new UnreachableError(value)
     } 
   },
@@ -27,6 +30,7 @@ export const RoleUtil = {
     return [
       Role.ADMIN,
       Role.CAFE_STAFF,
+      Role.KIOSK,
     ]
   }
 };

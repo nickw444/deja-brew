@@ -14,10 +14,8 @@ import brandTextImg2x from './img/brand_text@2x.png';
 
 export const Header = React.memo(({
   userInfo,
-  showNewOrderLink,
 }: {
   userInfo: UserInfo | undefined,
-  showNewOrderLink: boolean,
 }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const toggleMenu = React.useCallback(() => setMenuOpen(!menuOpen), [menuOpen]);
@@ -40,7 +38,6 @@ export const Header = React.memo(({
                     userInfo={userInfo}
                     open={menuOpen}
                     onClose={toggleMenu}
-                    showNewOrderLink={showNewOrderLink}
                 />
               </>
           )}
@@ -53,12 +50,10 @@ const SideMenu = React.memo(({
   userInfo,
   open,
   onClose,
-  showNewOrderLink,
 }: {
   userInfo: UserInfo | undefined,
   open: boolean,
   onClose(): void,
-  showNewOrderLink: boolean,
 }) => (
     <CSSTransition
         mountOnEnter={true}
@@ -92,11 +87,9 @@ const SideMenu = React.memo(({
             <List>
               <RouterLinkItem to={Routes.home()} onClick={onClose}>My
                 Orders</RouterLinkItem>
-              {showNewOrderLink && (
-                  <RouterLinkItem to={Routes.newOrder()} onClick={onClose}>
-                    New Order
-                  </RouterLinkItem>
-              )}
+              <RouterLinkItem to={Routes.newOrder()} onClick={onClose}>
+                New Order
+              </RouterLinkItem>
             </List>
           </div>
           <List>
