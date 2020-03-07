@@ -47,7 +47,7 @@ export class Home extends React.PureComponent<{
         <div>
           {!acceptingOrders && (
               <Row>
-                <Alert style={Style.INFO}>Deja Brew is not currently accepting new orders.
+                <Alert style={Style.INFO}>Déjà Brew is not currently accepting new orders.
                   Please check again soon</Alert>
               </Row>
           )}
