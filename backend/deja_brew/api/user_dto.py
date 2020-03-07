@@ -11,6 +11,7 @@ FRONTEND_PACKAGE = "services.user"
 class Role(Enum):
     ADMIN = 1
     CAFE_STAFF = 2
+    KIOSK = 3
 
 
 class UserInfo(CamelCaseSchema):

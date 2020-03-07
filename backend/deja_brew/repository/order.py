@@ -58,6 +58,8 @@ class Order(Base):
 
     user_id = sa.Column(sa.Integer(), ForeignKey('users._id'))
     user = sa.orm.relationship('User')
+    # If ordered by a kiosk user, the name that should be associated with the order.
+    recipient_name = sa.Column(sa.String(128))
 
     cup_size = sa.Column(sa.Enum(CupSize), nullable=False)
     coffee_type = sa.Column(sa.Enum(CoffeeType), nullable=False)

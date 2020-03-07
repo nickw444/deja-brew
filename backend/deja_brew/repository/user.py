@@ -12,6 +12,7 @@ from .id_generator import IdGenerator
 class Role(Enum):
     CAFE_STAFF = 1
     ADMIN = 2
+    KIOSK = 3
 
 
 class User(Base, UserMixin):

@@ -57,6 +57,7 @@ class OrderUserInfo(CamelCaseSchema):
 class Order(CamelCaseSchema):
     id = fields.Str(required=True)
     user = fields.Nested(OrderUserInfo, required=True)
+    recipient_name = fields.Str()
 
     cup_size = EnumField(CupSize, required=True)
     coffee_type = EnumField(CoffeeType, required=True)
@@ -92,6 +93,10 @@ class CreateOrderRequest(CamelCaseSchema):
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
     extras = List(EnumField(Extra), required=True)
+
+    # If ordered by a kiosk user, the name that should be associated with
+    # the order.
+    recipient_name = fields.Str()
 
 
 class CreateOrderResponse(CamelCaseSchema):
