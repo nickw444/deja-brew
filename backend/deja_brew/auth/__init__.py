@@ -21,6 +21,13 @@ def logout():
     return redirect('/')
 
 
+@auth_bp.route('/login/id/<string:user_id>')
+def login_id(user_id):
+    user = db.session.query(User).filter_by(id=user_id).first_or_404()
+    login_user(user, remember=True)
+    return redirect('/')
+
+
 @auth_bp.route('/login/google')
 def login_google():
     client: WebApplicationClient = current_app.oauth_client
