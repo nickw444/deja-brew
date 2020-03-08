@@ -43,6 +43,7 @@ class Timestamp(marshmallow.fields.Integer):
 
     TODO(NW): Make sure this correctly handles UTC datetimes...
     """
+
     def _deserialize(self, value, attr, data, **kwargs):
         value = super(Timestamp, self)._deserialize(value, attr, data, **kwargs)
         if value is not None:

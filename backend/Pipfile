@@ -7,6 +7,8 @@ verify_ssl = true
 pytest = "*"
 dto-generator = {editable = true,path = "./../tools/dto_generator"}
 alembic = "*"
+black = "*"
+flake8 = "*"
 
 [packages]
 flask = "*"
@@ -23,3 +25,6 @@ sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

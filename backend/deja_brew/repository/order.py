@@ -50,18 +50,20 @@ class OrderStatus(Enum):
 
 
 class Order(Base):
-    __tablename__ = 'orders'
+    __tablename__ = "orders"
 
     _id = sa.Column(sa.Integer(), primary_key=True)
-    id = sa.Column(sa.String(63), unique=True, default=IdGenerator('O'))
+    id = sa.Column(sa.String(63), unique=True, default=IdGenerator("O"))
     created_at = sa.Column(sa.DateTime(), default=datetime.datetime.now)
 
-    user_id = sa.Column(sa.Integer(), ForeignKey('users._id'))
-    user = sa.orm.relationship('User')
+    user_id = sa.Column(sa.Integer(), ForeignKey("users._id"))
+    user = sa.orm.relationship("User")
 
     cup_size = sa.Column(sa.Enum(CupSize), nullable=False)
     coffee_type = sa.Column(sa.Enum(CoffeeType), nullable=False)
     milk_type = sa.Column(sa.Enum(MilkType), nullable=False)
     extras = sa.Column(EnumList(Extra), nullable=False)
 
-    status = sa.Column(sa.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDING)
+    status = sa.Column(
+        sa.Enum(OrderStatus), nullable=False, default=OrderStatus.PENDING
+    )

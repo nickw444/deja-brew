@@ -15,9 +15,9 @@ class Cafe(Base):
     many different, independent cafes.
     """
 
-    __tablename__ = 'cafe'
+    __tablename__ = "cafe"
 
     _id = sa.Column(sa.Integer(), primary_key=True)
-    id = sa.Column(sa.String(63), unique=True, default=IdGenerator('C'))
+    id = sa.Column(sa.String(63), unique=True, default=IdGenerator("C"))
 
     accepting_orders = sa.Column(sa.Boolean(), nullable=False)
