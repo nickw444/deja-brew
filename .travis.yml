@@ -12,3 +12,11 @@ jobs:
       script:
         - black --check .
         - flake8 .
+    - name: "lint: dto_generator"
+      before_script:
+        - cd tools/dto_generator
+        - pip install pipenv
+        - pipenv install --dev --system
+      script:
+        - black --check .
+        - flake8 .
