@@ -8,7 +8,13 @@ from typing import List, Set, Union
 from marshmallow import Schema
 
 from .enum import DtoEnumMember, enum_tmpl, DtoEnum
-from .service_object import service_object_tmpl, DtoSchema, fieldOf, ObjectField, EnumField, Field
+from .service_object import (
+    service_object_tmpl,
+    DtoSchema,
+    fieldOf,
+    ObjectField,
+    EnumField,
+)
 
 
 @dataclass(frozen=True)
@@ -22,20 +28,17 @@ class JsDependency:
         return JsDependency(field.impl, module_path)
 
 
-PRECONDITIONS = JsDependency('UnreachableError', 'base/preconditions')
-SERIALIZATION = JsDependency('Serialization', 'base/serialization')
-DESERIALIZATION = JsDependency('Deserialization', 'base/deserialization')
+PRECONDITIONS = JsDependency("UnreachableError", "base/preconditions")
+SERIALIZATION = JsDependency("Serialization", "base/serialization")
+DESERIALIZATION = JsDependency("Deserialization", "base/deserialization")
 
 
 def get_js_module_path(module) -> str:
-    name = module.__name__.split('.')[-1]
-    return path.join(
-        module.FRONTEND_PACKAGE.replace('.', '/'),
-        '{}'.format(name),
-    )
+    name = module.__name__.split(".")[-1]
+    return path.join(module.FRONTEND_PACKAGE.replace(".", "/"), "{}".format(name),)
 
 
-class DtoGenerator():
+class DtoGenerator:
     def __init__(self, frontend_src_root: str):
         self._frontend_src_root = frontend_src_root
 
@@ -67,8 +70,8 @@ class DtoGenerator():
         output = PREAMBLE + imports + output
 
         module_path = get_js_module_path(input_module)
-        output_path = path.join(self._frontend_src_root, module_path + '.ts')
-        with open(output_path, 'w') as fh:
+        output_path = path.join(self._frontend_src_root, module_path + ".ts")
+        with open(output_path, "w") as fh:
             fh.write(output)
 
     def _render_schema(self, curr_module, Cls: Schema) -> [str, List[JsDependency]]:
@@ -82,13 +85,10 @@ class DtoGenerator():
                     deps.append(JsDependency.ofField(field))
 
         return (
-            service_object_tmpl.render(dict(
-                service_object=DtoSchema(
-                    name=Cls.__name__,
-                    fields=fields,
-                )
-            )),
-            deps
+            service_object_tmpl.render(
+                dict(service_object=DtoSchema(name=Cls.__name__, fields=fields,))
+            ),
+            deps,
         )
 
     def _render_enum(self, Cls: Enum) -> [str]:
@@ -96,19 +96,14 @@ class DtoGenerator():
         for member in Cls:
             members.append(DtoEnumMember(name=member.name, value=member.value))
 
-        return enum_tmpl.render(dict(
-            enum=DtoEnum(name=Cls.__name__, members=members)
-        ))
+        return enum_tmpl.render(dict(enum=DtoEnum(name=Cls.__name__, members=members)))
 
     def _render_imports(self, deps: Set[JsDependency]):
-        output = ''
+        output = ""
         grouped_deps = groupby(deps, key=lambda d: d.module_path)
-        for path, deps in grouped_deps:
-            symbols = ', '.join([dep.symbol for dep in deps])
-            output += "import { %s } from '%s';\n" % (
-                symbols,
-                path
-            )
+        for path_, deps in grouped_deps:
+            symbols = ", ".join([dep.symbol for dep in deps])
+            output += "import { %s } from '%s';\n" % (symbols, path_)
 
         return output
 
@@ -116,7 +111,7 @@ class DtoGenerator():
 def is_in_module(module):
     def inner(value):
         _, impl = value
-        return hasattr(impl, '__module__') and impl.__module__ == module.__name__
+        return hasattr(impl, "__module__") and impl.__module__ == module.__name__
 
     return inner
 
@@ -149,4 +144,4 @@ def by_linenno(value):
     return inspect.findsource(impl)[1]
 
 
-PREAMBLE = '// @formatter:off\n'
+PREAMBLE = "// @formatter:off\n"

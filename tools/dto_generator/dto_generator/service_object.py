@@ -9,7 +9,7 @@ from marshmallow import fields
 
 class DtoSchema(NamedTuple):
     name: str
-    fields: List['Field']
+    fields: List["Field"]
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,7 @@ class Field:
 
     @property
     def _modifier(self):
-        return 'required' if self.required else 'optional'
+        return "required" if self.required else "optional"
 
     @property
     def type(self):
@@ -42,7 +42,7 @@ class ObjectField(Field):
 
     @property
     def type(self):
-        return f'{self.impl}'
+        return f"{self.impl}"
 
     @property
     def deserializer(self) -> str:
@@ -61,7 +61,7 @@ class EnumField(Field):
 
     @property
     def type(self):
-        return f'{self.impl}'
+        return f"{self.impl}"
 
     @property
     def deserializer(self) -> str:
@@ -76,7 +76,7 @@ class EnumField(Field):
 class StringField(Field):
     @property
     def type(self):
-        return f'string'
+        return f"string"
 
     @property
     def deserializer(self) -> str:
@@ -91,7 +91,7 @@ class StringField(Field):
 class NumberField(Field):
     @property
     def type(self):
-        return f'number'
+        return f"number"
 
     @property
     def deserializer(self) -> str:
@@ -106,7 +106,7 @@ class NumberField(Field):
 class BoolField(Field):
     @property
     def type(self):
-        return f'boolean'
+        return f"boolean"
 
     @property
     def deserializer(self) -> str:
@@ -123,7 +123,7 @@ class ListField(Field):
 
     @property
     def type(self):
-        return f'{self.inner.type}[]'
+        return f"{self.inner.type}[]"
 
     @property
     def deserializer(self) -> str:
@@ -168,24 +168,17 @@ def fieldOf(field: fields.Field) -> Field:
             # TODO(NW): Consult with class registry so we can resolve cross package
             #  dependencies
             return ObjectField(
-                name=field_name,
-                required=field.required,
-                impl=field.nested,
-                module=None
+                name=field_name, required=field.required, impl=field.nested, module=None
             )
         else:
             return ObjectField(
                 name=field_name,
                 required=field.required,
                 impl=field.nested.__name__,
-                module=inspect.getmodule(field.nested)
+                module=inspect.getmodule(field.nested),
             )
     elif isinstance(field, fields.List):
-        return ListField(
-            name=field_name,
-            required=True,
-            inner=fieldOf(field.inner)
-        )
+        return ListField(name=field_name, required=True, inner=fieldOf(field.inner))
     elif isinstance(field, marshmallow_enum.EnumField):
         return EnumField(
             name=field_name,
@@ -197,7 +190,8 @@ def fieldOf(field: fields.Field) -> Field:
     raise NotImplementedError("Unknown field type: ", type(field))
 
 
-service_object_tmpl = Template('''
+service_object_tmpl = Template(
+    """
 export class {{ service_object.name }} {
   {%- for field in service_object.fields %}
   readonly {{ field.name }}: {{ field.type }}{{ ' | undefined' if not field.required else '' }};
@@ -205,32 +199,33 @@ export class {{ service_object.name }} {
   constructor({
     {%- for field in service_object.fields %}
     {{ field.name }},
-    {%- endfor %}  
+    {%- endfor %}
   }: {
     {%- for field in service_object.fields %}
     {{ field.name }}{{ '?' if not field.required else '' }}: {{ field.type }},
-    {%- endfor %}  
+    {%- endfor %}
   }) {
     {%- for field in service_object.fields %}
     this.{{ field.name }} = {{ field.name }};
     {%- endfor %}
   }
-  
+
   static deserialize(o: any): {{ service_object.name }} {
     return new {{ service_object.name }}({
       {%- for field in service_object.fields %}
       {{ field.name }}: {{ field.deserializer }},
-      {%- endfor %}  
+      {%- endfor %}
     })
   }
-  
+
   static serialize(o: {{ service_object.name }}): object {
     return {
       {%- for field in service_object.fields %}
       '{{ field.name }}': {{ field.serializer }},
-      {%- endfor %}  
+      {%- endfor %}
     }
   }
 }
 
-''')
+"""
+)
