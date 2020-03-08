@@ -2,7 +2,7 @@ import { createAuthDecorators } from 'auth/auth_helpers';
 import { Deserialization } from 'base/deserialization';
 import { Bootstrap } from 'bootstrap_dto';
 import { createHeader } from 'header/create';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 import { observer } from 'mobx-react';
 import { createAuthPage } from 'pages/auth/create';
 import { createHomePage } from 'pages/home/create';
@@ -29,7 +29,13 @@ function main() {
   const cafeStatusStore = new CafeStatusStore();
   const cafeStatusPresenter = new CafeStatusPresenter(cafeService);
 
-  const history = createBrowserHistory();
+  const history = (navigator as any).standalone
+      // HACK: When running in navigator standalone mode (i.e. Safari web-clip), we use
+      // memory history as this disabled swipe to go back/forward gestures and we can
+      // implement our own in-app UI for this (i.e. a navigation stack component) which
+      // will interpret the gestures.
+      ? createMemoryHistory()
+      : createBrowserHistory();
 
   const { AuthPage } = createAuthPage();
   const { OrdersPage } = createOrdersPage({
