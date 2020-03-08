@@ -1,7 +1,7 @@
 // @formatter:off
 import { Deserialization } from 'base/deserialization';
-import { Serialization } from 'base/serialization';
 import { UnreachableError } from 'base/preconditions';
+import { Serialization } from 'base/serialization';
 
 export enum CupSize {
   SMALL,
@@ -24,7 +24,7 @@ export const CupSizeUtil = {
       case CupSize.MEDIUM: return 'MEDIUM';
       case CupSize.LARGE: return 'LARGE';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): CupSize[] {
     return [
@@ -71,7 +71,7 @@ export const CoffeeTypeUtil = {
       case CoffeeType.MATCHA: return 'MATCHA';
       case CoffeeType.ESPRESSO: return 'ESPRESSO';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): CoffeeType[] {
     return [
@@ -114,7 +114,7 @@ export const MilkTypeUtil = {
       case MilkType.ALMOND: return 'ALMOND';
       case MilkType.OAT: return 'OAT';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): MilkType[] {
     return [
@@ -154,7 +154,7 @@ export const ExtraUtil = {
       case Extra.ICED: return 'ICED';
       case Extra.SUGAR: return 'SUGAR';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): Extra[] {
     return [
@@ -191,7 +191,7 @@ export const OrderStatusUtil = {
       case OrderStatus.READY: return 'READY';
       case OrderStatus.CANCELLED: return 'CANCELLED';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): OrderStatus[] {
     return [
@@ -210,30 +210,30 @@ export class OrderUserInfo {
   constructor({
     avatarUrl,
     id,
-    name,  
+    name,
   }: {
     avatarUrl?: string,
     id: string,
-    name?: string,  
+    name?: string,
   }) {
     this.avatarUrl = avatarUrl;
     this.id = id;
     this.name = name;
   }
-  
+
   static deserialize(o: any): OrderUserInfo {
     return new OrderUserInfo({
       avatarUrl: Deserialization.optionalString(o, 'avatarUrl'),
       id: Deserialization.requiredString(o, 'id'),
-      name: Deserialization.optionalString(o, 'name'),  
+      name: Deserialization.optionalString(o, 'name'),
     })
   }
-  
+
   static serialize(o: OrderUserInfo): object {
     return {
       'avatarUrl': o.avatarUrl,
       'id': o.id,
-      'name': o.name,  
+      'name': o.name,
     }
   }
 }
@@ -255,7 +255,7 @@ export class Order {
     id,
     milkType,
     status,
-    user,  
+    user,
   }: {
     coffeeType: CoffeeType,
     createdAt: number,
@@ -264,7 +264,7 @@ export class Order {
     id: string,
     milkType: MilkType,
     status: OrderStatus,
-    user: OrderUserInfo,  
+    user: OrderUserInfo,
   }) {
     this.coffeeType = coffeeType;
     this.createdAt = createdAt;
@@ -275,7 +275,7 @@ export class Order {
     this.status = status;
     this.user = user;
   }
-  
+
   static deserialize(o: any): Order {
     return new Order({
       coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),
@@ -285,10 +285,10 @@ export class Order {
       id: Deserialization.requiredString(o, 'id'),
       milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),
       status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
-      user: Deserialization.requiredObject(OrderUserInfo.deserialize, o, 'user'),  
+      user: Deserialization.requiredObject(OrderUserInfo.deserialize, o, 'user'),
     })
   }
-  
+
   static serialize(o: Order): object {
     return {
       'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),
@@ -298,7 +298,7 @@ export class Order {
       'id': o.id,
       'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),
       'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
-      'user': Serialization.requiredObject(OrderUserInfo.serialize, o.user),  
+      'user': Serialization.requiredObject(OrderUserInfo.serialize, o.user),
     }
   }
 }
@@ -312,34 +312,34 @@ export class GetOrdersRequest {
     createdAfter,
     createdBy,
     limit,
-    statuses,  
+    statuses,
   }: {
     createdAfter?: number,
     createdBy?: string,
     limit?: number,
-    statuses: OrderStatus[],  
+    statuses: OrderStatus[],
   }) {
     this.createdAfter = createdAfter;
     this.createdBy = createdBy;
     this.limit = limit;
     this.statuses = statuses;
   }
-  
+
   static deserialize(o: any): GetOrdersRequest {
     return new GetOrdersRequest({
       createdAfter: Deserialization.optionalNumber(o, 'createdAfter'),
       createdBy: Deserialization.optionalString(o, 'createdBy'),
       limit: Deserialization.optionalNumber(o, 'limit'),
-      statuses: Deserialization.repeatedEnum(OrderStatusUtil.deserialize, o, 'statuses'),  
+      statuses: Deserialization.repeatedEnum(OrderStatusUtil.deserialize, o, 'statuses'),
     })
   }
-  
+
   static serialize(o: GetOrdersRequest): object {
     return {
       'createdAfter': o.createdAfter,
       'createdBy': o.createdBy,
       'limit': o.limit,
-      'statuses': Serialization.repeatedEnum(OrderStatusUtil.serialize, o.statuses),  
+      'statuses': Serialization.repeatedEnum(OrderStatusUtil.serialize, o.statuses),
     }
   }
 }
@@ -349,26 +349,26 @@ export class GetOrdersResponse {
   readonly orders: Order[];
   constructor({
     continuation,
-    orders,  
+    orders,
   }: {
     continuation?: string,
-    orders: Order[],  
+    orders: Order[],
   }) {
     this.continuation = continuation;
     this.orders = orders;
   }
-  
+
   static deserialize(o: any): GetOrdersResponse {
     return new GetOrdersResponse({
       continuation: Deserialization.optionalString(o, 'continuation'),
-      orders: Deserialization.repeatedObject(Order.deserialize, o, 'orders'),  
+      orders: Deserialization.repeatedObject(Order.deserialize, o, 'orders'),
     })
   }
-  
+
   static serialize(o: GetOrdersResponse): object {
     return {
       'continuation': o.continuation,
-      'orders': Serialization.repeatedObject(Order.serialize, o.orders),  
+      'orders': Serialization.repeatedObject(Order.serialize, o.orders),
     }
   }
 }
@@ -376,22 +376,22 @@ export class GetOrdersResponse {
 export class GetOrderResponse {
   readonly order: Order;
   constructor({
-    order,  
+    order,
   }: {
-    order: Order,  
+    order: Order,
   }) {
     this.order = order;
   }
-  
+
   static deserialize(o: any): GetOrderResponse {
     return new GetOrderResponse({
-      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),
     })
   }
-  
+
   static serialize(o: GetOrderResponse): object {
     return {
-      'order': Serialization.requiredObject(Order.serialize, o.order),  
+      'order': Serialization.requiredObject(Order.serialize, o.order),
     }
   }
 }
@@ -405,34 +405,34 @@ export class CreateOrderRequest {
     coffeeType,
     cupSize,
     extras,
-    milkType,  
+    milkType,
   }: {
     coffeeType: CoffeeType,
     cupSize: CupSize,
     extras: Extra[],
-    milkType: MilkType,  
+    milkType: MilkType,
   }) {
     this.coffeeType = coffeeType;
     this.cupSize = cupSize;
     this.extras = extras;
     this.milkType = milkType;
   }
-  
+
   static deserialize(o: any): CreateOrderRequest {
     return new CreateOrderRequest({
       coffeeType: Deserialization.requiredEnum(CoffeeTypeUtil.deserialize, o, 'coffeeType'),
       cupSize: Deserialization.requiredEnum(CupSizeUtil.deserialize, o, 'cupSize'),
       extras: Deserialization.repeatedEnum(ExtraUtil.deserialize, o, 'extras'),
-      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),  
+      milkType: Deserialization.requiredEnum(MilkTypeUtil.deserialize, o, 'milkType'),
     })
   }
-  
+
   static serialize(o: CreateOrderRequest): object {
     return {
       'coffeeType': Serialization.requiredEnum(CoffeeTypeUtil.serialize, o.coffeeType),
       'cupSize': Serialization.requiredEnum(CupSizeUtil.serialize, o.cupSize),
       'extras': Serialization.repeatedEnum(ExtraUtil.serialize, o.extras),
-      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),  
+      'milkType': Serialization.requiredEnum(MilkTypeUtil.serialize, o.milkType),
     }
   }
 }
@@ -440,22 +440,22 @@ export class CreateOrderRequest {
 export class CreateOrderResponse {
   readonly order: Order;
   constructor({
-    order,  
+    order,
   }: {
-    order: Order,  
+    order: Order,
   }) {
     this.order = order;
   }
-  
+
   static deserialize(o: any): CreateOrderResponse {
     return new CreateOrderResponse({
-      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),
     })
   }
-  
+
   static serialize(o: CreateOrderResponse): object {
     return {
-      'order': Serialization.requiredObject(Order.serialize, o.order),  
+      'order': Serialization.requiredObject(Order.serialize, o.order),
     }
   }
 }
@@ -465,26 +465,26 @@ export class UpdateOrderRequest {
   readonly status: OrderStatus;
   constructor({
     orderId,
-    status,  
+    status,
   }: {
     orderId: string,
-    status: OrderStatus,  
+    status: OrderStatus,
   }) {
     this.orderId = orderId;
     this.status = status;
   }
-  
+
   static deserialize(o: any): UpdateOrderRequest {
     return new UpdateOrderRequest({
       orderId: Deserialization.requiredString(o, 'orderId'),
-      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),  
+      status: Deserialization.requiredEnum(OrderStatusUtil.deserialize, o, 'status'),
     })
   }
-  
+
   static serialize(o: UpdateOrderRequest): object {
     return {
       'orderId': o.orderId,
-      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),  
+      'status': Serialization.requiredEnum(OrderStatusUtil.serialize, o.status),
     }
   }
 }
@@ -492,22 +492,22 @@ export class UpdateOrderRequest {
 export class UpdateOrderResponse {
   readonly order: Order;
   constructor({
-    order,  
+    order,
   }: {
-    order: Order,  
+    order: Order,
   }) {
     this.order = order;
   }
-  
+
   static deserialize(o: any): UpdateOrderResponse {
     return new UpdateOrderResponse({
-      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),  
+      order: Deserialization.requiredObject(Order.deserialize, o, 'order'),
     })
   }
-  
+
   static serialize(o: UpdateOrderResponse): object {
     return {
-      'order': Serialization.requiredObject(Order.serialize, o.order),  
+      'order': Serialization.requiredObject(Order.serialize, o.order),
     }
   }
 }
