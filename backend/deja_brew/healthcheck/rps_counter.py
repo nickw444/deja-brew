@@ -18,7 +18,10 @@ class RpsCounter:
 
     def get_stats(self):
         return (
-            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 1]) / 60,
-            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 5]) / (60 * 5),
-            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 15]) / (60 * 60),
+            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 1])
+            / 60,
+            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 5])
+            / (60 * 5),
+            (self._req_counts[self._curr_ptr] - self._req_counts[self._curr_ptr - 15])
+            / (60 * 60),
         )

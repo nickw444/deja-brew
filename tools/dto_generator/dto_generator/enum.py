@@ -5,7 +5,7 @@ from jinja2 import Template
 
 class DtoEnum(NamedTuple):
     name: str
-    members: List['DtoEnumMember']
+    members: List["DtoEnumMember"]
 
 
 class DtoEnumMember(NamedTuple):
@@ -13,7 +13,8 @@ class DtoEnumMember(NamedTuple):
     value: str
 
 
-enum_tmpl = Template('''
+enum_tmpl = Template(
+    """
 export enum {{ enum.name }} {
   {%- for member in enum.members %}
   {{ member.name }},
@@ -35,7 +36,7 @@ export const {{ enum.name}}Util = {
       case {{ enum.name }}.{{ member.name }}: return '{{ member.name }}';
       {%- endfor %}
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): {{ enum.name}}[] {
     return [
@@ -46,4 +47,5 @@ export const {{ enum.name}}Util = {
   }
 };
 
-''')
+"""
+)

@@ -22,10 +22,10 @@ def rewrite_https():
     implement application level http -> https rewriting.
     """
 
-    if request.path.startswith('/_healthz'):
+    if request.path.startswith("/_healthz"):
         # Health blueprint must be accessible via HTTP
         return
 
-    if request.scheme == 'http':
-        new_url = request.url.replace('http://', 'https://', 1)
+    if request.scheme == "http":
+        new_url = request.url.replace("http://", "https://", 1)
         return redirect(new_url, code=301)

@@ -4,6 +4,7 @@ from deja_brew.base.schema import CamelCaseSchema
 
 FRONTEND_PACKAGE = "services.cafe"
 
+
 class Cafe(CamelCaseSchema):
     id = fields.Str(required=True)
     accepting_orders = fields.Boolean(required=True)

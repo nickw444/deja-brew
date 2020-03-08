@@ -1,8 +1,8 @@
 // @formatter:off
 import { Deserialization } from 'base/deserialization';
-import { Serialization } from 'base/serialization';
 import { UnreachableError } from 'base/preconditions';
 import { UserInfo } from 'services/user/user_dto';
+import { Serialization } from 'base/serialization';
 
 export enum Mode {
   FAKE,
@@ -22,7 +22,7 @@ export const ModeUtil = {
       case Mode.FAKE: return 'FAKE';
       case Mode.REAL: return 'REAL';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): Mode[] {
     return [
@@ -37,26 +37,26 @@ export class Bootstrap {
   readonly user: UserInfo | undefined;
   constructor({
     mode,
-    user,  
+    user,
   }: {
     mode: Mode,
-    user?: UserInfo,  
+    user?: UserInfo,
   }) {
     this.mode = mode;
     this.user = user;
   }
-  
+
   static deserialize(o: any): Bootstrap {
     return new Bootstrap({
       mode: Deserialization.requiredEnum(ModeUtil.deserialize, o, 'mode'),
-      user: Deserialization.optionalObject(UserInfo.deserialize, o, 'user'),  
+      user: Deserialization.optionalObject(UserInfo.deserialize, o, 'user'),
     })
   }
-  
+
   static serialize(o: Bootstrap): object {
     return {
       'mode': Serialization.requiredEnum(ModeUtil.serialize, o.mode),
-      'user': Serialization.optionalObject(UserInfo.serialize, o.user),  
+      'user': Serialization.optionalObject(UserInfo.serialize, o.user),
     }
   }
 }

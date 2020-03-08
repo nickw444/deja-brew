@@ -1,7 +1,7 @@
 // @formatter:off
 import { Deserialization } from 'base/deserialization';
-import { Serialization } from 'base/serialization';
 import { UnreachableError } from 'base/preconditions';
+import { Serialization } from 'base/serialization';
 
 export enum Role {
   ADMIN,
@@ -21,7 +21,7 @@ export const RoleUtil = {
       case Role.ADMIN: return 'ADMIN';
       case Role.CAFE_STAFF: return 'CAFE_STAFF';
       default: throw new UnreachableError(value)
-    } 
+    }
   },
   values(): Role[] {
     return [
@@ -40,34 +40,34 @@ export class UserInfo {
     avatarUrl,
     id,
     name,
-    roles,  
+    roles,
   }: {
     avatarUrl?: string,
     id: string,
     name?: string,
-    roles: Role[],  
+    roles: Role[],
   }) {
     this.avatarUrl = avatarUrl;
     this.id = id;
     this.name = name;
     this.roles = roles;
   }
-  
+
   static deserialize(o: any): UserInfo {
     return new UserInfo({
       avatarUrl: Deserialization.optionalString(o, 'avatarUrl'),
       id: Deserialization.requiredString(o, 'id'),
       name: Deserialization.optionalString(o, 'name'),
-      roles: Deserialization.repeatedEnum(RoleUtil.deserialize, o, 'roles'),  
+      roles: Deserialization.repeatedEnum(RoleUtil.deserialize, o, 'roles'),
     })
   }
-  
+
   static serialize(o: UserInfo): object {
     return {
       'avatarUrl': o.avatarUrl,
       'id': o.id,
       'name': o.name,
-      'roles': Serialization.repeatedEnum(RoleUtil.serialize, o.roles),  
+      'roles': Serialization.repeatedEnum(RoleUtil.serialize, o.roles),
     }
   }
 }
@@ -75,22 +75,22 @@ export class UserInfo {
 export class GetUserInfoRequest {
   readonly id: string;
   constructor({
-    id,  
+    id,
   }: {
-    id: string,  
+    id: string,
   }) {
     this.id = id;
   }
-  
+
   static deserialize(o: any): GetUserInfoRequest {
     return new GetUserInfoRequest({
-      id: Deserialization.requiredString(o, 'id'),  
+      id: Deserialization.requiredString(o, 'id'),
     })
   }
-  
+
   static serialize(o: GetUserInfoRequest): object {
     return {
-      'id': o.id,  
+      'id': o.id,
     }
   }
 }
@@ -98,22 +98,22 @@ export class GetUserInfoRequest {
 export class GetUserInfoResponse {
   readonly user: UserInfo;
   constructor({
-    user,  
+    user,
   }: {
-    user: UserInfo,  
+    user: UserInfo,
   }) {
     this.user = user;
   }
-  
+
   static deserialize(o: any): GetUserInfoResponse {
     return new GetUserInfoResponse({
-      user: Deserialization.requiredObject(UserInfo.deserialize, o, 'user'),  
+      user: Deserialization.requiredObject(UserInfo.deserialize, o, 'user'),
     })
   }
-  
+
   static serialize(o: GetUserInfoResponse): object {
     return {
-      'user': Serialization.requiredObject(UserInfo.serialize, o.user),  
+      'user': Serialization.requiredObject(UserInfo.serialize, o.user),
     }
   }
 }

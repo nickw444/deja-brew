@@ -62,14 +62,14 @@ class Order(CamelCaseSchema):
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
     extras = List(EnumField(Extra), required=True)
-    created_at = Timestamp(required=True, )
+    created_at = Timestamp(required=True,)
 
     status = EnumField(OrderStatus, required=True)
 
 
 class GetOrdersRequest(CamelCaseSchema):
     # Filter by the user who created the order
-    created_by = fields.String(missing=None, validate=validate.OneOf(['me']))
+    created_by = fields.String(missing=None, validate=validate.OneOf(["me"]))
     # Filter by their status
     statuses = List(EnumField(OrderStatus))
     # Filter by creation time

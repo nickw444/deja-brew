@@ -15,10 +15,10 @@ class Role(Enum):
 
 
 class User(Base, UserMixin):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     _id = sa.Column(sa.Integer(), primary_key=True)
-    id = sa.Column(sa.String(63), unique=True, default=IdGenerator('U'))
+    id = sa.Column(sa.String(63), unique=True, default=IdGenerator("U"))
     name = sa.Column(sa.String(255))
     avatar_url = sa.Column(sa.String(255))
     email = sa.Column(sa.String(255), unique=True)

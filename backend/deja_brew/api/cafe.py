@@ -2,7 +2,11 @@ from flask import request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
 
-from deja_brew.api.cafe_dto import UpdateCafeRequest, GetCafeResponse, UpdateCafeResponse
+from deja_brew.api.cafe_dto import (
+    UpdateCafeRequest,
+    GetCafeResponse,
+    UpdateCafeResponse,
+)
 from deja_brew.repository import db
 from deja_brew.repository.cafe import Cafe
 from deja_brew.repository.user import Role
@@ -13,9 +17,7 @@ class CafeView(MethodView):
     def get(self):
         cafe = db.session.query(Cafe).first_or_404()
 
-        return GetCafeResponse().dump(dict(
-            cafe=cafe
-        ))
+        return GetCafeResponse().dump(dict(cafe=cafe))
 
     @login_required
     def post(self):
@@ -28,9 +30,7 @@ class CafeView(MethodView):
             cafe = Cafe()
             db.session.add(cafe)
 
-        cafe.accepting_orders = req['accepting_orders']
+        cafe.accepting_orders = req["accepting_orders"]
         db.session.commit()
 
-        return UpdateCafeResponse().dump(dict(
-            cafe=cafe
-        ))
+        return UpdateCafeResponse().dump(dict(cafe=cafe))
