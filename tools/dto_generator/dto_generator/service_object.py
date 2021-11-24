@@ -76,7 +76,7 @@ class EnumField(Field):
 class StringField(Field):
     @property
     def type(self):
-        return f"string"
+        return "string"
 
     @property
     def deserializer(self) -> str:
@@ -91,7 +91,7 @@ class StringField(Field):
 class NumberField(Field):
     @property
     def type(self):
-        return f"number"
+        return "number"
 
     @property
     def deserializer(self) -> str:
@@ -106,7 +106,7 @@ class NumberField(Field):
 class BoolField(Field):
     @property
     def type(self):
-        return f"boolean"
+        return "boolean"
 
     @property
     def deserializer(self) -> str:
