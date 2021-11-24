@@ -1,0 +1,42 @@
+on:
+  push:
+  schedule:
+    - cron: '0 3 * * 6'
+
+jobs:
+  lint_backend:
+    name: "Lint Backend"
+    runs-on: ubuntu-latest
+    working-directory: backend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: 'Install Dependencies'
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pipenv
+          pipenv install --system --dev
+      - name: 'Check Formatting (flake8)'
+        run: flake8 .
+      - name: 'Check Formatting (black)'
+        run: black --check .
+  lint_dto_generator:
+    name: "Lint DTO Generator"
+    runs-on: ubuntu-latest
+    working-directory: tools/dto_generator
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: 'Install Dependencies'
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pipenv
+          pipenv install --system --dev
+      - name: 'Check Formatting (flake8)'
+        run: flake8 .
+      - name: 'Check Formatting (black)'
+        run: black --check .
