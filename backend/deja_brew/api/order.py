@@ -88,7 +88,11 @@ class OrderView(MethodView):
         if not self.has_permission(order):
             abort(403)
 
-        return GetOrderResponse().dump(dict(order=order,))
+        return GetOrderResponse().dump(
+            dict(
+                order=order,
+            )
+        )
 
     @login_required
     def post(self, order_id: str):

@@ -35,7 +35,10 @@ DESERIALIZATION = JsDependency("Deserialization", "base/deserialization")
 
 def get_js_module_path(module) -> str:
     name = module.__name__.split(".")[-1]
-    return path.join(module.FRONTEND_PACKAGE.replace(".", "/"), "{}".format(name),)
+    return path.join(
+        module.FRONTEND_PACKAGE.replace(".", "/"),
+        "{}".format(name),
+    )
 
 
 class DtoGenerator:
@@ -86,7 +89,12 @@ class DtoGenerator:
 
         return (
             service_object_tmpl.render(
-                dict(service_object=DtoSchema(name=Cls.__name__, fields=fields,))
+                dict(
+                    service_object=DtoSchema(
+                        name=Cls.__name__,
+                        fields=fields,
+                    )
+                )
             ),
             deps,
         )

@@ -13,4 +13,8 @@ class UserView(MethodView):
         if current_user.is_anonymous:
             abort(403)
 
-        return GetUserInfoResponse().dump(dict(user=current_user,))
+        return GetUserInfoResponse().dump(
+            dict(
+                user=current_user,
+            )
+        )

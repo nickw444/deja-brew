@@ -16,7 +16,10 @@ def is_db_healthy():
 
 @healthz_bp.route("/")
 def index():
-    components = dict(app=True, db=is_db_healthy(),)
+    components = dict(
+        app=True,
+        db=is_db_healthy(),
+    )
     is_healthy = all(components.values())
 
     return (
@@ -27,10 +30,16 @@ def index():
 
 @healthz_bp.route("/version")
 def version():
-    return jsonify(version=get_version(),)
+    return jsonify(
+        version=get_version(),
+    )
 
 
 @healthz_bp.route("/rps")
 def rps():
     (avg_1, avg_5, avg_60) = current_app.rps_counter.get_stats()
-    return jsonify(avg1=avg_1, avg5=avg_5, avg60=avg_60,)
+    return jsonify(
+        avg1=avg_1,
+        avg5=avg_5,
+        avg60=avg_60,
+    )

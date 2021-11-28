@@ -62,7 +62,9 @@ class Order(CamelCaseSchema):
     coffee_type = EnumField(CoffeeType, required=True)
     milk_type = EnumField(MilkType, required=True)
     extras = List(EnumField(Extra), required=True)
-    created_at = Timestamp(required=True,)
+    created_at = Timestamp(
+        required=True,
+    )
 
     status = EnumField(OrderStatus, required=True)
 
