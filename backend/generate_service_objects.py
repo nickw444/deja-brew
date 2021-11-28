@@ -10,7 +10,9 @@ def generate_service_objects():
     import deja_brew.api.user_dto as users_dto_module
     import deja_brew.frontend.bootstrap_dto as bootstrap_dto_module
 
-    generator = DtoGenerator(frontend_src_root="../frontend/src",)
+    generator = DtoGenerator(
+        frontend_src_root="../frontend/src",
+    )
 
     generator.generate(cafe_dto_module)
     generator.generate(orders_dto_module)

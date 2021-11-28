@@ -37,7 +37,9 @@ def frontend(_: str = None):
     )
 
     return render_template(
-        "index.html", json_bootstrap=json.dumps(bootstrap), manifest=manifest,
+        "index.html",
+        json_bootstrap=json.dumps(bootstrap),
+        manifest=manifest,
     )
 
 
